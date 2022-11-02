@@ -12,7 +12,9 @@ For the first milestone, you should:
 1. Create a database.properties file in the root of the project
 
 database.properties should contain:
+
 username=yourUnityID
+
 password=yourOraclePassword
 
 2. Run the AUTORApplication.java file from the frontend directory
