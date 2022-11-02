@@ -1,0 +1,2 @@
+javac -cp lib\* -d build src\AutoCenter\*.java src\AutoCenter\manager\*.java src\AutoCenter\models\*.java src\AutoCenter\repository\*.java src\AutoCenter\services\*.java src\AutoCenter\administrator\*.java src\AutoCenter\customer\*.java src\AutoCenter\mechanic\*.java src\AutoCenter\receptionist\*.java src\AutoCenter\\*.java
+java -cp lib\*;build AutoCenter.Home
