@@ -1,6 +1,9 @@
 package frontend;
 
+import java.sql.Connection;
 import java.util.Scanner;
+
+import database.ConnectionManager;
 
 public class AUTORApplication {
 	
@@ -26,20 +29,16 @@ public class AUTORApplication {
 		}
 		int choice = in.nextInt();
 		in.close();
-		switch (choice) {
-			case 1:
-			// Login code
-				break;
-			case 2:
-				// Sign Up code
-				break;
-			case 3:
-				// Admin code
-				break;
-			case 4:
-				System.exit(0);
-				break;
-			default:
+		if (choice == 1) {
+			Connection c = ConnectionManager.getConnection();
+		} else if (choice == 2) {
+			
+		} else if (choice == 3) {
+			
+		} else if (choice == 4) {
+			
+		} else {
+			
 		}
 	}
 }
