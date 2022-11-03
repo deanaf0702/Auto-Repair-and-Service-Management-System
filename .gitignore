@@ -7,8 +7,9 @@
 # Properties files
 *.properties
 
-# classpath
-*.classpath
+# eclipse config files
+*.resources
+*.core
 
 # BlueJ files
 *.ctxt
