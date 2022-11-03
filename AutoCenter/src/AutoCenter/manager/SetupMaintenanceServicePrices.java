@@ -35,7 +35,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 				ABCPriceTier[0] = Integer.parseInt(inputs[0]);
 				ABCPriceTier[1] = Integer.parseInt(inputs[1]);
 				ABCPriceTier[2] = Integer.parseInt(inputs[2]);
-				System.out.println("Enter choics(1-2)");
+				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
 			}else {
 				System.out.println("Went wrong. Try again");
@@ -88,23 +88,25 @@ public class SetupMaintenanceServicePrices implements Interface {
 	{
 		boolean valid = true;
 		try {
-		DbConnection db = new DbConnection();
+			DbConnection db = new DbConnection();
 		try {
 			List<MaintenanceService> list = repoService.maintServiceLookup();
 			List<String> carModels = repoService.carModelLookup();
 			int centerId = repoService.getCenterId();
 			if(list.size() == 3 && carModels.size() == 3)
 			{
+				int priceCount = 0;
 				for(MaintenanceService item: list) {
-					int priceCount = 0;
+					
 					for(String model: carModels) {
 						double price = repoService.getServicePrice(centerId, model, ABCPriceTier[priceCount]);
 						String query = addMaintServicePricedQuery(
 								item.getServiceId(),
+								centerId,
 								model,
 								ABCPriceTier[priceCount],
 								price);
-						priceCount++;
+						
 						boolean result = db.executeUpdate(query);
 						if(!result) {
 							System.out.println("Database error: " + item.getScheduleType() 
@@ -113,7 +115,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 							valid = false;
 						}
 					}
-					
+					priceCount++;
 				}
 			}else {
 				valid = false;
@@ -129,9 +131,8 @@ public class SetupMaintenanceServicePrices implements Interface {
 		return valid;
 	}
 	
-	public String addMaintServicePricedQuery(int serviceId, String model, int priceTier, double price)
+	public String addMaintServicePricedQuery(int serviceId, int centerId, String model, int priceTier, double price)
 	{
-		int centerId = userService.getCenterId();
 		return ("insert into MaintServicePriced (serviceId, centerId, model, priceTier, price) "
 				+ "values("+ serviceId + ", " + centerId + ", '" + model + "', " + priceTier + ", " + price + ")");
 	}
