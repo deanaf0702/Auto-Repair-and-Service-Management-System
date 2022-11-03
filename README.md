@@ -12,11 +12,9 @@ For the first milestone, you should:
 1. Create a database.properties file in the root of the AutoCenter folder
 
 database.properties should contain:
-
+'''
 username=yourUnityID (or username if not ncsu Oracle db)
-
 password=yourOraclePassword
-
 jdbcUrl=yourjdbcUrl
-
+'''
 2. Run the Home.java file to start the application, or use start.bat
