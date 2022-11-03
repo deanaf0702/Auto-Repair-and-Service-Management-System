@@ -13,7 +13,7 @@ For the first milestone, you should:
 
 database.properties should contain:
 
-username=yourUnityID
+username=yourUnityID (or username if not ncsu Oracle db)
 
 password=yourOraclePassword
 
