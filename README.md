@@ -9,7 +9,7 @@ For the first milestone, you should:
 5. Also include up to 5 functional dependencies that you have identified so far. 
 
 # Running the application:
-1. Create a database.properties file in the root of the project
+1. Create a database.properties file in the root of the AutoCenter folder
 
 database.properties should contain:
 
@@ -17,4 +17,6 @@ username=yourUnityID
 
 password=yourOraclePassword
 
-2. Run the AUTORApplication.java file from the frontend directory
+jdbcUrl=yourjdbcUrl
+
+2. Run the Home.java file to start the application, or use start.bat
