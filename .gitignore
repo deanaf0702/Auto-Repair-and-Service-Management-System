@@ -8,8 +8,7 @@
 *.properties
 
 # eclipse config files
-*.resources
-*.core
+*.prefs
 
 # BlueJ files
 *.ctxt
