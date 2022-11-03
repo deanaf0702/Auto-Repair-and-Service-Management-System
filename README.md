@@ -18,3 +18,9 @@ password=yourOraclePassword
 jdbcUrl=yourjdbcUrl
 ```
 2. Run the Home.java file to start the application, or use start.bat
+
+# Schema Notes:
+* Change employees ISA hierarchy to users ISA hierarchy that also includes customer
+* Vacations are solely related to mechanics
+* Invoices may be a view, and might not need to be represented as its own entity, as all of the information it is storing comes from other entities
+
