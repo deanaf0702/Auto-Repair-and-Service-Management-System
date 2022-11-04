@@ -18,13 +18,13 @@ public class Invoices implements Interface {
 
     @Override
     public void display() {
-        System.out.println("##################################");
-        System.out.println("##### Customer Invoices Menu #####");
-        System.out.println("##################################");
-        System.out.println("# 1 View Invoice details         #");
-        System.out.println("# 2 Pay invoice                  #");
-        System.out.println("# 3 Go Back                      #");
-        System.out.println("##################################");
+        System.out.println("###################################");
+        System.out.println("##### Customer: Invoices Menu #####");
+        System.out.println("###################################");
+        System.out.println("# 1 View Invoice details          #");
+        System.out.println("# 2 Pay invoice                   #");
+        System.out.println("# 3 Go Back                       #");
+        System.out.println("###################################");
     }
 
     @Override

@@ -26,14 +26,14 @@ public class Administration implements Interface {
 
     @Override
     public void display() {
-        System.out.println("##############################");
-        System.out.println("##### Admin Landing Page #####");
-        System.out.println("##############################");
-        System.out.println("# 1 System Set Up            #");
-        System.out.println("# 2 Add New Store            #");
-        System.out.println("# 3 Add New Service          #");
-        System.out.println("# 4 Logout                   #");
-        System.out.println("##############################");
+        System.out.println("###############################");
+        System.out.println("##### Admin: Landing Page #####");
+        System.out.println("###############################");
+        System.out.println("# 1 System Set Up             #");
+        System.out.println("# 2 Add New Store             #");
+        System.out.println("# 3 Add New Service           #");
+        System.out.println("# 4 Logout                    #");
+        System.out.println("###############################");
     }
 
     @Override

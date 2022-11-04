@@ -10,7 +10,7 @@ public class ScheduleService implements Interface {
         int selection = 0;
         display();
         do {
-            System.out.println("Enter choice(1-4)");
+            System.out.print("Enter choice (1-4) from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= 1 && selection <= 4));
 
