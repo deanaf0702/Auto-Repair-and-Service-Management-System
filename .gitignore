@@ -31,3 +31,9 @@ hs_err_pid*
 # snyk security analysis
 .dccache
 /bin/
+/.metadata/
+/AutoCenter/.settings
+
+
+/AutoCenter/lib
+.settings
