@@ -22,9 +22,10 @@ public class SetupOperationalHours implements Interface {
     @Override
     public void run() {
         int selection = INITIAL_SELECTION;
+        display();
+
         do {
             satOpen = '0';
-            display();
             System.out.print("Enter choice (1-2) from the given options displayed above: ");
             selection = ScanHelper.nextInt();
             if (selection == 1) {
@@ -37,6 +38,7 @@ public class SetupOperationalHours implements Interface {
                     satOpen = '1';
             }
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
+
         navigate(selection);
     }
 
