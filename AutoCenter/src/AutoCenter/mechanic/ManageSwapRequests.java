@@ -2,7 +2,7 @@ package AutoCenter.mechanic;
 
 import AutoCenter.Interface;
 
-public class AcceptRejectSwap implements Interface {
+public class ManageSwapRequests implements Interface {
 
   @Override
   public void run() {
@@ -13,11 +13,12 @@ public class AcceptRejectSwap implements Interface {
   @Override
   public void display() {
     System.out.println("#########################################");
-    System.out.println("#####   Mechanic: Accept / Reject   #####");
-    System.out.println("#######         Swap Menu         #######");
+    System.out.println("#####     Mechanic: Manage Swap     #####");
+    System.out.println("#######       Requests Menu       #######");
     System.out.println("#########################################");
-    System.out.println("# 1 Manage swap requests                #");
-    System.out.println("# 2 Go Back                             #");
+    System.out.println("# 1 Accept swap                         #");
+    System.out.println("# 2 Reject swap                         #");
+    System.out.println("# 3 Go Back                             #");
     System.out.println("#########################################");
   }
 
