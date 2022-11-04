@@ -11,10 +11,20 @@ import AutoCenter.Interface;
  */
 public class AcceptRejectSwap implements Interface {
 
+    private static int INITIAL_SELECTION = 0;
+    private static int MIN_SELECTION = 1;
+    private static int MAX_SELECTION = 2;
+
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-
+        int selection = INITIAL_SELECTION;
+        display();
+        do {
+            displayDirection();
+            System.out.print("Enter choice (1-2) from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
+        navigate(selection);
     }
 
     public void displayDirection() {
@@ -53,13 +63,18 @@ public class AcceptRejectSwap implements Interface {
 
     @Override
     public void navigate(int selection) {
-        // TODO Auto-generated method stub
-
+        switch (selection) {
+            case 1:
+                new ManageSwapRequests().run();
+                break;
+            case 2:
+                goBack();
+                break;
+        }
     }
 
     @Override
     public void goBack() {
-        // TODO Auto-generated method stub
-
+        new Mechanic().run();
     }
 }

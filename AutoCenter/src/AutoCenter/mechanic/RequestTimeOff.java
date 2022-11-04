@@ -44,7 +44,7 @@ public class RequestTimeOff implements Interface {
         System.out.println("######      Usage      ######");
         System.out.println("#############################");
         System.out.println("# A. Time slots mechanic    #");
-        System.out.println("# slots wants to be off     #");
+        System.out.println("# wants to be off           #");
         System.out.println("# (indicated by week, day,  #");
         System.out.println("# time slot start and end   #");
         System.out.println("# slot ids)                 #");
@@ -73,13 +73,18 @@ public class RequestTimeOff implements Interface {
 
     @Override
     public void navigate(int selection) {
-        // TODO Auto-generated method stub
-
+        switch (selection) {
+            case 1:
+                new RequestTimeOff().run();
+                break;
+            case 2:
+                goBack();
+                break;
+        }
     }
 
     @Override
     public void goBack() {
-        // TODO Auto-generated method stub
-
+        new Mechanic().run();
     }
 }
