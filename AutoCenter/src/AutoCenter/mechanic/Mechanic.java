@@ -9,10 +9,10 @@ public class Mechanic implements Interface {
   private static int INITIAL_SELECTION = 5;
   private static int MIN_SELECTION = 1;
   private static int MAX_SELECTION = 5;
-  private UserService userservice = null;
+  private UserService userService = null;
 
   public Mechanic() {
-    userservice = new UserService();
+    userService = new UserService();
   }
 
   @Override
@@ -63,6 +63,6 @@ public class Mechanic implements Interface {
 
   @Override
   public void goBack() {
-    userservice.logout();
+    userService.logout();
   }
 }

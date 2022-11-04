@@ -6,10 +6,10 @@ import AutoCenter.services.UserService;
 
 public class Customer implements Interface {
 
-    private UserService userservice = null;
+    private UserService userService = null;
 
     public Customer() {
-        userservice = new UserService();
+        userService = new UserService();
     }
 
     public void run() {
@@ -55,6 +55,6 @@ public class Customer implements Interface {
 
     @Override
     public void goBack() {
-        userservice.logout();
+        userService.logout();
     }
 }
