@@ -12,19 +12,21 @@ public class ScanHelper {
 	public static int nextInt() 
 	{
 		//scanner.nextLine();
+		int selection = 0;
 		do {
 			try {
 				wentCatch = false;
-				return scanner.nextInt();
+				String s = scanner.nextLine();
+				selection = Integer.parseInt(s);
 			}catch(Exception e) {
 				e.printStackTrace();
 				wentCatch = true;
-				scanner.nextLine();
-				System.out.println("Try again: ");
+				//scanner.nextLine();
+				//System.out.println("Try again: ");
 			}
 		}while(wentCatch);
 		
-		return 0;
+		return selection;
 	}
 	public static String next() 
 	{
@@ -65,7 +67,7 @@ public class ScanHelper {
 		}catch(Exception e) {
 			e.printStackTrace();
 			wentCatch = true;
-			scanner.nextLine();
+			//scanner.nextLine();
 			System.out.println("Try again: ");
 		}
 		

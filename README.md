@@ -9,12 +9,18 @@ For the first milestone, you should:
 5. Also include up to 5 functional dependencies that you have identified so far. 
 
 # Running the application:
-1. Create a database.properties file in the root of the project
+1. Create a database.properties file in the root of the AutoCenter folder
 
 database.properties should contain:
-
-username=yourUnityID
-
+```
+username=yourUnityID (or username if not ncsu Oracle db)
 password=yourOraclePassword
+jdbcUrl=yourjdbcUrl
+```
+2. Run the Home.java file to start the application, or use start.bat
 
-2. Run the AUTORApplication.java file from the frontend directory
+# Schema Notes:
+* Change employees ISA hierarchy to users ISA hierarchy that also includes customer - Simplifies login process
+* Vacations are solely related to mechanics
+* Invoices may be a view, and might not need to be represented as its own entity, as all of the information it is storing comes from other entities
+
