@@ -2,19 +2,18 @@ package AutoCenter.manager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.Employee;
 import AutoCenter.services.UserService;
 
-public class AddEmployees implements Interface{
+public class AddNewEmployee implements Interface{
 
 	private UserService userService = null;
 	private Employee employee = null;
 	
-	public AddEmployees()
+	public AddNewEmployee() 
 	{
 		userService = new UserService();
 	}
@@ -59,22 +58,27 @@ public class AddEmployees implements Interface{
 				}
 				employee.salaryOrWage = Double.parseDouble(inputs[10]);
 				display();
-				System.out.println("Enter choice(1-2)");
+				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
+			}else {
+				System.out.println("Went wrong and try again!");
+				
 				
 			}
+				
+			
 		}while(!(selection >= 1 && selection <= 2));
 		navigate(selection);
-		
 	}
 
 	@Override
 	public void display() {
-		System.out.println("## Add Employees Menu ##");
+		System.out.println("## Add New Employees Menu ##");
 		System.out.println("1 Add");
 		System.out.println("2 Go Back");
 		System.out.println("##########");
 	}
+
 	public void displayDirection()
 	{
 		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");
@@ -91,7 +95,6 @@ public class AddEmployees implements Interface{
 		System.out.println("J Start Date:");
 		System.out.println("K Compensation($):");
 	}
-
 	@Override
 	public void navigate(int selection) {
 		boolean result = false;
@@ -99,20 +102,27 @@ public class AddEmployees implements Interface{
 		{
 			case 1: 
 				result = userService.addEmployee(employee);	
-				if(result) System.out.println("Added Successfully!!");
-				run();
+				if(result) {
+					System.out.println("Added Successfully");
+					goBack();
+				}
+				else run();
+				
 				break;
 			case 2: goBack();
 			break;
 			default: run();
 			break;
 		}
+		
 	}
 
 	@Override
 	public void goBack() {
-		new SetupStore().run();
+		new Manager().run();
 		
 	}
+
+	
 
 }
