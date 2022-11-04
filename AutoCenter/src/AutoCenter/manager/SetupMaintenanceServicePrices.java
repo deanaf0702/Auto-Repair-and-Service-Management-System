@@ -8,6 +8,9 @@ import AutoCenter.services.RepositoryService;
 import AutoCenter.services.UserService;
 import java.util.List;
 
+/**
+ * @author jkersey
+ */
 public class SetupMaintenanceServicePrices implements Interface {
 
     private static int INITIAL_SELECTION = 2;
@@ -27,6 +30,7 @@ public class SetupMaintenanceServicePrices implements Interface {
     public void run() {
         int selection = INITIAL_SELECTION;
         display();
+
         do {
             displayDirection();
             reset();

@@ -2,6 +2,11 @@ package AutoCenter.mechanic;
 
 import AutoCenter.Interface;
 
+/**
+ * Handles functionality for request swap menu of mechanics including display, input, and output.
+ *
+ * @author jkersey
+ */
 public class RequestSwap implements Interface {
 
   @Override

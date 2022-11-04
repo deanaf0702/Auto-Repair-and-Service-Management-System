@@ -5,21 +5,26 @@ import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
 
 /**
- * @author deoks
+ * @author deoks, jkersey
  */
 public class ViewAndScheduleService implements Interface {
+
+    private static int INITIAL_SELECTION = 0;
+    private static int MIN_SELECTION = 1;
+    private static int MAX_SELECTION = 3;
+    private static int EXPECTED_INPUT_LENGTH = 3;
 
     public ViewAndScheduleService() {
     }
 
     @Override
     public void run() {
-        int selection = 0;
+        int selection = INITIAL_SELECTION;
         display();
         do {
             System.out.print("Enter choice (1-3) from the given options displayed above: ");
             selection = ScanHelper.nextInt();
-        } while (!(selection >= 1 && selection <= 3));
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
         navigate(selection);
     }
