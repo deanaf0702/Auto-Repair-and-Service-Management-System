@@ -75,21 +75,19 @@ firstName char(50),
 lastName char(50),
 email char(50),
 phone char(15),
-startDate date,
-endDate date,
 address varchar2(100),
 salary number(10, 2)
 );
 
 insert into Managers values
 (123456789, 'manager', 'jdoe', 'doe', 'John', 'Doe', 'jdoe@gmail.com',
-'8636368778', '01-MAY-81', null, '1378 University Woods, Raleigh, NC 27612', 500000.00);
+'8636368778', '1378 University Woods, Raleigh, NC 27612', 500000.00);
 insert into Managers values
 (987654321, 'manager', 'rbrooks', 'brooks', 'Rachel', 'Brooks', 'rbrooks@ymail.com',
-'8972468552', '01-MAY-81', null, '2201 Gorman Parkwood, Raleigh, NC 27618', 500000.00);
+'8972468552', '2201 Gorman Parkwood, Raleigh, NC 27618', 500000.00);
 insert into Managers values
 (987612345, 'manager', 'csmith', 'Smith', 'Caleb', 'Smith', 'csmith@yahoo.com',
-'8547963210', '01-MAY-81', null, '1538 Red Bud Lane, Morrisville, NC 27560', 500000.00);
+'8547963210', '1538 Red Bud Lane, Morrisville, NC 27560', 500000.00);
 select m.managerId, s.centerId from Managers m, ServiceCenters s where m.managerId = s.managerId;
 ---Service Center
 drop table if exists ServiceCenters;
@@ -203,8 +201,6 @@ firstName char(50),
 lastName char(50),
 email char(50),
 phone char(15),
-startDate date not null,
-endDate date,
 address varchar2(100),
 constraint fk_Employees_ServiceCenters foreign key (centerId) references ServiceCenters(centerId)
 );
@@ -221,14 +217,14 @@ employeeId number(9) primary key,
 wage number(10, 2),
 constraint fk_Mechanics_Employees foreign key (employeeId) references Employees(employeeId) on delete cascade
 );
-insert into Employees values(234567898, 30001,'receptionist', 'demoReceptionist1', '1234567', 'Demo', 'Receptionist1', 'dlfranks@ncsu.edu', '123-123-1234', '01-MAY-81', null, '1400 Gorman St, Raleigh, NC 27606-2972');
+insert into Employees values(234567898, 30001,'receptionist', 'demoReceptionist1', '1234567', 'Demo', 'Receptionist1', 'dlfranks@ncsu.edu', '123-123-1234', '1400 Gorman St, Raleigh, NC 27606-2972');
 insert into Receptionists values(234567898, 200000.00);
 
-insert into Employees values(132457689, 30001,'mechanic', 'jwilliams', 'williams', 'James', 'Williams', 'jwilliams@gmail.com', '4576312882', '02-JUL-2021', null, '1400 Gorman St, Raleigh, NC 27606-2972');
+insert into Employees values(132457689, 30001,'mechanic', 'jwilliams', 'williams', 'James', 'Williams', 'jwilliams@gmail.com', '4576312882', '1400 Gorman St, Raleigh, NC 27606-2972');
 insert into Mechanics values(132457689, 35.00);
-insert into Employees values(314275869, 30001,'mechanic', 'djohnson', 'johnson', 'David', 'Johnson', 'djohnson@ymail.com', '9892321100', '25-AUG-2021', null, '686 Stratford Court, Raleigh, NC 27606');
+insert into Employees values(314275869, 30001,'mechanic', 'djohnson', 'johnson', 'David', 'Johnson', 'djohnson@ymail.com', '9892321100', '686 Stratford Court, Raleigh, NC 27606');
 insert into Mechanics values(314275869, 35.00);
-insert into Employees values(241368579, 30001,'mechanic', 'mgarcia', 'garcia', 'Maria', 'Garcia', 'mgarcia@yahoo.com', '4573459090', '26-AUG-2021', null, '1521 Graduate Lane, Raleigh, NC 27606');
+insert into Employees values(241368579, 30001,'mechanic', 'mgarcia', 'garcia', 'Maria', 'Garcia', 'mgarcia@yahoo.com', '4573459090', '1521 Graduate Lane, Raleigh, NC 27606');
 insert into Mechanics values(241368579, 35.00);
 ------------------------
 
