@@ -6,6 +6,7 @@ import AutoCenter.ScanHelper;
 public class ViewAndUpdateProfile implements Interface {
 
     public ViewAndUpdateProfile () {
+
     }
 
     @Override
@@ -22,13 +23,16 @@ public class ViewAndUpdateProfile implements Interface {
     }
 
     @Override
+
     public void display () {
-        System.out.println( "##### View and Update Profile Menu #####" );
-        System.out.println( "1 View Profile" );
-        System.out.println( "2 Add Car" );
-        System.out.println( "3 Delete Car" );
-        System.out.println( "4 Go Back" );
-        System.out.println( "##########" );
+        System.out.println( "##################################################" );
+        System.out.println( "##### Customer: View and Update Profile Menu #####" );
+        System.out.println( "##################################################" );
+        System.out.println( "# 1 View Profile                                 #" );
+        System.out.println( "# 2 Add Car                                      #" );
+        System.out.println( "# 3 Delete Car                                   #" );
+        System.out.println( "# 4 Go Back                                      #" );
+        System.out.println( "##################################################" );
     }
 
     @Override
@@ -52,7 +56,5 @@ public class ViewAndUpdateProfile implements Interface {
     @Override
     public void goBack () {
         new Customer().run();
-
     }
-
 }

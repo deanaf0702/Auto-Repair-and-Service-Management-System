@@ -26,17 +26,6 @@ public class Customer implements Interface {
     }
 
     @Override
-    public void display () {
-        System.out.println( "##### Customer Home #####" );
-        System.out.println( "1 View and Update Profile" );
-        System.out.println( "2 View and Schedule Service" );
-        System.out.println( "3 Invoices" );
-        System.out.println( "4 Logout" );
-        System.out.println( "##########" );
-
-    }
-
-    @Override
     public void navigate ( final int selection ) {
         switch ( selection ) {
             case 1:
@@ -58,7 +47,17 @@ public class Customer implements Interface {
     @Override
     public void goBack () {
         userservice.logout();
-
     }
 
+    @Override
+    public void display () {
+        System.out.println( "##################################" );
+        System.out.println( "##### Customer: Landing Page #####" );
+        System.out.println( "##################################" );
+        System.out.println( "# 1 View and Update Profile      #" );
+        System.out.println( "# 2 View and Schedule Service    #" );
+        System.out.println( "# 3 Invoices                     #" );
+        System.out.println( "# 4 Logout                       #" );
+        System.out.println( "##################################" );
+    }
 }

@@ -38,7 +38,6 @@ public class ViewProfile implements Interface {
         finally {
             db.close();
         }
-
         int selection = 0;
         display();
         do {
@@ -46,9 +45,6 @@ public class ViewProfile implements Interface {
             selection = ScanHelper.nextInt();
         }
         while ( selection != 1 );
-
-        navigate( selection );
-
     }
 
     @Override
@@ -68,7 +64,5 @@ public class ViewProfile implements Interface {
     @Override
     public void goBack () {
         new ViewAndUpdateProfile().run();
-
     }
-
 }
