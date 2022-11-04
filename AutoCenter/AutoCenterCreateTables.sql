@@ -36,7 +36,7 @@ drop table if exists MaintenanceServices;
 create table MaintenanceServices(
     serviceId number(3),
     scheduleType char(1),
-    hours number(3), 
+    hours number(3),
     primary key (serviceId)
 );
 insert into MaintenanceServices values(113, 'A', 3);
@@ -92,12 +92,12 @@ select m.managerId, s.centerId from Managers m, ServiceCenters s where m.manager
 ---Service Center
 drop table if exists ServiceCenters;
 create table ServiceCenters(
-centerId integer primary key, 
-minWage number(10, 2), 
-maxWage number(10, 2), 
+centerId integer primary key,
+minWage number(10, 2),
+maxWage number(10, 2),
 address varchar2(200),
-phone char(15), 
-satOpen char(1), 
+phone char(15),
+satOpen char(1),
 managerId integer,
 constraint fk_ServiceCenters_Managers foreign key(managerId) references Managers(managerId)
 );
@@ -207,8 +207,8 @@ constraint fk_Employees_ServiceCenters foreign key (centerId) references Service
 
 drop table if exists Receptionists;
 create table Receptionists(
-employeeId number(9) primary key, 
-salary number(10, 2), 
+employeeId number(9) primary key,
+salary number(10, 2),
 constraint fk_Receptionistss_Employees foreign key (employeeId) references Employees(employeeId) on delete cascade
 );
 drop table if exists Mechanics;
@@ -317,7 +317,7 @@ insert into RepairServicePriced values(30001, 112, 'Toyota', 3, 450);
 ---Customers
 drop table if exists Customers;
 create table Customers(
-customerId integer primary key, 
+customerId integer primary key,
 centerId integer,
 firstName char(20),
 lastName char(20),
@@ -386,4 +386,3 @@ create table Invoices(
     status char(1),
     constraint fk_Invoices_ServiceEvents foreign key (eventId) references ServiceEvents(eventId)
 );
-
