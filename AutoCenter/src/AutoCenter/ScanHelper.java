@@ -100,5 +100,4 @@ public class ScanHelper {
         while ( wentCatch );
         return null;
     }
-
 }

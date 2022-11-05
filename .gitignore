@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+.classpath
 
 # Log file
 *.log
@@ -30,4 +31,10 @@ hs_err_pid*
 # snyk security analysis
 .dccache
 /bin/
+.metadata
+/AutoCenter/.settings
+.truck
+
+/AutoCenter/lib
+.settings/
 .DS_Store
