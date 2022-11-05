@@ -14,44 +14,49 @@ public class UserService {
 	{
 		repoService = new RepositoryService();
 	}
+	
 	public User authenticate(String userId, String password)
-	{
-		User user = authenticateManager(userId, password);
-		if(user == null)
-		{
-			user = authenticateEmployee(userId, password);
-		}
-		if(user == null)
-		{
-			user = authenticateCustomer(userId, password);
-		}
-		return user;
-	}
-	public User authenticateEmployee(String userId, String password)
 	{
 		
 		User user = null;
 		//return administrator, manager, receptionist, mechanic or customer
-		String query = "SELECT e.employeeId, e.firstName, e.lastName, e.roleType, e.centerId"
-				+ " FROM Employees e "
-				+ "Where e.username='"
-				+ userId + "' AND e.password='"
+		String query = "SELECT userId, firstName, lastName, role"
+				+ " FROM Users "
+				+ "Where username='"
+				+ userId + "' AND password='"
 				+ password + "'";
 		DbConnection db = new DbConnection();
 		
 		try {
 			ResultSet rs = db.executeQuery(query);
-			if(rs == null)
-				user = authenticateCustomer(userId, password);
-			else {
+			if(rs != null)
+			{
 				while(rs.next()) {
 					user = new User();
-					user.setId(rs.getInt("employeeId"));
-					user.setRole(rs.getString("roleType").trim());
+					user.setId(rs.getInt("userId"));
+					user.setRole(rs.getString("role").trim());
 					user.setFirstName(rs.getString("firstName").trim());
 					user.setLastName(rs.getString("lastName").trim());
-					user.setCenterId(rs.getInt("centerId"));
 				}
+				String tableName = "";
+				if(user.getRole().equals("Customer"))
+					tableName = "Customers";
+				else if(user.getRole().equals("Manager"))
+					tableName = "Managers";
+				else if(user.getRole().equals("Mechanic"))
+					tableName = "Mechanics";
+				else if(user.getRole().equals("Receptionist"))
+					tableName = "Receptionists";
+				else user = null;
+				
+				String query2 = "select serviceCenterId from " + tableName 
+						+ " where userId = " + user.getId();
+				
+				ResultSet rs2 = db.executeQuery(query2);
+				rs2.next();
+				int centerId = rs2.getInt("serviceCenterId");
+				user.setCenterId(centerId);
+			
 			}
 		}catch(Throwable oops ) {
 			//oops.printStackTrace();
@@ -61,72 +66,7 @@ public class UserService {
 		}
 		return user;
 	}
-	public User authenticateManager(String userId, String password)
-	{
-		
-		User user = null;
-		//return administrator, manager, receptionist, mechanic or customer
-		String query = "SELECT m.managerId, m.firstName, m.lastName, m.roleType, s.centerId"
-				+ " FROM Managers m, ServiceCenters s "
-				+ "Where m.managerId = s.managerId AND m.username='"
-				+ userId + "' AND m.password='"
-				+ password + "'";
-		DbConnection db = new DbConnection();
-		
-		try {
-			ResultSet rs = db.executeQuery(query);
-			if(rs == null)
-				user = authenticateCustomer(userId, password);
-			else {
-				while(rs.next()) {
-					user = new User();
-					user.setId(rs.getInt("managerId"));
-					user.setRole(rs.getString("roleType").trim());
-					user.setFirstName(rs.getString("firstName").trim());
-					user.setLastName(rs.getString("lastName").trim());
-					user.setCenterId(rs.getInt("centerId"));
-				}
-			}
-		}catch(Throwable oops ) {
-			//oops.printStackTrace();
-			System.out.println("Not found In Employees.");
-		}finally {
-			db.close();
-		}
-		return user;
-	}
-	public User authenticateCustomer(String username, String password)
-	{
-		
-		User user = null;
-		//return administrator, manager, receptionist, mechanic or customer
-		String query = "SELECT customerId, firstName, lastName"
-				+ " FROM Customers "
-				+ "Where username='"
-				+ username + "' AND password='"
-				+ password + "'";
-		DbConnection db = new DbConnection();
-		try {
-			ResultSet rs = db.executeQuery(query);
-			while(rs.next())
-			{
-				user = new User();
-				user.setId(rs.getInt("customerId"));
-				user.setRole("Customer");
-				user.setFirstName(rs.getString("username").trim());
-				user.setLastName(rs.getString("password").trim());
-				user.setCenterId(rs.getInt("centerId"));
-			}
-		}catch(Throwable oops){
-			//oops.printStackTrace();
-			System.out.println("Not found In Customers.");
-		}finally {
-			db.close();
-		}
-		
-		return user;
-		
-	}
+	
 	public void logout()
 	{
 		if(Home.getUser() != null) Home.setUser(null);
