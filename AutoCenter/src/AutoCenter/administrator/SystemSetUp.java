@@ -44,7 +44,7 @@ public class SystemSetUp implements UserFlowFunctionality {
         System.out.println(DIRECTION_SEPARATOR);
         // TODO add example here
         System.out.println(DIRECTION_SEPARATOR);
-        UIHelpers.displayUsageDirections();
+        UIHelpers.displayUsageNote();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SystemSetUp implements UserFlowFunctionality {
                 "# 3 Go back                         #"
         };
 
-        UIHelpers.displayMenu("Admin: System Set Up Menu", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu(" Admin: System Set Up Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override

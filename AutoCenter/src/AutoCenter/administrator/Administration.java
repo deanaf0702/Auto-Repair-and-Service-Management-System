@@ -40,7 +40,7 @@ public class Administration implements UserFlowFunctionality {
                 "# 4 Logout                    #"
         };
 
-        UIHelpers.displayMenu("Admin: Landing Page", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu(" Admin: Landing Page ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
