@@ -21,9 +21,9 @@ public class AddNewEmployee implements Interface{
 	public void run() {
 		int selection = 2;
 		int inputLength = 11;
-		display();
+		
 		do {
-			displayDirection();
+			display();
 			employee = new Employee();
 			System.out.println("Enter information in the order using the delimiter ';' as shown above: ");
 			String input = ScanHelper.nextLine();
@@ -57,32 +57,18 @@ public class AddNewEmployee implements Interface{
 					
 				}
 				employee.salaryOrWage = Double.parseDouble(inputs[10]);
-				display();
+				displayMenu();
 				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
 			}else {
-				System.out.println("Went wrong and try again!");
-				
-				
+				System.out.println("Went wrong!");
 			}
-				
-			
 		}while(!(selection >= 1 && selection <= 2));
 		navigate(selection);
 	}
 
 	@Override
 	public void display() {
-		System.out.println("## Add New Employees Menu ##");
-		System.out.println("1 Add");
-		System.out.println("2 Go Back");
-		System.out.println("##########");
-	}
-
-	public void displayDirection()
-	{
-		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");
-		System.out.println("## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;11-JUN-2022;30.99 ##");
 		System.out.println("A EmployeeId:");
 		System.out.println("B FirstName:");
 		System.out.println("C LastName:");
@@ -94,6 +80,18 @@ public class AddNewEmployee implements Interface{
 		System.out.println("I Role:");
 		System.out.println("J Start Date:");
 		System.out.println("K Compensation($):");
+		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");
+		System.out.println("## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;11-JUN-2022;30.99 ##");
+	}
+
+	public void displayMenu()
+	{
+		System.out.println("## Add New Employee Menu ##");
+		System.out.println("1 Add");
+		System.out.println("2 Go Back");
+		System.out.println("##########");
+		
+		
 	}
 	@Override
 	public void navigate(int selection) {
@@ -106,7 +104,11 @@ public class AddNewEmployee implements Interface{
 					System.out.println("Added Successfully");
 					goBack();
 				}
-				else run();
+				else { 
+					System.out.println("Failed adding a new employee");
+					goBack();
+					
+					};
 				
 				break;
 			case 2: goBack();

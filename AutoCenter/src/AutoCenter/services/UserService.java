@@ -16,10 +16,10 @@ public class UserService {
 	}
 	public User authenticate(String userId, String password)
 	{
-		User user = authenticateEmployee(userId, password);
+		User user = authenticateManager(userId, password);
 		if(user == null)
 		{
-			user = authenticateManager(userId, password);
+			user = authenticateEmployee(userId, password);
 		}
 		if(user == null)
 		{
@@ -33,9 +33,9 @@ public class UserService {
 		User user = null;
 		//return administrator, manager, receptionist, mechanic or customer
 		String query = "SELECT e.employeeId, e.firstName, e.lastName, e.roleType, e.centerId"
-				+ " FROM Employees e, Roles r "
-				+ "Where e.roleType = r.roleType AND username='"
-				+ userId + "' AND PASSWORD='"
+				+ " FROM Employees e "
+				+ "Where e.username='"
+				+ userId + "' AND e.password='"
 				+ password + "'";
 		DbConnection db = new DbConnection();
 		
@@ -54,7 +54,8 @@ public class UserService {
 				}
 			}
 		}catch(Throwable oops ) {
-			oops.printStackTrace();
+			//oops.printStackTrace();
+			System.out.println("Not found In Managers.");
 		}finally {
 			db.close();
 		}
@@ -68,7 +69,7 @@ public class UserService {
 		String query = "SELECT m.managerId, m.firstName, m.lastName, m.roleType, s.centerId"
 				+ " FROM Managers m, ServiceCenters s "
 				+ "Where m.managerId = s.managerId AND m.username='"
-				+ userId + "' AND m.PASSWORD='"
+				+ userId + "' AND m.password='"
 				+ password + "'";
 		DbConnection db = new DbConnection();
 		
@@ -87,22 +88,23 @@ public class UserService {
 				}
 			}
 		}catch(Throwable oops ) {
-			oops.printStackTrace();
+			//oops.printStackTrace();
+			System.out.println("Not found In Employees.");
 		}finally {
 			db.close();
 		}
 		return user;
 	}
-	public User authenticateCustomer(String firstName, String lastName)
+	public User authenticateCustomer(String username, String password)
 	{
 		
 		User user = null;
 		//return administrator, manager, receptionist, mechanic or customer
 		String query = "SELECT customerId, firstName, lastName"
-				+ " FROM Customer"
-				+ "Where firstName='"
-				+ firstName + "' AND LastName='"
-				+ lastName + "'";
+				+ " FROM Customers "
+				+ "Where username='"
+				+ username + "' AND password='"
+				+ password + "'";
 		DbConnection db = new DbConnection();
 		try {
 			ResultSet rs = db.executeQuery(query);
@@ -111,12 +113,13 @@ public class UserService {
 				user = new User();
 				user.setId(rs.getInt("customerId"));
 				user.setRole("Customer");
-				user.setFirstName(rs.getString("firstName").trim());
-				user.setLastName(rs.getString("lastName").trim());
+				user.setFirstName(rs.getString("username").trim());
+				user.setLastName(rs.getString("password").trim());
 				user.setCenterId(rs.getInt("centerId"));
 			}
 		}catch(Throwable oops){
-			oops.printStackTrace();
+			//oops.printStackTrace();
+			System.out.println("Not found In Customers.");
 		}finally {
 			db.close();
 		}
@@ -127,6 +130,7 @@ public class UserService {
 	public void logout()
 	{
 		if(Home.getUser() != null) Home.setUser(null);
+		Home.exit();
 		
 		
 	}
@@ -140,8 +144,14 @@ public class UserService {
 	public boolean addEmployee(Employee employee)
 	{
 		employee.centerId = getCenterId();
-		if(!(repoService.validateMinAndMaxWage(employee.salaryOrWage)))
-			return false;
+		if(employee.role.equals("mechanic")) {
+			if(!(repoService.validateMinAndMaxWage(employee.salaryOrWage))) {
+				System.out.println("This isn't in the range of minimum or maximum wage.");
+				return false;
+			}
+				
+		}
+		
 		EmployeeRepository er = new EmployeeRepository();
 		boolean result= false;
 		try {

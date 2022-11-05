@@ -55,6 +55,8 @@ public class SetupOperationalHours implements Interface {
 				else System.out.println("Failed update");
 				db.close();
 			break;
+			case 2: goBack();
+				break;
 		}
 		goBack();
 	}

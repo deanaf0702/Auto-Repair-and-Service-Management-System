@@ -12,6 +12,7 @@ import AutoCenter.ScanHelper;
 import AutoCenter.User;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.models.MaintenanceService;
+import AutoCenter.models.RepairService;
 
 public class RepositoryService {
 	public RepositoryService() {}
@@ -33,29 +34,7 @@ public class RepositoryService {
 		}
 		return VId;
 	}
-	public int[] getRepairServiceIds()
-	{
-		int[] repairIds= new int[12];
-		DbConnection db = new DbConnection();
-		String query = "select serviceId from RepairServices";
-		try {
-			
-			ResultSet rs = db.executeQuery(query);
-			int i = 0;
-			while(rs.next())
-			{
-				repairIds[i] = rs.getInt("serviceId");
-				i++;
-			}
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally {
-			db.close();
-		}
-		return repairIds;
-	}
+	
 	public int getPrimaryKey(String table, String pkColumn) 
 	{
 		DbConnection db = new DbConnection();
@@ -86,7 +65,7 @@ public class RepositoryService {
 		try {
 			ResultSet rs = db.executeQuery(query);
 			while(rs.next()) {
-				String model = rs.getString("model");
+				String model = rs.getString("model").trim();
 				list.add(model);
 			}
 			db.close();
@@ -96,69 +75,14 @@ public class RepositoryService {
 		}
 		return list;
 	}
-	public boolean addCustomer(String[] inputs)
-	{
-		boolean valid = false;
-		String firstName = inputs[0].trim();
-		String lastName = inputs[1].trim();
-		String address = inputs[3].trim();
-		String email = inputs[4].trim();
-		String phone = inputs[5].trim();
-		String username = inputs[2].trim();
-		String vinNumber = inputs[6].trim();
-		String carManf = inputs[6].trim();
-		int mileage = Integer.parseInt(inputs[6]);
-		String year = inputs[6].trim();
-		int status = '1';
-		int active = '1';
-		
-		int centerId = getCenterId();
-		int newCustomerId = getPrimaryKey("Customers", "customerId");
-		
-		if(centerId <= 0 || newCustomerId <= 0)
-			return valid;
-		
-		String customerQuery = "insert into Customers (customerId, centerId, firstName, lastName, address, status, active) values("
-				+ newCustomerId + ", "
-				+ centerId +", "
-				+ "'" + firstName + "', "
-				+ "'"+ lastName + "', "
-				+ "'" + address + "', "
-				+ "'" + status +"', "
-				+ "'" + active +"')";
-		try {
-			DbConnection db = new DbConnection();
-			try {
-				if(db.executeUpdate(customerQuery)) {
-					String custVehicleQuery = "insert into CustomerVehicles (vin, customerId, vehicleManfId, mileage, year) values("
-							+ "'" + vinNumber + "', "
-							+  newCustomerId + ", "
-							+ carManf + ", "
-							+ mileage + ", "
-							+ "'" + year + "')";
-					
-					if(db.executeUpdate(custVehicleQuery))
-					{
-						valid = true;
-					}else valid = false;
-					
-				}else valid = false;
-				
-			}finally{
-				db.close();
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return valid;
-	}
+	
 	public double getServicePrice(int centerId, String model, int priceTier)
 	{
 		double price = 0.0;
 		try{
 			DbConnection db = new DbConnection();
 			String query = "Select * from Prices Where centerId=" 
-			+ centerId + " and model='" + model + "', priceTier=" + priceTier;
+			+ centerId + " and model='" + model + "' and priceTier=" + priceTier;
 			try {
 				ResultSet rs =  db.executeQuery(query);
 				rs.next();
@@ -185,7 +109,7 @@ public class RepositoryService {
 				while(rs.next()) {
 					MaintenanceService ms = new MaintenanceService();
 					ms.setServiceId(rs.getInt("serviceId"));
-					ms.setScheduleType(rs.getString("scheduleType"));
+					ms.setScheduleType(rs.getString("scheduleType").trim());
 					ms.setServiceId(rs.getInt("hours"));
 					list.add(ms);
 				}
@@ -197,6 +121,34 @@ public class RepositoryService {
 			return null;
 		}
 	return list;	
+	}
+	public List<RepairService> repairServiceLookup()
+	{
+		List<RepairService> list = new ArrayList<RepairService>();
+		String query = "select * from RepairServices";
+		try {
+			DbConnection db = new DbConnection();
+			try {
+				ResultSet rs = db.executeQuery(query);
+				
+				while(rs.next())
+				{
+					RepairService rps = new RepairService();
+					rps.setServiceId(rs.getInt("serviceId"));
+					String category = rs.getString("category");
+					rps.setCategory(rs.getString("category").trim());
+					rps.setName(rs.getString("name").trim());
+					rps.setHours(rs.getInt("hours"));
+					list.add(rps);
+				}
+			}finally {
+				db.close();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
 	}
 	public int getCenterId()
 	{

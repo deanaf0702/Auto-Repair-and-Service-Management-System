@@ -1,5 +1,5 @@
 ---CarModels
-drop table if exists CarModels;
+drop table CarModels;
 create table CarModels(
     model char(15),
     CONSTRAINT pk_model PRIMARY KEY (model)
@@ -9,7 +9,7 @@ insert into CarModels values('Nissan');
 insert into CarModels values('Toyota');
 
 ---RepairServices 
-drop table if exists RepairServices;
+drop table RepairServices;
 create table RepairServices(
     serviceId number(3),
     category char(50),
@@ -76,6 +76,7 @@ lastName char(50),
 email char(50),
 phone char(15),
 address varchar2(100),
+startDate date,
 salary number(10, 2)
 );
 
@@ -202,6 +203,7 @@ lastName char(50),
 email char(50),
 phone char(15),
 address varchar2(100),
+startDate date,
 constraint fk_Employees_ServiceCenters foreign key (centerId) references ServiceCenters(centerId)
 );
 
@@ -321,6 +323,9 @@ customerId integer primary key,
 centerId integer,
 firstName char(20),
 lastName char(20),
+username char(20),
+password char(20),
+phone char(15),
 address varchar(100),
 status char(1),
 active char(1),
@@ -328,6 +333,7 @@ constraint fk_Customer_ServiceCenter foreign key(centerId) references ServiceCen
 );
 insert into Customers values(10001, 30001, 'Peter', 'Parker', '1234 main ST Raleigh NC 27666', '1', '1');
 insert into Customers values(10002, 30001, 'Diana', 'Prince', '1234 main ST Raleigh NC 27666', '1', '1');
+alter Customer add 
 
 ---CustomerVehicles
 drop table if exists CustomerVehicles;

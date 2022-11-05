@@ -52,7 +52,7 @@ public class EmployeeRepository {
 					if(result2) valid = true;
 					
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}finally{
 			db.close();
 		};
@@ -210,7 +210,7 @@ public class EmployeeRepository {
 		
 		String query = "insert into Employees (employeeId, centerId, roleType, "
 				+ "userName, password, firstName, lastName, address, "
-				+ "email, phone, startDate, endDate) values(" 
+				+ "email, phone, startDate) values(" 
 				+ employee.employeeId + ",  "
 				+ employee.centerId + ", '"
 				+ employee.role + "', '"
@@ -223,9 +223,8 @@ public class EmployeeRepository {
 				+ employee.phone + "', "
 				+ (employee.startDate != null
 				? ("'" + (Helper.dateConvertToString(employee.startDate)) + "'") 
-					: null) + ", "
-				+ (employee.endDate != null
-				? ("'" + Helper.dateConvertToString(employee.endDate) + "'") : null)
+					: null) 
+				
 				+ ")";
 		return query;
 	}

@@ -11,35 +11,34 @@ import AutoCenter.services.UserService;
 
 public class SetupMaintenanceServicePrices implements Interface {
 
-	private UserService userService = null;
 	private RepositoryService repoService = null;
 	private Integer[] ABCPriceTier;
 	int inputLength = 3;
 	
 	public SetupMaintenanceServicePrices()
 	{
-		userService = new UserService();
 		repoService = new RepositoryService();
 	}
 	@Override
 	public void run() {
 		int selection = 2;
-		display();
+		
 		do {
-			displayDirection();
+			display();
 			reset();
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
-			if(inputs.length >= inputLength)
+			if(inputs.length == inputLength)
 			{
-				ABCPriceTier[0] = Integer.parseInt(inputs[0]);
-				ABCPriceTier[1] = Integer.parseInt(inputs[1]);
-				ABCPriceTier[2] = Integer.parseInt(inputs[2]);
+				for(int i = 0; i < inputLength; i++)
+				{
+					ABCPriceTier[i] = Integer.parseInt(inputs[i].trim());
+				}
+				displayDirection();
 				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
 			}else {
 				System.out.println("Went wrong. Try again");
-				selection = 0;
 			}	
 		}while(!(selection >=1 && selection <=2));
 		navigate(selection);
@@ -47,27 +46,23 @@ public class SetupMaintenanceServicePrices implements Interface {
 
 	public void reset()
 	{
-		ABCPriceTier = new Integer[3];
+		ABCPriceTier = new Integer[inputLength];
 		
 	}
 	public void displayDirection()
 	{
-		
-		System.out.println("A Schedule A Price Tier");
-		System.out.println("B Schedule B Price Tier");
-		System.out.println("C Schedule C Price Tier");
-		System.out.println("## Ex:6; 7; 8 ##");
-		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");
-		
-	}
-	@Override
-	public void display() {
 		System.out.println("## Setup Maintenance Service Prices Menu ##");
 		System.out.println("1 Setup prices");
 		System.out.println("2 Go Back");
 		System.out.println("##########");
-		
-		
+	}
+	@Override
+	public void display() {
+		System.out.println("A Schedule A Price Tier");
+		System.out.println("B Schedule B Price Tier");
+		System.out.println("C Schedule C Price Tier");
+		System.out.println("## Ex:6; 7; 8 ##");
+		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");	
 	}
 
 	@Override
@@ -76,10 +71,15 @@ public class SetupMaintenanceServicePrices implements Interface {
 		{
 			case 1: if(save())
 						goBack();
-					else
-						run();
+					else {
+						System.out.println("Somthing went wrong!");
+						goBack();
+					}
+						
 				break;
 			case 2: goBack();
+				break;
+			default: goBack();
 				break;
 		}	
 	}
@@ -88,41 +88,48 @@ public class SetupMaintenanceServicePrices implements Interface {
 	{
 		boolean valid = true;
 		try {
-			DbConnection db = new DbConnection();
-		try {
+			
+		
 			List<MaintenanceService> list = repoService.maintServiceLookup();
 			List<String> carModels = repoService.carModelLookup();
 			int centerId = repoService.getCenterId();
-			if(list.size() == 3 && carModels.size() == 3)
+			if(list != null && carModels != null && centerId > 0)
 			{
-				int priceCount = 0;
-				for(MaintenanceService item: list) {
-					
-					for(String model: carModels) {
-						double price = repoService.getServicePrice(centerId, model, ABCPriceTier[priceCount]);
-						String query = addMaintServicePricedQuery(
-								item.getServiceId(),
-								centerId,
-								model,
-								ABCPriceTier[priceCount],
-								price);
-						
-						boolean result = db.executeUpdate(query);
-						if(!result) {
-							System.out.println("Database error: " + item.getScheduleType() 
-									+ ", " + model
-									+ ", " + ABCPriceTier[priceCount]);
-							valid = false;
+				if(list.size() == inputLength && carModels.size() == 3)
+				{
+					DbConnection db = new DbConnection();
+					try {
+						int priceCount = 0;
+						for(MaintenanceService item: list) {
+							
+							for(String model: carModels) {
+								double price = repoService.getServicePrice(centerId, model, ABCPriceTier[priceCount]);
+								String query = addMaintServicePricedQuery(
+										item.getServiceId(),
+										centerId,
+										model,
+										ABCPriceTier[priceCount],
+										price);
+								
+								boolean result = db.executeUpdate(query);
+								if(!result) {
+									System.out.println("Database error: " + item.getScheduleType() 
+											+ ", " + model
+											+ ", " + ABCPriceTier[priceCount]);
+									valid = false;
+								}
+							}
+							priceCount++;
 						}
+					}finally {
+						db.close();
 					}
-					priceCount++;
+				}else {
+					valid = false;
 				}
-			}else {
-				valid = false;
+			
 			}
-		}finally {
-			db.close();
-		}
+			
 		}catch(Exception e)
 		{
 			System.out.println(e.getMessage());

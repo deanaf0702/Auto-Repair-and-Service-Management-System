@@ -17,7 +17,9 @@ public class ScanHelper {
 			try {
 				wentCatch = false;
 				String s = scanner.nextLine();
-				selection = Integer.parseInt(s);
+				if(!s.isEmpty())
+					selection = Integer.parseInt(s);
+				else wentCatch = true;
 			}catch(Exception e) {
 				e.printStackTrace();
 				wentCatch = true;
@@ -36,8 +38,6 @@ public class ScanHelper {
 		}catch(Exception e) {
 			e.printStackTrace();
 			wentCatch = true;
-			scanner.nextLine();
-			System.out.println("Try again: ");
 		}
 		return null;
 	}
