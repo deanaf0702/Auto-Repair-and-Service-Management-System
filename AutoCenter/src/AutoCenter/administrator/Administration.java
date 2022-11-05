@@ -1,5 +1,6 @@
 package AutoCenter.administrator;
 
+import AutoCenter.Helpers;
 import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
 import AutoCenter.services.UserService;
@@ -22,7 +23,8 @@ public class Administration implements Interface {
         int selection;
         display();
         do {
-            System.out.print("Enter choice (1-4) from the given options displayed above: ");
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
@@ -31,14 +33,14 @@ public class Administration implements Interface {
 
     @Override
     public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("##### Admin: Landing Page #####");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 System Set Up             #");
-        System.out.println("# 2 Add New Store             #");
-        System.out.println("# 3 Add New Service           #");
-        System.out.println("# 4 Logout                    #");
-        System.out.println(MENU_SEPARATOR);
+        String[] menuOptions = {
+                "# 1 System Set Up             #",
+                "# 2 Add New Store             #",
+                "# 3 Add New Service           #",
+                "# 4 Logout                    #"
+        };
+
+        Helpers.displayMenu("Admin: Landing Page", menuOptions, MENU_SEPARATOR);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package AutoCenter.administrator;
 
+import AutoCenter.Helpers;
 import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
 
@@ -19,7 +20,8 @@ public class SystemSetUp implements Interface {
         do {
             displayDirection();
             // TODO add file parsing here
-            System.out.print("Enter choice (1-3) from the given options displayed above: ");
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
@@ -42,23 +44,18 @@ public class SystemSetUp implements Interface {
         System.out.println(DIRECTION_SEPARATOR);
         // TODO add example here
         System.out.println(DIRECTION_SEPARATOR);
-        System.out.println();
-        System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
+        Helpers.displayUsageDirections();
     }
 
     @Override
     public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("##### Admin: System Set Up Menu #####");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 Upload service general          #");
-        System.out.println("#   general information             #");
-        System.out.println("# 2 Upload store general            #");
-        System.out.println("#   information                     #");
-        System.out.println("# 3 Go back                         #");
-        System.out.println(MENU_SEPARATOR);
+        String[] menuOptions = {
+                "# 1 Upload service general          #\n#   general information             #",
+                "# 2 Upload store general            #\n#   information                     #",
+                "# 3 Go back                         #"
+        };
+
+        Helpers.displayMenu("Admin: System Set Up Menu", menuOptions, MENU_SEPARATOR);
     }
 
     @Override

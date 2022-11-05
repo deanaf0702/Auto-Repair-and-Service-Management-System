@@ -2,6 +2,7 @@ package AutoCenter.administrator;
 
 import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
+import AutoCenter.Helpers;
 
 public class AddNewStore implements Interface {
 
@@ -17,23 +18,43 @@ public class AddNewStore implements Interface {
         display();
 
         do {
-            // displayDirection();
+            displayDirections();
             // TODO add file parsing here
-            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION + ") from the given options displayed above: ");
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
         navigate(selection);
     }
 
+    private void displayDirections() {
+        System.out.println(DIRECTION_SEPARATOR);
+        System.out.println("#####   Add New Store: Usage    #####");
+        System.out.println(DIRECTION_SEPARATOR);
+        System.out.println("# A. Input file that contains the   #");
+        System.out.println("#    the service general            #");
+        System.out.println("#    information                    #");
+        System.out.println("# --------------------------------- #");
+        System.out.println("# B. Input file that contains the   #");
+        System.out.println("#    store general                  #");
+        System.out.println("#    information                    #");
+        System.out.println(DIRECTION_SEPARATOR);
+        System.out.println("#####   System Set Up: Example  #####");
+        System.out.println(DIRECTION_SEPARATOR);
+        // TODO add example here
+        System.out.println(DIRECTION_SEPARATOR);
+        Helpers.displayUsageDirections();
+    }
+
     @Override
     public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("##### Admin: Add New Store Menu #####");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 Add Store                       #");
-        System.out.println("# 2 Go back                         #");
-        System.out.println(MENU_SEPARATOR);
+        String[] menuOptions = {
+                "# 1 Add Store                       #",
+                "# 2 Go back                         #"
+        };
+
+        Helpers.displayMenu("Admin: Add New Store Menu", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
