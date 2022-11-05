@@ -13,22 +13,26 @@ public class AddEmployees implements Interface{
 
 	private UserService userService = null;
 	private Employee employee = null;
-	
+	private static final String DIRECTION_SEPARATOR = "#############################";
+    private static final String MENU_SEPARATOR = "#######################################";
+    private static final int EXPECTED_INPUT_LENGTH = 11;
+    private static final int MIN_SELECTION = 1;
+    private static final int MAX_SELECTION = 2;
+    
 	public AddEmployees()
 	{
 		userService = new UserService();
 	}
 	
 	public void run() {
-		int selection = 2;
-		int inputLength = 11;
+		int selection = MAX_SELECTION;
+		
 		display();
 		do {
 			employee = new Employee();
-			System.out.println("Enter information in the order using the delimiter ';' as shown above: ");
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
-			if(inputs.length == inputLength )
+			if(inputs.length == EXPECTED_INPUT_LENGTH )
 			{
 				try {
 					employee.employeeId = Integer.parseInt(inputs[0]);
@@ -36,7 +40,6 @@ public class AddEmployees implements Interface{
 					System.out.println(e);
 					break;
 				}
-				
 				employee.firstName = inputs[1];
 				employee.lastName = inputs[2];
 				employee.username = inputs[3];
@@ -58,40 +61,55 @@ public class AddEmployees implements Interface{
 				}
 				employee.salaryOrWage = Double.parseDouble(inputs[10]);
 				displayMenu();
-				System.out.println("Enter choice(1-2)");
+				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
 			}else {
 				displayMenu();
-				System.out.println("Enter choice(1-2)");
+				System.out.println(
+                        "Something went wrong. Please try again and make sure you provide all Eleven inputs for an employee."
+                                + " Take a look at the usage detailed above if you need help.");
+				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
 			}
-		}while(!(selection >= 1 && selection <= 2));
+		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
 	}
 
 	@Override
 	public void display() {
-		System.out.println("A EmployeeId:");
-		System.out.println("B FirstName:");
-		System.out.println("C LastName:");
-		System.out.println("D UserName:");
-		System.out.println("E Password:");
-		System.out.println("F Address:");
-		System.out.println("G EmilAddress:");
-		System.out.println("H Phone Number:");
-		System.out.println("I Role:");
-		System.out.println("J Start Date:");
-		System.out.println("K Compensation($):");
-		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’");
+		System.out.println("#############################");
+		System.out.println("######      Usage      ######");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println("# A. Employee ID             #");
+		System.out.println("# B. First Name              #");
+		System.out.println("# C. Last Name               #");
+		System.out.println("# D. UserName                #");
+		System.out.println("# E. Password                #");
+		System.out.println("# F. Address                 #");
+		System.out.println("# G. EmilAddress             #");
+		System.out.println("# H. Phone Number            #");
+		System.out.println("# I. Role                    #");
+		System.out.println("# J. Start Date              #");
+		System.out.println("# K. Compensation($)         #");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println("#####      Example      ######");
 		System.out.println("## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;11-JUN-2022;30.99 ##");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println();
+		System.out.println("NOTE: It's important to enter information following");
+        System.out.println("the example provided above using the delimiter, `;`");
+        System.out.println();
+		
 		
 	}
 	public void displayMenu()
 	{
-		System.out.println("## Add Employees Menu ##");
-		System.out.println("1 Add");
-		System.out.println("2 Go Back");
-		System.out.println("##########");
+		System.out.println(MENU_SEPARATOR);
+		System.out.println("##### Manager: Add Employees Menu #####");
+		System.out.println(MENU_SEPARATOR);
+		System.out.println("# 1 Add                               #");
+		System.out.println("# 2 Go Back                           #");
+		System.out.println(MENU_SEPARATOR);
 	}
 
 	@Override

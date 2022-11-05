@@ -1,6 +1,7 @@
 package AutoCenter.mechanic;
 
 import AutoCenter.Interface;
+import AutoCenter.ScanHelper;
 
 /**
  * Handles functionality for view schedule menu of mechanics including display,

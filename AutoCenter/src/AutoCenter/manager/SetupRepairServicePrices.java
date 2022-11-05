@@ -16,8 +16,12 @@ public class SetupRepairServicePrices implements Interface{
 
 	private RepositoryService repoService = null;
 	int inputLength = 12;
-	int[] priceTiers;
-	
+	private int[] priceTiers;
+	private static final String DIRECTION_SEPARATOR = "#############################";
+    private static final String MENU_SEPARATOR = "#######################################";
+    private static final int EXPECTED_INPUT_LENGTH = 12;
+    private static final int MIN_SELECTION = 1;
+    private static final int MAX_SELECTION = 2;
 	
 	public SetupRepairServicePrices()
 	{
@@ -25,58 +29,70 @@ public class SetupRepairServicePrices implements Interface{
 	}
 	public void run() {
 		display();
-		int selection = 2;
+		int selection = MAX_SELECTION;
 		do {
 			reset();
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
-			if(inputs.length == inputLength)
+			if(inputs.length == EXPECTED_INPUT_LENGTH)
 			{
-				for(int i = 0; i < inputLength; i++)
+				for(int i = 0; i < EXPECTED_INPUT_LENGTH; i++)
 				{
 					priceTiers[i] = Integer.parseInt(inputs[i].trim());
 				}
 				
 				displayMenu();
-				System.out.println("Enter choices(1-2)");
+				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
 			}else {
-				System.out.println("Went wrong. Try again");
+				System.out.println(
+                        "Something went wrong. Please try again."
+                                + " Take a look at the usage detailed above if you need help.");
 			}	
-		}while(!(selection >=1 && selection <=2));
+		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
 		
 	}
 
 	public void reset() {
-		priceTiers = new int[inputLength];
+		priceTiers = new int[EXPECTED_INPUT_LENGTH];
 	}
 	@Override
 	public void display() {
-		System.out.println("A. Belt Replacement\n"
-				+ "B. Engine Repair\n"
-				+ "C. Exhaust Repair\n"
-				+ "D. Muffler Repair\n"
-				+ "E. Alternator Repair\n"
-				+ "F. Power Lock Repair\n"
-				+ "G. Axle Repair\r\n"
-				+ "H. Brake Repair\n"
-				+ "I. Tire Balancing\n"
-				+ "J. Wheel Alignment\n"
-				+ "K. Compressor Repair\n"
-				+ "L. Evaporator Repair");
-		
+		System.out.println("#############################");
+		System.out.println("######      Usage      ######");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println("# A. Belt Replacement      #");
+		System.out.println("# B. Engine Repair         #");
+		System.out.println("# C. Exhaust Repair        #");
+		System.out.println("# D. Muffler Repair        #");
+		System.out.println("# E. Alternator Repair     #");
+		System.out.println("# F. Power Lock Repair     #");
+		System.out.println("# G. Axle Repair           #");
+		System.out.println("# H. Brake Repair          #");
+		System.out.println("# I. Tire Balancing        #");
+		System.out.println("# J. Wheel Alignment       #");
+		System.out.println("# K. Compressor Repair     #");
+		System.out.println("# L. Evaporator Repair     #");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println("#####      Example      ######");
 		System.out.println("## Ex:2; 3; 4; 2; 3; 3; 5; 3; 1; 2; 4; 3 ##");
-		System.out.println("## It is required to have 12 price tiers ##");
-		System.out.println("## Enter the information in the order as shown above with the delimiter ‘;’");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println();
+		System.out.println("NOTE: It's important to enter information following");
+        System.out.println("the example provided above using the delimiter, `;`");
+        System.out.println();
+		
 	}
 
 	public void displayMenu()
 	{
-		System.out.println("## Setup Repair Service Prices Menu ##");
-		System.out.println("1 Setup prices");
-		System.out.println("2 Go Back");
-		System.out.println("##########");
+		System.out.println("#######################################");
+		System.out.println("##### Manager: Setup Repair Service Prices Menu #####");
+		System.out.println(MENU_SEPARATOR);
+		System.out.println("## 1 Setup prices                    ##");
+		System.out.println("## 2 Go Back                         ##");
+		System.out.println(MENU_SEPARATOR);
 	}
 	@Override
 	public void navigate(int selection) {

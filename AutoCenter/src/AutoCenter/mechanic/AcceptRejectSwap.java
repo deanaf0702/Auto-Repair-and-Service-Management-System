@@ -1,6 +1,7 @@
 package AutoCenter.mechanic;
 
 import AutoCenter.Interface;
+import AutoCenter.ScanHelper;
 
 /**
  * Handles functionality for accept reject swap menu of mechanics including
