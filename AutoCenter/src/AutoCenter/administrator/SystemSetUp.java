@@ -6,7 +6,7 @@ import AutoCenter.ScanHelper;
 public class SystemSetUp implements Interface {
 
     private static final int MIN_SELECTION = 1;
-    private static final int MAX_SELECTION = 4;
+    private static final int MAX_SELECTION = 3;
 
     private static final String MENU_SEPARATOR = "#####################################";
     private static final String DIRECTION_SEPARATOR = "#####################################";
@@ -15,9 +15,11 @@ public class SystemSetUp implements Interface {
     public void run() {
         int selection;
         display();
+
         do {
             displayDirection();
-            System.out.print("Enter choice (1-4) from the given options displayed above: ");
+            // TODO add file parsing here
+            System.out.print("Enter choice (1-3) from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
