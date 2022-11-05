@@ -12,13 +12,15 @@ import AutoCenter.ScanHelper;
  */
 public class AcceptRejectSwap implements Interface {
 
-    private static int INITIAL_SELECTION = 0;
-    private static int MIN_SELECTION = 1;
-    private static int MAX_SELECTION = 2;
+    private static final String DISPLAY_SEPARATOR = "#############################";
+    private static final String MENU_SEPARATOR = "#########################################";
+
+    private static final int MIN_SELECTION = 1;
+    private static final int MAX_SELECTION = 2;
 
     @Override
     public void run() {
-        int selection = INITIAL_SELECTION;
+        int selection;
         display();
         do {
             displayDirection();
@@ -29,9 +31,9 @@ public class AcceptRejectSwap implements Interface {
     }
 
     public void displayDirection() {
-        System.out.println("#############################");
+        System.out.println(DISPLAY_SEPARATOR);
         System.out.println("######      Usage      ######");
-        System.out.println("#############################");
+        System.out.println(DISPLAY_SEPARATOR);
         System.out.println("# A. RequestID              #");
         System.out.println("# ------------------------- #");
         System.out.println("# B. The requesting         #");
@@ -39,12 +41,12 @@ public class AcceptRejectSwap implements Interface {
         System.out.println("# ------------------------- #");
         System.out.println("# C. Timeslot range         #");
         System.out.println("# requested                 #");
-        System.out.println("#############################");
+        System.out.println(DISPLAY_SEPARATOR);
         System.out.println("#####      Example     ######");
-        System.out.println("#############################");
+        System.out.println(DISPLAY_SEPARATOR);
         // TODO rewrite here
         System.out.println("##         6; 7; 8        ###");
-        System.out.println("#############################");
+        System.out.println(DISPLAY_SEPARATOR);
         System.out.println();
         System.out.println("NOTE: It's important to enter information following");
         System.out.println("the example provided above using the delimiter, `;`");
@@ -53,13 +55,13 @@ public class AcceptRejectSwap implements Interface {
 
     @Override
     public void display() {
-        System.out.println("#########################################");
+        System.out.println(MENU_SEPARATOR);
         System.out.println("#####   Mechanic: Accept / Reject   #####");
         System.out.println("#######         Swap Menu         #######");
-        System.out.println("#########################################");
+        System.out.println(MENU_SEPARATOR);
         System.out.println("# 1 Manage swap requests                #");
         System.out.println("# 2 Go Back                             #");
-        System.out.println("#########################################");
+        System.out.println(MENU_SEPARATOR);
     }
 
     @Override
@@ -70,6 +72,9 @@ public class AcceptRejectSwap implements Interface {
                 break;
             case 2:
                 goBack();
+                break;
+            default:
+                System.out.println("Invalid selection!");
                 break;
         }
     }
