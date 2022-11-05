@@ -61,7 +61,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 		System.out.println("##### Manager: Setup Maintenance Service Prices Menu #####");
 		System.out.println(MENU_SEPARATOR);
 		System.out.println("## 1 Setup prices                    ##");
-		System.out.println("# 2 Go Back                          ##");
+		System.out.println("## 2 Go Back                         ##");
 		System.out.println(MENU_SEPARATOR);
 	}
 	@Override
@@ -72,8 +72,14 @@ public class SetupMaintenanceServicePrices implements Interface {
 		System.out.println("# A. Schedule A Price Tier  #");
 		System.out.println("# B. Schedule B Price Tier  #");
 		System.out.println("# C. Schedule C Price Tier  #");
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println("#####      Example      ######");
 		System.out.println("##       Ex: 6; 7; 8       ##");
-		System.out.println("## Enter the information in the order as shown below with the delimiter ‘;’ ##");	
+		System.out.println(DIRECTION_SEPARATOR);
+		System.out.println();
+		System.out.println("NOTE: It's important to enter information following");
+        System.out.println("the example provided above using the delimiter, `;`");
+        System.out.println();
 	}
 
 	@Override
