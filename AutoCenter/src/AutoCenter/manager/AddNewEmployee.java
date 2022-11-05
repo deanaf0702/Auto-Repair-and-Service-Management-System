@@ -5,13 +5,13 @@ import java.text.SimpleDateFormat;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
-import AutoCenter.models.Employee;
+import AutoCenter.models.User;
 import AutoCenter.services.UserService;
 
 public class AddNewEmployee implements UserFlowFunctionality{
 
 	private UserService userService = null;
-	private Employee employee = null;
+	private User User = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
     private static final int EXPECTED_INPUT_LENGTH = 11;
@@ -29,45 +29,28 @@ public class AddNewEmployee implements UserFlowFunctionality{
 
 		do {
 			display();
-			employee = new Employee();
+			User = new User();
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
 			if(inputs.length == EXPECTED_INPUT_LENGTH  )
 			{
-				try {
-					employee.employeeId = Integer.parseInt(inputs[0]);
-				}catch(Exception e) {
-					System.out.println(e);
-					break;
-				}
-
-				employee.firstName = inputs[1];
-				employee.lastName = inputs[2];
-				employee.username = inputs[3];
-				employee.password = inputs[4];
-				employee.address = inputs[5];
-				employee.email = inputs[6];
-				employee.phone = inputs[7];
-				employee.role = inputs[8];
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-				//Date stringDate = formatter.parse(input);
-				String startDate = inputs[9];
-				try {
-					employee.startDate = formatter.parse(startDate);
-				} catch (ParseException e) {
-
-					System.out.println(e);
-					break;
-
-				}
-				employee.salaryOrWage = Double.parseDouble(inputs[10]);
+				User.setUserId(Integer.parseInt(inputs[0]));
+				User.setFirstName(inputs[1]);
+				User.setLastName(inputs[2]);
+				User.setUsername(inputs[3]);
+				User.setPassword(inputs[4]);
+				User.setAddress(inputs[5]);
+				User.setEmail(inputs[6]);
+				User.setPhone(inputs[7]);
+				User.setRole(inputs[8]);
+				User.setSalaryOrWage(Double.parseDouble(inputs[10]));
 
 				displayMenu();
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
 			}else {
 				System.out.println(
-                        "Something went wrong. Please try again and make sure you provide all Eleven inputs for an employee."
+                        "Something went wrong. Please try again and make sure you provide all Eleven inputs for an User."
                                 + " Take a look at the usage detailed above if you need help.");
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
 
@@ -81,7 +64,7 @@ public class AddNewEmployee implements UserFlowFunctionality{
 		System.out.println("#############################");
 		System.out.println("######      Usage      ######");
 		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println("# A. Employee ID             #");
+		System.out.println("# A. User ID             #");
 		System.out.println("# B. First Name              #");
 		System.out.println("# C. Last Name               #");
 		System.out.println("# D. UserName                #");
@@ -90,11 +73,10 @@ public class AddNewEmployee implements UserFlowFunctionality{
 		System.out.println("# G. EmilAddress             #");
 		System.out.println("# H. Phone Number            #");
 		System.out.println("# I. Role                    #");
-		System.out.println("# J. Start Date              #");
-		System.out.println("# K. Compensation($)         #");
+		System.out.println("# J. Compensation($)         #");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println("#####      Example      ######");
-		System.out.println("## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;11-JUN-2022;30.99 ##");
+		System.out.println("## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;30.99 ##");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println();
 		System.out.println("NOTE: It's important to enter information following");
@@ -104,7 +86,7 @@ public class AddNewEmployee implements UserFlowFunctionality{
 
 	public void displayMenu()
 	{
-		System.out.println("## Add New Employee Menu ##");
+		System.out.println("## Add New User Menu ##");
 		System.out.println("1 Add");
 		System.out.println("2 Go Back");
 		System.out.println("##########");
@@ -117,13 +99,13 @@ public class AddNewEmployee implements UserFlowFunctionality{
 		switch(selection)
 		{
 			case 1:
-				result = userService.addEmployee(employee);
+				result = userService.addUser(User);
 				if(result) {
 					System.out.println("Added Successfully");
 					goBack();
 				}
 				else {
-					System.out.println("Failed adding a new employee");
+					System.out.println("Failed adding a new User");
 					goBack();
 
 					};

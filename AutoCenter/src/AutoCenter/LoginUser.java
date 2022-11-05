@@ -1,13 +1,14 @@
 package AutoCenter;
 
-public class User {
+public class LoginUser {
     private int id;
     private String role;
     private String firstName;
     private String lastName;
     private int centerId;
+    
 
-    public User() {
+    public LoginUser() {
     }
 
     public void setId(int value) {
