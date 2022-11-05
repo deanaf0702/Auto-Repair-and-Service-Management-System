@@ -5,25 +5,25 @@ import AutoCenter.Interface;
 public class DeleteCar implements Interface {
 
     @Override
-    public void run() {
+    public void run () {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void display() {
+    public void display () {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void navigate(int selection) {
+    public void navigate ( final int selection ) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void goBack() {
+    public void goBack () {
         // TODO Auto-generated method stub
 
     }
