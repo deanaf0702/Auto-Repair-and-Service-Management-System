@@ -19,8 +19,6 @@ alter table Mechanics drop constraint fk_Mechanic_Users;
 
 alter table Customers drop constraint fk_Customer_Users;
 
-alter table ServiceCenters drop constraint fk_ServiceCenterManager;
-
 alter table Prices drop constraint fk_Prices_ServiceCenters;
 alter table Prices drop constraint fk_Prices_Services;
 alter table Prices drop constraint fk_Prices_Model;
@@ -78,7 +76,12 @@ create table CarModels(
 create table Services(
 	serviceId number(3),
 	name char(50),
-	primary key (serviceId),
+	primary key (serviceId)
+);
+
+--RepairServiceCategory
+create table RepairServiceCategory(
+	category char(50) primary key
 );
 
 ---RepairServices 
@@ -90,10 +93,6 @@ create table RepairServices(
     constraint repairCategory_fk foreign key (category) references RepairServiceCategory (category)
 );
 
---RepairServiceCategory
-create table RepairServiceCategory(
-	category char(50) primary key
-);
 
 --MaintenanceServices
 create table MaintenanceServices(
@@ -105,14 +104,25 @@ create table MaintenanceServices(
 --ScheduledServices
 create table MaintHasServices(
     serviceId number(3),
-    serviceName char(25),
-    constraint fk_Schedule_MaintenanceServices foreign key (serviceId) references MaintenanceServices (serviceid) on delete cascade,
+    serviceName char(50),
+    constraint fk_Schedule_MaintenanceServices foreign key (serviceId) references MaintenanceServices (serviceid) on delete cascade
 );
 
 --Roles
 create table Roles(
 	roleName char(20) primary key
-)
+);
+
+--ServiceCenters
+create table ServiceCenters(
+	centerId integer primary key,
+	minWage number(10, 2),
+	maxWage number(10, 2),
+	address varchar2(200),
+	phone char(25),
+	satOpen number(1),
+	isActive number(1)
+);
 
 --Users
 create table Users(
@@ -129,7 +139,7 @@ create table Users(
 	primary key (userId, serviceCenterId),
 	unique (username),
 	constraint fk_userRole foreign key (role) references Roles (roleName),
-	constraint fk_user_ServiceCenter foreign key (serviceCenterId) references SerivceCenters(centerId) on delete cascade
+	constraint fk_user_ServiceCenter foreign key (serviceCenterId) references ServiceCenters (centerId) ON DELETE CASCADE
 );
 
 --Managers
@@ -139,7 +149,7 @@ create table Managers(
 	salary number(10, 2),
 	primary key (userId, serviceCenterId),
 	constraint fk_Manager_Users foreign key (userId, serviceCenterId) references Users (userId, serviceCenterId) on delete cascade
-)
+);
 
 --Receptionists
 create table Receptionists(
@@ -148,7 +158,7 @@ create table Receptionists(
 	salary number(10, 2),
 	primary key (userId, serviceCenterId),
 	constraint fk_Receptionist_Users foreign key (userId, serviceCenterId) references Users (userId, serviceCenterId) on delete cascade
-)
+);
 
 --Mechanics
 create table Mechanics(
@@ -157,7 +167,7 @@ create table Mechanics(
 	wage number(10, 2),
 	primary key (userId, serviceCenterId),
 	constraint fk_Mechanic_Users foreign key (userId, serviceCenterId) references Users (userId, serviceCenterId) on delete cascade
-)
+);
 
 --Customers
 create table Customers(
@@ -167,18 +177,8 @@ create table Customers(
 	isActive number(1),
 	primary key (userId, serviceCenterId),
 	constraint fk_Customer_Users foreign key (userId, serviceCenterId) references Users (userId, serviceCenterId) on delete cascade
-)
-
---ServiceCenters
-create table ServiceCenters(
-centerId integer primary key,
-minWage number(10, 2),
-maxWage number(10, 2),
-address varchar2(200),
-phone char(25),
-satOpen number(1),
-isActive number(1)
 );
+
 
 --Prices
 create table Prices(
@@ -187,8 +187,8 @@ create table Prices(
     model char(15),
     price number(7, 2),
     hours integer,
-    constraint pk_Prices_centerId_model_serviceId primary key(centerId, serviceId, model),
-    constraint fk_Prices_ServiceCenters foreign key(centerId) references ServiceCenters(centerId) on delete cascade,
+    constraint pk_Prices_centerId_model_serviceId primary key (centerId, serviceId, model),
+    constraint fk_Prices_ServiceCenters foreign key(centerId) references ServiceCenters (centerId) on delete cascade,
     constraint fk_Prices_Services foreign key (serviceId) references Services (serviceId) on delete cascade,
     constraint fk_Prices_Model foreign key (model) references CarModels (model)
 );
@@ -201,21 +201,6 @@ create table TimeSlots(
 	primary key (slotNumber)
 );
 
---Schedule
-create table Schedule(
-	mechanicId number(9),
-	centerId integer,
-	week number(1),
-	day number(2),
-	timeSlot number(2),
-	activity char(10),
-	serviceEventId,
-	primary key (mechanicId, week, day, timeSlot),
-	foreign key fk_Schedule_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, centerId),
-	foreign key fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber),
-	foreign key fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents(serviceEventId)
-);
-
 ---CustomerVehicles
 create table CustomerVehicles(
 vin char(8) primary key,
@@ -225,8 +210,8 @@ model char(15),
 mileage int,
 year number(4),
 lastMClass char(1),
-constraint fk_CustomerVehicles_Customers foreign key (customerId, centerId) references Customers(userId, centerId),
-constraint fk_CustomerVehicles_CarModels foreign key (model) references CarModels(model)
+constraint fk_CustomerVehicles_Customers foreign key (customerId, centerId) references Customers (userId, serviceCenterId),
+constraint fk_CustomerVehicles_CarModels foreign key (model) references CarModels (model)
 );
 
 --ServiceEvent
@@ -242,16 +227,31 @@ create table ServiceEvents(
 	isPaid number(1),
 	constraint fk_ServiceEvent_vin foreign key (vin) references CustomerVehicles (vin) on delete cascade,
 	constraint fk_ServiceEvent_centerId foreign key (centerId) references ServiceCenters (centerId),
-	constraint fk_ServiceEvent_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, centerId),
+	constraint fk_ServiceEvent_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, serviceCenterId),
 	constraint fk_ServiceEvent_start foreign key (startTimeSlot) references TimeSlots (slotNumber),
 	constraint fk_ServiceEvent_end foreign key (endTimeSlot) references TimeSlots (slotNumber)
+);
+
+--Schedule
+create table Schedule(
+	mechanicId number(9),
+	centerId integer,
+	week number(1),
+	day number(2),
+	timeSlot number(2),
+	activity char(10),
+	serviceEventId integer,
+	primary key (mechanicId, week, day, timeSlot),
+	constraint fk_Schedule_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, serviceCenterId),
+	constraint fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber),
+	constraint fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents (serviceEventId)
 );
 
 --EventOnServices
 create table EventOnServices(
 	eventId integer,
 	serviceId number(3),
-	primary key (integer, serviceId),
+	primary key (eventId, serviceId),
 	constraint fk_EventOnServices_eventId foreign key (eventId) references ServiceEvents (serviceEventId),
 	constraint fk_EventOnServices_serviceId foreign key (serviceId) references Services (serviceId)
 );

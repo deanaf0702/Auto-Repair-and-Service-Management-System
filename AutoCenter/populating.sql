@@ -18,6 +18,13 @@ insert into Services values (113, 'A');
 insert into Services values (114, 'B');
 insert into Services values (115, 'C');
 
+insert into RepairServiceCategory values ('Engine Services');
+insert into RepairServiceCategory values ('Exhaust Services');
+insert into RepairServiceCategory values ('Electrical Services');
+insert into RepairServiceCategory values ('Transmission Services');
+insert into RepairServiceCategory values ('Tire Services');
+insert into RepairServiceCategory values ('Heating and A/C Services');
+
 insert into RepairServices values (101, 'Engine Services');
 insert into RepairServices values (102, 'Engine Services');
 insert into RepairServices values (103, 'Exhaust Services');
@@ -30,13 +37,6 @@ insert into RepairServices values (109, 'Tire Services');
 insert into RepairServices values (110, 'Tire Services');
 insert into RepairServices values (111, 'Heating and A/C Services');
 insert into RepairServices values (112, 'Heating and A/C Services');
-
-insert into RepairServiceCategory values ('Engine Services');
-insert into RepairServiceCategory values ('Exhaust Services');
-insert into RepairServiceCategory values ('Electrical Services');
-insert into RepairServiceCategory values ('Transmission Services');
-insert into RepairServiceCategory values ('Tire Services');
-insert into RepairServiceCategory values ('Heating and A/C Services');
 
 insert into MaintenanceServices values (113);
 insert into MaintenanceServices values (114);
@@ -60,6 +60,10 @@ insert into Roles values ('Receptionist');
 insert into Roles values ('Mechanic');
 insert into Roles values ('Customer');
 
+insert into ServiceCenters values (30001, 30, 40, '3921 Western Blvd, Raleigh, NC 27606', '3392601234', 1, 0);
+insert into ServiceCenters values (30002, 25, 35, '4500 Preslyn Dr Suite 103, Raleigh, NC 27616', '8576890280', 1, 0);
+insert into ServiceCenters values (30003, 20, 25, '9515 Chapel Hill Rd, Morrisville, NC 27560', '7798182200', 0, 1);
+
 insert into Users values (123456789, 'John', 'Doe', '8636368778', 'jdoe@gmail.com', '1378 University Woods, Raleigh, NC 27612', 30001, '30001-123456789', 'Doe', 'Manager');
 insert into Users values (987654321, 'Rachel', 'Brooks', '8972468552', 'rbrooks@ymail.com', '2201 Gorman Parkwood, Raleigh, NC 27618', 30002, '30002-987654321', 'Brooks', 'Manager');
 insert into Users values (987612345, 'Caleb', 'Smith', '8547963210', 'csmith@yahoo.com', '1538 Red Bud Lane, Morrisville, NC 27560', 30003, '30003-987612345', 'Smith', 'Manager');
@@ -81,7 +85,7 @@ insert into Users values (10001, 'Peter', 'Parker', '3391126787', 'lalberti@yaho
 insert into Users values (10002, 'Diana', 'Prince', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30001, '30001-10002', 'Prince', 'Customer');
 insert into Users values (10053, 'Billy', 'Batson', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30002, '30002-10053', 'Batson', 'Customer');
 insert into Users values (10010, 'Bruce', 'Wayne', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30002, '30002-10010', 'Wayne', 'Customer');
-insert into Users values (10001, 'Steve', 'Rogers', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30003, '30002-10001', 'Rogers', 'Customer');
+insert into Users values (10001, 'Steve', 'Rogers', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30002, '30002-10001', 'Rogers', 'Customer');
 insert into Users values (10035, 'Happy', 'Hogan', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30002, '30002-10035', 'Hogan', 'Customer');
 insert into Users values (10002, 'Tony', 'Stark', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30003, '30003-10002', 'Stark', 'Customer');
 insert into Users values (10003, 'Natasha', 'Romanoff', '3391126787', 'lalberti@yahoo.com', '100 Valley Glen Drive, Morrisville, NC 27560', 30003, '30003-10003', 'Romanoff', 'Customer');
@@ -122,10 +126,6 @@ insert into Customers values (10011, 30003, 1, 1);
 insert into Customers values (10062, 30003, 1, 1);
 insert into Customers values (10501, 30003, 1, 1);
 insert into Customers values (10010, 30003, 1, 1);
-
-insert into ServiceCenters values (30001, 30, 40, '3921 Western Blvd, Raleigh, NC 27606', '3392601234', 1, 0);
-insert into ServiceCenters values (30002, 25, 35, '4500 Preslyn Dr Suite 103, Raleigh, NC 27616', '8576890280', 1, 0);
-insert into ServiceCenters values (30003, 20, 25, '9515 Chapel Hill Rd, Morrisville, NC 27560', '7798182200', 0, 1);
 
 insert into Prices values (30001, 101, 'Honda', 140, 1);
 insert into Prices values (30001, 101, 'Toyota', 160, 1);
@@ -277,26 +277,6 @@ insert into TimeSlots values (9, 17, 18);
 insert into TimeSlots values (10, 18, 19);
 insert into TimeSlots values (11, 19, 20);
 
-insert into Schedule values (123405678, 30003, 1, 2, 1, 'Work', 1);
-insert into Schedule values (123450678, 30003, 1, 2, 1, 'Work', 2);
-insert into Schedule values (123456780, 30003, 1, 1, 1, 'Work', 3);
-insert into Schedule values (423186759, 30002, 2, 4, 2, 'Work', 4);
-insert into Schedule values (423186759, 30002, 2, 4, 3, 'Work', 4);
-insert into Schedule values (423186759, 30002, 2, 4, 4, 'Work', 4);
-insert into Schedule values (423186759, 30002, 2, 4, 5, 'Work', 4);
-insert into Schedule values (125689347, 30002, 2, 1, 3, 'Work', 5);
-insert into Schedule values (125689347, 30002, 2, 1, 4, 'Work', 5);
-insert into Schedule values (125689347, 30002, 2, 1, 5, 'Work', 5);
-insert into Schedule values (789123456, 30002, 2, 6, 2, 'Work', 6);
-insert into Schedule values (789123456, 30002, 2, 6, 3, 'Work', 6);
-insert into Schedule values (789123456, 30002, 2, 6, 4, 'Work', 6);
-insert into Schedule values (789123456, 30002, 2, 6, 5, 'Work', 6);
-insert into Schedule values (789123456, 30002, 2, 6, 6, 'Work', 6);
-insert into Schedule values (789123456, 30002, 2, 6, 7, 'Work', 6);
-insert into Schedule values (125689347, 30002, 3, 5, 5, 'Work', 7);
-insert into Schedule values (125689347, 30002, 3, 5, 6, 'Work', 7);
-insert into Schedule values (125689347, 30002, 3, 5, 7, 'Work', 7);
-
 insert into CustomerVehicles values ('4Y1BL658', 10001, 30001, 'Toyota', 53000, 2007, 'B');
 insert into CustomerVehicles values ('7A1ST264', 10002, 30001, 'Honda', 117000, 1999, 'A');
 insert into CustomerVehicles values ('5TR3K914', 10053, 30002, 'Nissan', 111000, 2015, 'C');
@@ -318,6 +298,26 @@ insert into ServiceEvents values (5, '5TR3K914', 30002, 125689347, 2, 1, 3, 5, 1
 insert into ServiceEvents values (6, '15DC9A87', 30002, 789123456, 2, 6, 2, 7, 1);
 insert into ServiceEvents values (7, '18S5R2D8', 30002, 125689347, 3, 5, 5, 7, 1);
 
+insert into Schedule values (123405678, 30003, 1, 2, 1, 'Work', 1);
+insert into Schedule values (123450678, 30003, 1, 2, 1, 'Work', 2);
+insert into Schedule values (123456780, 30003, 1, 1, 1, 'Work', 3);
+insert into Schedule values (423186759, 30002, 2, 4, 2, 'Work', 4);
+insert into Schedule values (423186759, 30002, 2, 4, 3, 'Work', 4);
+insert into Schedule values (423186759, 30002, 2, 4, 4, 'Work', 4);
+insert into Schedule values (423186759, 30002, 2, 4, 5, 'Work', 4);
+insert into Schedule values (125689347, 30002, 2, 1, 3, 'Work', 5);
+insert into Schedule values (125689347, 30002, 2, 1, 4, 'Work', 5);
+insert into Schedule values (125689347, 30002, 2, 1, 5, 'Work', 5);
+insert into Schedule values (789123456, 30002, 2, 6, 2, 'Work', 6);
+insert into Schedule values (789123456, 30002, 2, 6, 3, 'Work', 6);
+insert into Schedule values (789123456, 30002, 2, 6, 4, 'Work', 6);
+insert into Schedule values (789123456, 30002, 2, 6, 5, 'Work', 6);
+insert into Schedule values (789123456, 30002, 2, 6, 6, 'Work', 6);
+insert into Schedule values (789123456, 30002, 2, 6, 7, 'Work', 6);
+insert into Schedule values (125689347, 30002, 3, 5, 5, 'Work', 7);
+insert into Schedule values (125689347, 30002, 3, 5, 6, 'Work', 7);
+insert into Schedule values (125689347, 30002, 3, 5, 7, 'Work', 7);
+
 insert into EventOnServices values (1, 110);
 insert into EventOnServices values (2, 101);
 insert into EventOnServices values (3, 109);
@@ -325,8 +325,3 @@ insert into EventOnServices values (4, 105);
 insert into EventOnServices values (5, 111);
 insert into EventOnServices values (6, 114);
 insert into EventOnServices values (7, 113);
-
-
-
-
-
