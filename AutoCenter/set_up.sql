@@ -27,6 +27,7 @@ alter table Prices drop constraint fk_Prices_Model;
 
 alter table Schedule drop constraint fk_Schedule_Mechanic;
 alter table Schedule drop constraint fk_Schedule_TimeSlot;
+alter table Schedule drop constraint fk_Schedule_Event;
 
 alter table CustomerVehicles drop constraint fk_CustomerVehicles_Customers;
 alter table CustomerVehicles drop constraint fk_CustomerVehicles_CarModels;
@@ -208,9 +209,11 @@ create table Schedule(
 	day number(2),
 	timeSlot number(2),
 	activity char(10),
+	serviceEventId,
 	primary key (mechanicId, week, day, timeSlot),
 	foreign key fk_Schedule_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, centerId),
-	foreign key fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber)
+	foreign key fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber),
+	foreign key fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents(serviceEventId)
 );
 
 ---CustomerVehicles
