@@ -1,10 +1,10 @@
 package AutoCenter.administrator;
 
-import AutoCenter.Helpers;
-import AutoCenter.Interface;
+import AutoCenter.UIHelpers;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
-public class SystemSetUp implements Interface {
+public class SystemSetUp implements UserFlowFunctionality {
 
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 3;
@@ -18,7 +18,7 @@ public class SystemSetUp implements Interface {
         display();
 
         do {
-            displayDirection();
+            displayDirections();
             // TODO add file parsing here
             System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                     + ") from the given options displayed above: ");
@@ -28,7 +28,7 @@ public class SystemSetUp implements Interface {
         navigate(selection);
     }
 
-    private void displayDirection() {
+    private void displayDirections() {
         System.out.println(DIRECTION_SEPARATOR);
         System.out.println("#####   System Set Up: Usage    #####");
         System.out.println(DIRECTION_SEPARATOR);
@@ -44,7 +44,7 @@ public class SystemSetUp implements Interface {
         System.out.println(DIRECTION_SEPARATOR);
         // TODO add example here
         System.out.println(DIRECTION_SEPARATOR);
-        Helpers.displayUsageDirections();
+        UIHelpers.displayUsageDirections();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SystemSetUp implements Interface {
                 "# 3 Go back                         #"
         };
 
-        Helpers.displayMenu("Admin: System Set Up Menu", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu("Admin: System Set Up Menu", menuOptions, MENU_SEPARATOR);
     }
 
     @Override

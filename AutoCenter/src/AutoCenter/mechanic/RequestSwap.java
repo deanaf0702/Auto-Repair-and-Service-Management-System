@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
@@ -9,7 +9,7 @@ import AutoCenter.ScanHelper;
  *
  * @author jkersey
  */
-public class RequestSwap implements Interface {
+public class RequestSwap implements UserFlowFunctionality {
 
     private static final int INITIAL_SELECTION = 0;
     private static final int MIN_SELECTION = 1;

@@ -1,8 +1,8 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 
-public class PayInvoice implements Interface {
+public class PayInvoice implements UserFlowFunctionality {
 
     @Override
     public void run() {

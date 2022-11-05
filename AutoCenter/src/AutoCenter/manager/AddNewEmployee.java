@@ -3,12 +3,12 @@ package AutoCenter.manager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.Employee;
 import AutoCenter.services.UserService;
 
-public class AddNewEmployee implements Interface{
+public class AddNewEmployee implements UserFlowFunctionality{
 
 	private UserService userService = null;
 	private Employee employee = null;
@@ -17,16 +17,16 @@ public class AddNewEmployee implements Interface{
     private static final int EXPECTED_INPUT_LENGTH = 11;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-    
-	public AddNewEmployee() 
+
+	public AddNewEmployee()
 	{
 		userService = new UserService();
 	}
-	
+
 	public void run() {
 		int selection = 2;
 		int inputLength = 11;
-		
+
 		do {
 			display();
 			employee = new Employee();
@@ -40,7 +40,7 @@ public class AddNewEmployee implements Interface{
 					System.out.println(e);
 					break;
 				}
-				
+
 				employee.firstName = inputs[1];
 				employee.lastName = inputs[2];
 				employee.username = inputs[3];
@@ -55,13 +55,13 @@ public class AddNewEmployee implements Interface{
 				try {
 					employee.startDate = formatter.parse(startDate);
 				} catch (ParseException e) {
-					
+
 					System.out.println(e);
 					break;
-					
+
 				}
 				employee.salaryOrWage = Double.parseDouble(inputs[10]);
-				
+
 				displayMenu();
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
@@ -70,7 +70,7 @@ public class AddNewEmployee implements Interface{
                         "Something went wrong. Please try again and make sure you provide all Eleven inputs for an employee."
                                 + " Take a look at the usage detailed above if you need help.");
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
-				
+
 			}
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
@@ -108,41 +108,41 @@ public class AddNewEmployee implements Interface{
 		System.out.println("1 Add");
 		System.out.println("2 Go Back");
 		System.out.println("##########");
-		
-		
+
+
 	}
 	@Override
 	public void navigate(int selection) {
 		boolean result = false;
 		switch(selection)
 		{
-			case 1: 
-				result = userService.addEmployee(employee);	
+			case 1:
+				result = userService.addEmployee(employee);
 				if(result) {
 					System.out.println("Added Successfully");
 					goBack();
 				}
-				else { 
+				else {
 					System.out.println("Failed adding a new employee");
 					goBack();
-					
+
 					};
-				
+
 				break;
 			case 2: goBack();
 			break;
 			default: run();
 			break;
 		}
-		
+
 	}
 
 	@Override
 	public void goBack() {
 		new Manager().run();
-		
+
 	}
 
-	
+
 
 }

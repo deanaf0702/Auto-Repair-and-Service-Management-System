@@ -3,11 +3,11 @@ package AutoCenter.customer;
 import java.sql.ResultSet;
 
 import AutoCenter.Home;
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.repository.DbConnection;
 
-public class ViewProfile implements Interface {
+public class ViewProfile implements UserFlowFunctionality {
 
     @Override
     public void run() {

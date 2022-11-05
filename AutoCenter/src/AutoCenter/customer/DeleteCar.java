@@ -1,8 +1,8 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 
-public class DeleteCar implements Interface {
+public class DeleteCar implements UserFlowFunctionality {
 
     @Override
     public void run () {

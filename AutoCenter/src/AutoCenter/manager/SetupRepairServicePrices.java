@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.MaintenanceService;
 import AutoCenter.models.RepairService;
@@ -12,7 +12,7 @@ import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
 import AutoCenter.services.UserService;
 
-public class SetupRepairServicePrices implements Interface{
+public class SetupRepairServicePrices implements UserFlowFunctionality{
 
 	private RepositoryService repoService = null;
 	int inputLength = 12;
@@ -22,7 +22,7 @@ public class SetupRepairServicePrices implements Interface{
     private static final int EXPECTED_INPUT_LENGTH = 12;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-	
+
 	public SetupRepairServicePrices()
 	{
 		repoService = new RepositoryService();
@@ -40,7 +40,7 @@ public class SetupRepairServicePrices implements Interface{
 				{
 					priceTiers[i] = Integer.parseInt(inputs[i].trim());
 				}
-				
+
 				displayMenu();
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
@@ -48,10 +48,10 @@ public class SetupRepairServicePrices implements Interface{
 				System.out.println(
                         "Something went wrong. Please try again."
                                 + " Take a look at the usage detailed above if you need help.");
-			}	
+			}
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
-		
+
 	}
 
 	public void reset() {
@@ -82,7 +82,7 @@ public class SetupRepairServicePrices implements Interface{
 		System.out.println("NOTE: It's important to enter information following");
         System.out.println("the example provided above using the delimiter, `;`");
         System.out.println();
-		
+
 	}
 
 	public void displayMenu()
@@ -98,7 +98,7 @@ public class SetupRepairServicePrices implements Interface{
 	public void navigate(int selection) {
 		switch(selection)
 		{
-			case 1: 
+			case 1:
 				if(save()) goBack();
 				else {
 					System.out.println("Somthing went wrong!");
@@ -111,12 +111,12 @@ public class SetupRepairServicePrices implements Interface{
 				break;
 		}
 	}
-	
+
 	public boolean save()
 	{
 		boolean valid = true;
 		String query = "Insert into RepairServicePriced (centerId, serviceId, model, pricetier, price) values(?, ?, ?, ?, ?)";
-		
+
 		try {
 			int centerId = repoService.getCenterId();
 			List<RepairService> list = repoService.repairServiceLookup();
@@ -142,7 +142,7 @@ public class SetupRepairServicePrices implements Interface{
 								int result = preStmt.executeUpdate();
 								if(result < 1)
 								{
-									System.out.println("Database error: " + service.getName() 
+									System.out.println("Database error: " + service.getName()
 									+ ", " + model
 									+ ", " + priceTiers[tierCount]);
 									valid = false;
@@ -154,7 +154,7 @@ public class SetupRepairServicePrices implements Interface{
 						db.close();
 					}
 				}
-			}	
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		};
@@ -164,7 +164,7 @@ public class SetupRepairServicePrices implements Interface{
 	@Override
 	public void goBack() {
 		new SetupServicePrices().run();
-		
+
 	}
 
 }

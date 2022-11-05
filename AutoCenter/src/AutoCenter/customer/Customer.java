@@ -1,10 +1,10 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.services.UserService;
 
-public class Customer implements Interface {
+public class Customer implements UserFlowFunctionality {
 
   private static int INITIAL_SELECTION = 4;
   private static int MIN_SELECTION = 1;

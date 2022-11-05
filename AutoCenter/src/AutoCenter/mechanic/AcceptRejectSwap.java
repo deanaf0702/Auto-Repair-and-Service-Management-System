@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
@@ -10,7 +10,7 @@ import AutoCenter.ScanHelper;
  *
  * @author jkersey
  */
-public class AcceptRejectSwap implements Interface {
+public class AcceptRejectSwap implements UserFlowFunctionality {
 
     private static final String DISPLAY_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#########################################";

@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.services.UserService;
 
@@ -10,7 +10,7 @@ import AutoCenter.services.UserService;
  *
  * @author jkersey
  */
-public class Mechanic implements Interface {
+public class Mechanic implements UserFlowFunctionality {
 
     private static int INITIAL_SELECTION = 5;
     private static int MIN_SELECTION = 1;

@@ -4,12 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.Employee;
 import AutoCenter.services.UserService;
 
-public class AddEmployees implements Interface{
+public class AddEmployees implements UserFlowFunctionality{
 
 	private UserService userService = null;
 	private Employee employee = null;
@@ -18,15 +18,15 @@ public class AddEmployees implements Interface{
     private static final int EXPECTED_INPUT_LENGTH = 11;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-    
+
 	public AddEmployees()
 	{
 		userService = new UserService();
 	}
-	
+
 	public void run() {
 		int selection = MAX_SELECTION;
-		
+
 		display();
 		do {
 			employee = new Employee();
@@ -54,10 +54,10 @@ public class AddEmployees implements Interface{
 				try {
 					employee.startDate = formatter.parse(startDate);
 				} catch (ParseException e) {
-					
+
 					System.out.println(e);
 					break;
-					
+
 				}
 				employee.salaryOrWage = Double.parseDouble(inputs[10]);
 				displayMenu();
@@ -99,8 +99,8 @@ public class AddEmployees implements Interface{
 		System.out.println("NOTE: It's important to enter information following");
         System.out.println("the example provided above using the delimiter, `;`");
         System.out.println();
-		
-		
+
+
 	}
 	public void displayMenu()
 	{
@@ -117,8 +117,8 @@ public class AddEmployees implements Interface{
 		boolean result = false;
 		switch(selection)
 		{
-			case 1: 
-				result = userService.addEmployee(employee);	
+			case 1:
+				result = userService.addEmployee(employee);
 				if(result) System.out.println("Added Successfully!!");
 				run();
 				break;
@@ -132,7 +132,7 @@ public class AddEmployees implements Interface{
 	@Override
 	public void goBack() {
 		new SetupStore().run();
-		
+
 	}
 
 }

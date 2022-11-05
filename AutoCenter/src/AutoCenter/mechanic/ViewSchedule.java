@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
@@ -9,18 +9,18 @@ import AutoCenter.ScanHelper;
  *
  * @author jkersey
  */
-public class ViewSchedule implements Interface {
+public class ViewSchedule implements UserFlowFunctionality {
 
-    private static int INITIAL_SELECTION = 0;
-    private static int MIN_SELECTION = 1;
-    private static int MAX_SELECTION = 1;
+    private static final int MIN_SELECTION = 1;
+    private static final int MAX_SELECTION = 1;
 
     @Override
     public void run() {
-        int selection = INITIAL_SELECTION;
+        int selection;
         display();
         do {
-            System.out.print("Enter choice (1) from the given options displayed above: ");
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 

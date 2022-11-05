@@ -1,10 +1,10 @@
 package AutoCenter.manager;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.services.UserService;
 
-public class Manager implements Interface {
+public class Manager implements UserFlowFunctionality {
 
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 3;

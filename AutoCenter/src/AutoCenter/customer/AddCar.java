@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import AutoCenter.Home;
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.repository.DbConnection;
 
-public class AddCar implements Interface {
+public class AddCar implements UserFlowFunctionality {
 
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;

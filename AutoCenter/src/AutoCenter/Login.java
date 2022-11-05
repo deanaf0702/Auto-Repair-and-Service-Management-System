@@ -7,7 +7,7 @@ import AutoCenter.mechanic.Mechanic;
 import AutoCenter.receptionist.Receptionist;
 import AutoCenter.services.UserService;
 
-public class Login implements Interface {
+public class Login implements UserFlowFunctionality {
 
     private static int INITIAL_SELECTION = 2;
     private static int MIN_SELECTION = 1;

@@ -1,7 +1,7 @@
 package AutoCenter;
 
-public class Helpers {
-    private Helpers() {
+public class UIHelpers {
+    private UIHelpers() {
     }
 
     public static void displayMenu(String menuTitle, String[] menuContents, String separator) {

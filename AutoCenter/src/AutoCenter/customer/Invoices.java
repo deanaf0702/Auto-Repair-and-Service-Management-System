@@ -1,9 +1,9 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
-public class Invoices implements Interface {
+public class Invoices implements UserFlowFunctionality {
 
   private static int INITIAL_SELECTION = 0;
   private static int MIN_SELECTION = 1;

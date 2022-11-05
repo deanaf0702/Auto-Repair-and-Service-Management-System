@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 
 /**
  * Handles functionality for manage swap requests menu of mechanics including
@@ -9,7 +9,7 @@ import AutoCenter.Interface;
  *
  * @author jkersey
  */
-public class ManageSwapRequests implements Interface {
+public class ManageSwapRequests implements UserFlowFunctionality {
 
     @Override
     public void run() {

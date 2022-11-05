@@ -1,9 +1,9 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
-public class ViewAndUpdateProfile implements Interface {
+public class ViewAndUpdateProfile implements UserFlowFunctionality {
 
     public static final String MENU_SEPARATOR = "##################################################";
 

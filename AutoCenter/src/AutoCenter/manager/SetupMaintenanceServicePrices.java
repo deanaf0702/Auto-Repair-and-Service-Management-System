@@ -2,14 +2,14 @@ package AutoCenter.manager;
 
 import java.util.List;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.MaintenanceService;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
 import AutoCenter.services.UserService;
 
-public class SetupMaintenanceServicePrices implements Interface {
+public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
 	private RepositoryService repoService = null;
 	private Integer[] ABCPriceTier;
@@ -18,7 +18,7 @@ public class SetupMaintenanceServicePrices implements Interface {
     private static final int EXPECTED_INPUT_LENGTH = 3;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-    
+
 	public SetupMaintenanceServicePrices()
 	{
 		repoService = new RepositoryService();
@@ -26,7 +26,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 	@Override
 	public void run() {
 		int selection = MAX_SELECTION;
-		
+
 		do {
 			display();
 			reset();
@@ -45,7 +45,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 				System.out.println(
                         "Something went wrong. Please try again."
                                 + " Take a look at the usage detailed above if you need help.");
-			}	
+			}
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
 	}
@@ -53,7 +53,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 	public void reset()
 	{
 		ABCPriceTier = new Integer[EXPECTED_INPUT_LENGTH];
-		
+
 	}
 	public void displayMenu()
 	{
@@ -89,26 +89,26 @@ public class SetupMaintenanceServicePrices implements Interface {
 			case 1: if(save()) {
 						System.out.println("Added Successfully!!");
 						goBack();
-						}		
+						}
 					else {
 						System.out.println("Somthing went wrong!");
 						goBack();
 					}
-						
+
 				break;
 			case 2: goBack();
 				break;
 			default: goBack();
 				break;
-		}	
+		}
 	}
 
 	public boolean save()
 	{
 		boolean valid = true;
 		try {
-			
-		
+
+
 			List<MaintenanceService> list = repoService.maintServiceLookup();
 			List<String> carModels = repoService.carModelLookup();
 			int centerId = repoService.getCenterId();
@@ -120,7 +120,7 @@ public class SetupMaintenanceServicePrices implements Interface {
 					try {
 						int priceCount = 0;
 						for(MaintenanceService item: list) {
-							
+
 							for(String model: carModels) {
 								double price = repoService.getServicePrice(centerId, model, ABCPriceTier[priceCount]);
 								String query = addMaintServicePricedQuery(
@@ -129,10 +129,10 @@ public class SetupMaintenanceServicePrices implements Interface {
 										model,
 										ABCPriceTier[priceCount],
 										price);
-								
+
 								boolean result = db.executeUpdate(query);
 								if(!result) {
-									System.out.println("Database error: " + item.getScheduleType() 
+									System.out.println("Database error: " + item.getScheduleType()
 											+ ", " + model
 											+ ", " + ABCPriceTier[priceCount]);
 									valid = false;
@@ -146,9 +146,9 @@ public class SetupMaintenanceServicePrices implements Interface {
 				}else {
 					valid = false;
 				}
-			
+
 			}
-			
+
 		}catch(Exception e)
 		{
 			System.out.println(e.getMessage());
@@ -156,17 +156,17 @@ public class SetupMaintenanceServicePrices implements Interface {
 		}
 		return valid;
 	}
-	
+
 	public String addMaintServicePricedQuery(int serviceId, int centerId, String model, int priceTier, double price)
 	{
 		return ("insert into MaintServicePriced (serviceId, centerId, model, priceTier, price) "
 				+ "values("+ serviceId + ", " + centerId + ", '" + model + "', " + priceTier + ", " + price + ")");
 	}
-		
+
 	@Override
 	public void goBack() {
 		new SetupServicePrices().run();
-		
+
 	}
 
 }

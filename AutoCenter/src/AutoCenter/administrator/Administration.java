@@ -1,11 +1,11 @@
 package AutoCenter.administrator;
 
-import AutoCenter.Helpers;
-import AutoCenter.Interface;
+import AutoCenter.UIHelpers;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.services.UserService;
 
-public class Administration implements Interface {
+public class Administration implements UserFlowFunctionality {
 
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 4;
@@ -40,7 +40,7 @@ public class Administration implements Interface {
                 "# 4 Logout                    #"
         };
 
-        Helpers.displayMenu("Admin: Landing Page", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu("Admin: Landing Page", menuOptions, MENU_SEPARATOR);
     }
 
     @Override

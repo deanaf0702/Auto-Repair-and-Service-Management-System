@@ -1,13 +1,13 @@
 package AutoCenter.receptionist;
 
 import AutoCenter.Home;
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.manager.AddNewEmployee;
 import AutoCenter.manager.SetupStore;
 import AutoCenter.services.UserService;
 
-public class Receptionist implements Interface{
+public class Receptionist implements UserFlowFunctionality{
 
 	private UserService userservice = null;
 	public Receptionist()
@@ -22,7 +22,7 @@ public class Receptionist implements Interface{
 			System.out.println("Enter choice(1-3)");
 			selection = ScanHelper.nextInt();
 		}while(!(selection >=1 && selection <=3));
-		
+
 		navigate(selection);
 	}
 
@@ -51,7 +51,7 @@ public class Receptionist implements Interface{
 	@Override
 	public void goBack() {
 		userservice.logout();
-		
+
 	}
 
 }

@@ -1,8 +1,8 @@
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 
-public class ViewServiceHistory implements Interface {
+public class ViewServiceHistory implements UserFlowFunctionality {
 
     @Override
     public void run() {

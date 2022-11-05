@@ -1,6 +1,6 @@
 package AutoCenter.mechanic;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
@@ -10,7 +10,7 @@ import AutoCenter.ScanHelper;
  *
  * @author jkersey
  */
-public class RequestTimeOff implements Interface {
+public class RequestTimeOff implements UserFlowFunctionality {
 
     private static final int INITIAL_SELECTION = 0;
     private static final int MIN_SELECTION = 1;

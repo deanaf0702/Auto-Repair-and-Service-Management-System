@@ -1,9 +1,9 @@
 package AutoCenter.manager;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
-public class SetupServicePrices implements Interface {
+public class SetupServicePrices implements UserFlowFunctionality {
 
   @Override
   public void run() {

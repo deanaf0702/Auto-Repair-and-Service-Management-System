@@ -1,13 +1,13 @@
 /** */
 package AutoCenter.customer;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
  * @author deoks, jkersey
  */
-public class ViewAndScheduleService implements Interface {
+public class ViewAndScheduleService implements UserFlowFunctionality {
 
     private static int INITIAL_SELECTION = 0;
     private static int MIN_SELECTION = 1;

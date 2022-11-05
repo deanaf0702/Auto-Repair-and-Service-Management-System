@@ -3,7 +3,7 @@ package AutoCenter.receptionist;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.Employee;
 import AutoCenter.receptionist.Receptionist;
@@ -11,7 +11,7 @@ import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
 import AutoCenter.services.UserService;
 
-public class AddNewCustomerProfile implements Interface
+public class AddNewCustomerProfile implements UserFlowFunctionality
 {
 	private RepositoryService repoService = null;
 	int inputLength = 11;
@@ -22,7 +22,7 @@ public class AddNewCustomerProfile implements Interface
     private static final int EXPECTED_INPUT_LENGTH = 11;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-	
+
 	public AddNewCustomerProfile()
 	{
 		repoService = new RepositoryService();
@@ -30,20 +30,20 @@ public class AddNewCustomerProfile implements Interface
 	@Override
 	public void run() {
 		int selection = MAX_SELECTION;
-		
+
 		do {
 			display();
 			reset();
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
-			
+
 			if(inputs.length == EXPECTED_INPUT_LENGTH )
 			{
 				displayMenu();
 				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
 				customerQuery = getCustomeQuery(inputs);
-				custVehicleQuery = getCustomeQuery(inputs);	
+				custVehicleQuery = getCustomeQuery(inputs);
 			}else {
 				System.out.println("Went wrong and try again!");
 			}
@@ -86,9 +86,9 @@ public class AddNewCustomerProfile implements Interface
 		System.out.println("# 1 Save                               #");
 		System.out.println("# 2 Go Back                           #");
 		System.out.println(MENU_SEPARATOR);
-		
+
 	}
-	
+
 	@Override
 	public void navigate(int selection) {
 		switch(selection)
@@ -120,7 +120,7 @@ public class AddNewCustomerProfile implements Interface
 				if(result) {
 					boolean result2 = db.executeUpdate(custVehicleQuery);
 					if(result2) valid = true;
-					
+
 				}
 			}finally {
 				db.close();
@@ -128,7 +128,7 @@ public class AddNewCustomerProfile implements Interface
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-			
+
 		}
 		return valid;
 	}
@@ -149,9 +149,9 @@ public class AddNewCustomerProfile implements Interface
 		int year = Integer.parseInt(inputs[10].trim());
 		String status = "1";
 		String active = "1";
-		
+
 		int centerId = repoService.getCenterId();
-		
+
 		String customerQuery = "insert into Customers (customerId, centerId, firstName, lastName, "
 				+ "username, password, phone, address, status, active) "
 				+ "values("
@@ -173,7 +173,7 @@ public class AddNewCustomerProfile implements Interface
 		String carModel = inputs[8].trim();
 		int mileage = Integer.parseInt(inputs[9]);
 		int year = Integer.parseInt(inputs[10].trim());
-		
+
 		String custVehicleQuery = "insert into CustomerVehicles (vin, customerId, model, mileage, year) "
 				+ "values("
 				+ "'" + vinNumber + "', "
@@ -181,7 +181,7 @@ public class AddNewCustomerProfile implements Interface
 				+ "'" + carModel + "', "
 				+ mileage + ", "
 				+ year + ")";
-		
+
 		return custVehicleQuery;
 	}
 }

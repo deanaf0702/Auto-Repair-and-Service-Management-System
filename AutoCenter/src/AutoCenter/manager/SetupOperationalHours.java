@@ -1,11 +1,11 @@
 package AutoCenter.manager;
 
-import AutoCenter.Interface;
+import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.services.UserService;
 
-public class SetupOperationalHours implements Interface {
+public class SetupOperationalHours implements UserFlowFunctionality {
 
 	private static char satOpen = '0';
 	private UserService userService = null;
@@ -67,17 +67,17 @@ public class SetupOperationalHours implements Interface {
 	@Override
 	public void goBack() {
 		new SetupStore().run();
-		
+
 	}
-	
+
 	private String openSatQuery()
 	{
 		int centerId  = userService.getCenterId();
-		
-		String query = "UPDATE  ServiceCenters set satOpen = '" 
+
+		String query = "UPDATE  ServiceCenters set satOpen = '"
 				+ satOpen + "' where centerId=" + centerId;
 		return query;
-		
+
 	}
 
 }
