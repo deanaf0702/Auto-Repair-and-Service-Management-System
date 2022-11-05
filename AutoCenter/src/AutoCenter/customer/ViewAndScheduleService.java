@@ -1,58 +1,63 @@
-/**
- * 
- */
+/** */
 package AutoCenter.customer;
 
 import AutoCenter.Interface;
 import AutoCenter.ScanHelper;
-import AutoCenter.manager.AddNewEmployee;
-import AutoCenter.manager.SetupStore;
 
 /**
- * @author deoks
- *
+ * @author deoks, jkersey
  */
-public class ViewAndScheduleService implements Interface{
+public class ViewAndScheduleService implements Interface {
 
-	public ViewAndScheduleService(){}
-	@Override
-	public void run() {
-		int selection = 0;
-		display();
-		do{
-			System.out.println("Enter choice(1-3)");
-			selection = ScanHelper.nextInt();
-		}while(!(selection >=1 && selection <=3));
-		
-		navigate(selection);
-	}
+    private static int INITIAL_SELECTION = 0;
+    private static int MIN_SELECTION = 1;
+    private static int MAX_SELECTION = 3;
+    private static int EXPECTED_INPUT_LENGTH = 3;
 
-	@Override
-	public void display() {
-		System.out.println("##### View And Schedule Service Menu #####");
-		System.out.println("1 View Service History");
-		System.out.println("2 Schedule Service");
-		System.out.println("3 Go Back");
-		System.out.println("##########");
-	}
+    public ViewAndScheduleService() {
+    }
 
-	@Override
-	public void navigate(int selection) {
-		switch (selection)
-		{
-			case 1: new ViewServiceHistory().run();
-				break;
-			case 2: new ScheduleService().run();
-				break;
-			case 3: goBack();
-				break;
-		}
-	}
+    @Override
+    public void run() {
+        int selection = INITIAL_SELECTION;
+        display();
+        do {
+            System.out.print("Enter choice (1-3) from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
-	@Override
-	public void goBack() {
-		// TODO Auto-generated method stub
-		
-	}
+        navigate(selection);
+    }
 
+    @Override
+    public void display() {
+        System.out.println("####################################################");
+        System.out.println("##### Customer: View and Schedule Service Menu #####");
+        System.out.println("####################################################");
+        System.out.println("# 1 View Service History                           #");
+        System.out.println("# 2 Schedule Service                               #");
+        System.out.println("# 3 Go Back                                        #");
+        System.out.println("####################################################");
+    }
+
+    @Override
+    public void navigate(int selection) {
+        switch (selection) {
+            case 1:
+                new ViewServiceHistory().run();
+                break;
+            case 2:
+                new ScheduleService().run();
+                break;
+            case 3:
+                goBack();
+                break;
+        }
+    }
+
+    @Override
+    public void goBack() {
+        // TODO Auto-generated method stub
+
+    }
 }

@@ -8,6 +8,10 @@ import AutoCenter.receptionist.Receptionist;
 import AutoCenter.services.UserService;
 
 public class Login implements Interface {
+
+    private static int INITIAL_SELECTION = 2;
+    private static int MIN_SELECTION = 1;
+    private static int MAX_SELECTION = 2;
     private String userId = null;
     private String password = null;
 
@@ -15,25 +19,27 @@ public class Login implements Interface {
     }
 
     public void run() {
-        int selection = 2;
+        int selection = INITIAL_SELECTION;
         display();
         do {
             System.out.println("Enter UserID: ");
             userId = ScanHelper.next();
             System.out.println("Enter password: ");
             password = ScanHelper.next();
-            System.out.println("Enter choice(1-2):");
+            System.out.print("Enter choice (1-2) from the given options displayed above: ");
             selection = ScanHelper.nextInt();
-        } while (!(selection >= 1 && selection <= 2));
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
         navigate(selection);
     }
 
     public void display() {
-        System.out.println("##Login Menu##");
-        System.out.println("1.Sign-In");
-        System.out.println("2.Go Back");
-        System.out.println("##########");
+        System.out.println("################################");
+        System.out.println("#####   User: Login Menu   #####");
+        System.out.println("################################");
+        System.out.println("# 1 Sign-In                    #");
+        System.out.println("# 2 Go Back                    #");
+        System.out.println("################################");
     }
 
     public void navigate(int value) {
