@@ -64,15 +64,13 @@ public class Login implements Interface {
 
             Home.setUser(user);
             String role = user.getRole();
-            if ("manager".equals(role))
+            if ("Manager".equals(role))
                 new Manager().run();
-            else if ("receptionist".equals(role))
+            else if ("Receptionist".equals(role))
                 new Receptionist().run();
-            else if ("mechanic".equals(role))
+            else if ("Mechanic".equals(role))
                 new Mechanic().run();
-            else if ("administrator".equals(role))
-                new Administration().run();
-            else if ("customer".equals(role))
+            else if ("Customer".equals(role))
                 new Customer().run();
             else {
                 System.out.print("User not found!");
