@@ -7,7 +7,7 @@ public class DeleteCar implements Interface {
     @Override
     public void run () {
         // TODO Auto-generated method stub
-
+        //
     }
 
     @Override
