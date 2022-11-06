@@ -2,6 +2,7 @@ package AutoCenter.services;
 
 import java.sql.ResultSet;
 import AutoCenter.Home;
+import AutoCenter.LoginUser;
 import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
 
@@ -14,9 +15,9 @@ public class UserService {
 		repoService = new RepositoryService();
 	}
 	
-	public User authenticate(String userId, String password)
+	public LoginUser authenticate(String userId, String password)
 	{
-		User currentUser = null;
+		LoginUser currentUser = null;
 		//return administrator, manager, receptionist, mechanic or customer
 		String query = "SELECT userId, firstName, lastName, role, serviceCenterId"
 				+ " FROM Users "
@@ -31,14 +32,10 @@ public class UserService {
 			{
 				while(rs.next())
 				{
-					currentUser.setUserId(rs.getInt("userId"));
-					currentUser.setServiceCenterId(rs.getInt("serviceCenterId"));
-					currentUser.setUsername(rs.getString("username").trim());
+					currentUser.setId(rs.getInt("userId"));
+					currentUser.setCenterId(rs.getInt("serviceCenterId"));
 					currentUser.setFirstName(rs.getString("firstName").trim());
 					currentUser.setLastName(rs.getString("lastName").trim());
-					currentUser.setAddress(rs.getString("address").trim());
-					currentUser.setEmail(rs.getString("email").trim());
-					currentUser.setPhone(rs.getString("phone").trim());
 					currentUser.setRole(rs.getString("role").trim());
 				}
 			}
@@ -60,9 +57,9 @@ public class UserService {
 	}
 	public int getCenterId()
 	{
-		User user = Home.getUser();
+		LoginUser user = Home.getUser();
 		if(user == null) return 0;
-		else return user.getServiceCenterId();
+		else return user.getCenterId();
 	}
 	
 	

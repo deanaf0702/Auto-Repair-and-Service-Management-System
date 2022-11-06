@@ -1,13 +1,11 @@
 package AutoCenter;
 
-import AutoCenter.models.User;
-
 public class Home {
 
   private static int INITIAL_SELECTION = 2;
   private static int MIN_SELECTION = 1;
   private static int MAX_SELECTION = 2;
-  private static User user = null;
+  private static LoginUser user = null;
 
   public static void main(String[] args) {
     run();
@@ -56,11 +54,11 @@ public class Home {
     login.run();
   }
 
-  public static void setUser(User appUser) {
+  public static void setUser(LoginUser appUser) {
     user = appUser;
   }
 
-  public static User getUser() {
+  public static LoginUser getUser() {
     return user;
   }
 }

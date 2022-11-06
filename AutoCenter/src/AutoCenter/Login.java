@@ -56,7 +56,7 @@ public class Login implements UserFlowFunctionality {
 
     public void signIn(String userId, String password) {
         UserService userService = new UserService();
-        User user = userService.authenticate(userId, password);
+        LoginUser user = userService.authenticate(userId, password);
         if (user == null) {
             System.out.print("User not found!");
             runAgain();

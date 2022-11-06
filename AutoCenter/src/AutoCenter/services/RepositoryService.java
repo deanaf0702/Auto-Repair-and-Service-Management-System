@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import AutoCenter.Home;
+import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
@@ -153,9 +154,9 @@ public class RepositoryService {
 	}
 	public int getCenterId()
 	{
-		User user = Home.getUser();
+		LoginUser user = Home.getUser();
 		if(user == null) return 0;
-		else return user.getServiceCenterId();
+		else return user.getCenterId();
 	}
 	public boolean validateMinAndMaxWage(double wage)
 	{
