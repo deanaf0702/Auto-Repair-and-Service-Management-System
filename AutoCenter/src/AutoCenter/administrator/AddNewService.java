@@ -8,7 +8,7 @@ import AutoCenter.ScanHelper;
  * Handles functionality for add new service menu of
  * administrators including display, input, and output.
  *
- * @author jkersey
+ * @author jkersey, tsenck12, deoks
  */
 public class AddNewService implements UserFlowFunctionality {
 
@@ -65,7 +65,9 @@ public class AddNewService implements UserFlowFunctionality {
     // "#######################################"
     private void displayDirections() {
         String[] usageComponents = {
-                "# A. Enter existing service category  #\n#    (raise error if category doesn't #\n#    exist)                           #",
+                "# A. Enter existing service category  #\n" +
+                        "#    (raise error if category doesn't #\n" +
+                        "#    exist)                           #",
                 "# B. Service Name                     #",
                 "# C. Duration of the service          #"
         };

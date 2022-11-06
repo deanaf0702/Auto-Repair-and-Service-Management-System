@@ -8,7 +8,7 @@ import AutoCenter.ScanHelper;
  * Handles functionality for the System Set Up menu of
  * administrators including display, input, and output.
  *
- * @author jkersey
+ * @author jkersey, tsenck12, deoks
  */
 public class SystemSetUp implements UserFlowFunctionality {
 

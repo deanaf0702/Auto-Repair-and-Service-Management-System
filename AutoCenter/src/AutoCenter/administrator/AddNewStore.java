@@ -8,7 +8,7 @@ import AutoCenter.UIHelpers;
  * Handles functionality for add new store menu of
  * administrators including display, input, and output.
  *
- * @author jkersey
+ * @author jkersey, tsenck12, deoks
  */
 public class AddNewStore implements UserFlowFunctionality {
 

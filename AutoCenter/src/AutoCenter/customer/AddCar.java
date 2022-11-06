@@ -6,13 +6,30 @@ import java.sql.PreparedStatement;
 import AutoCenter.Home;
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
+import AutoCenter.UIHelpers;
 import AutoCenter.repository.DbConnection;
 
+/**
+ * Handles functionality for add car menu of
+ * customers including display, input, and output.
+ *
+ * @author jkersey, tsenck12, deoks
+ */
 public class AddCar implements UserFlowFunctionality {
 
+    /*
+     * The minimum selection for the menu options range
+     */
     private static final int MIN_SELECTION = 1;
+
+    /*
+     * The maximum selection for the menu options range
+     */
     private static final int MAX_SELECTION = 2;
 
+    /*
+     * The separator to use between the menu title and the options
+     */
     private static final String MENU_SEPARATOR = "##################################";
 
     @Override
@@ -59,13 +76,15 @@ public class AddCar implements UserFlowFunctionality {
 
     @Override
     public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("##### Customer: Add Car Menu #####");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 Save Information             #");
-        System.out.println("# 2 Cancel                       #");
-        System.out.println(MENU_SEPARATOR);
+        String[] menuOptions = {
+                "# 1 Save Information             #",
+                "# 2 Cancel                       #"
+        };
 
+        UIHelpers.displayMenu(
+                " Customer: Add Car Menu ",
+                menuOptions,
+                MENU_SEPARATOR);
     }
 
     @Override

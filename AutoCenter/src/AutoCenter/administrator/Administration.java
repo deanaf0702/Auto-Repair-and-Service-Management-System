@@ -9,7 +9,7 @@ import AutoCenter.services.UserService;
  * Handles functionality for the landing page of
  * administrators including display, input, and output.
  *
- * @author jkersey
+ * @author jkersey, tsenck12, deoks
  */
 public class Administration implements UserFlowFunctionality {
 
