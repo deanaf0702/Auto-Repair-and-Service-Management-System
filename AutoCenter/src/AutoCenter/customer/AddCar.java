@@ -65,6 +65,7 @@ public class AddCar implements UserFlowFunctionality {
                 stmt.setInt( 5, mileage );
                 stmt.setInt( 6, year );
                 stmt.executeUpdate();
+                System.out.println( "Car added successfully" );
             }
             catch ( final Exception e ) {
                 System.out.println( "Error adding car" );
