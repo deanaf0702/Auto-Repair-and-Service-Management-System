@@ -20,12 +20,12 @@ public class AddCar implements UserFlowFunctionality {
     /*
      * The minimum selection for the menu options range
      */
-    private static final int    MIN_SELECTION  = 1;
+    private static final int MIN_SELECTION = 1;
 
     /*
      * The maximum selection for the menu options range
      */
-    private static final int    MAX_SELECTION  = 2;
+    private static final int MAX_SELECTION = 2;
 
     /*
      * The separator to use between the menu title and the options
@@ -33,65 +33,65 @@ public class AddCar implements UserFlowFunctionality {
     private static final String MENU_SEPARATOR = "##################################";
 
     @Override
-    public void run () {
-        System.out.print( "VIN Number: " );
+    public void run() {
+        System.out.print("VIN Number: ");
         final String vin = ScanHelper.next();
-        System.out.print( "Car Manufacturer: " );
+        System.out.print("Car Manufacturer: ");
         final String manf = ScanHelper.next();
-        System.out.print( "Current Mileage: " );
+        System.out.print("Current Mileage: ");
         final int mileage = ScanHelper.nextInt();
-        System.out.print( "Car Year: " );
+        System.out.print("Car Year: ");
         final int year = ScanHelper.nextInt();
         int selection = 2;
         do {
             display();
-            System.out.print( "Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                    + ") from the given options displayed above: " );
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
 
-        }
-        while ( ! ( selection >= MIN_SELECTION && selection <= MAX_SELECTION ) );
-        if ( selection == 1 ) {
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
+        if (selection == 1) {
             final DbConnection db = new DbConnection();
             final Connection conn = db.getConnection();
             try {
-                final PreparedStatement stmt = conn.prepareStatement( "insert into CustomerVehicles "
+                final PreparedStatement stmt = conn.prepareStatement("insert into CustomerVehicles "
                         + "(vin, customerId, centerId, model, mileage, year, lastMClass) values "
-                        + "(?, ?, ?, ?, ?, ?, 'C')" );
-                stmt.setString( 1, vin );
-                stmt.setInt( 2, Home.getUser().getId() );
-                stmt.setInt( 3, Home.getUser().getCenterId() );
-                stmt.setString( 4, manf );
-                stmt.setInt( 5, mileage );
-                stmt.setInt( 6, year );
+                        + "(?, ?, ?, ?, ?, ?, 'C')");
+                stmt.setString(1, vin);
+                stmt.setInt(2, Home.getUser().getId());
+                stmt.setInt(3, Home.getUser().getCenterId());
+                stmt.setString(4, manf);
+                stmt.setInt(5, mileage);
+                stmt.setInt(6, year);
                 stmt.executeUpdate();
-                System.out.println( "Car added successfully" );
-            }
-            catch ( final Exception e ) {
-                System.out.println( "Error adding car" );
-            }
-            finally {
+                System.out.println("Car added successfully");
+            } catch (final Exception e) {
+                System.out.println("Error adding car");
+            } finally {
                 db.close();
             }
 
         }
-        navigate( selection );
+        navigate(selection);
     }
 
     @Override
-    public void display () {
-        final String[] menuOptions = { "# 1 Save Information             #", "# 2 Cancel                       #" };
+    public void display() {
+        final String[] menuOptions = {
+                "# 1 Save Information             #",
+                "# 2 Cancel                       #"
+        };
 
-        UIHelpers.displayMenu( " Customer: Add Car Menu ", menuOptions, MENU_SEPARATOR );
+        UIHelpers.displayMenu(" Customer: Add Car Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
-    public void navigate ( final int selection ) {
+    public void navigate(final int selection) {
         goBack();
     }
 
     @Override
-    public void goBack () {
+    public void goBack() {
         new Customer().run();
     }
 }

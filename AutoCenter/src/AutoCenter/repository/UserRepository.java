@@ -73,7 +73,6 @@ public class UserRepository {
                 u.setRole(rs.getString("role").trim());
             }
         } catch (SQLException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } finally {
             db.close();

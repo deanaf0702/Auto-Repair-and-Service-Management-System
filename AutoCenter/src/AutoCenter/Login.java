@@ -1,33 +1,40 @@
 package AutoCenter;
 
-import AutoCenter.administrator.Administration;
 import AutoCenter.customer.Customer;
 import AutoCenter.manager.Manager;
 import AutoCenter.mechanic.Mechanic;
-import AutoCenter.models.User;
 import AutoCenter.receptionist.Receptionist;
 import AutoCenter.services.UserService;
 
 public class Login implements UserFlowFunctionality {
 
-    private static int INITIAL_SELECTION = 2;
-    private static int MIN_SELECTION = 1;
-    private static int MAX_SELECTION = 2;
+    /*
+     * The minimum selection for the menu options range
+     */
+    private static final int MIN_SELECTION = 1;
+
+    /*
+     * The maximum selection for the menu options range
+     */
+    private static final int MAX_SELECTION = 2;
+
     private String userId = null;
     private String password = null;
 
-    public Login() {
+    Login() {
     }
 
     public void run() {
-        int selection = INITIAL_SELECTION;
+        int selection;
         display();
+
         do {
             System.out.println("Enter UserID: ");
             userId = ScanHelper.next();
             System.out.println("Enter password: ");
             password = ScanHelper.next();
-            System.out.print("Enter choice (1-2) from the given options displayed above: ");
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
             selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
@@ -50,6 +57,9 @@ public class Login implements UserFlowFunctionality {
                 break;
             case 2:
                 goBack();
+                break;
+            default:
+                System.out.println("Invalid selection");
                 break;
         }
     }
