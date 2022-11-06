@@ -1,20 +1,16 @@
 package AutoCenter.receptionist;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
-import AutoCenter.models.Employee;
-import AutoCenter.receptionist.Receptionist;
+import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
-import AutoCenter.services.UserService;
 
 public class AddNewCustomerProfile implements UserFlowFunctionality
 {
 	private RepositoryService repoService = null;
 	int inputLength = 11;
+	private String userQuery = null;
 	private String customerQuery = null;
 	private String custVehicleQuery = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
@@ -42,8 +38,15 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 				displayMenu();
 				System.out.println("Enter choices(1-2)");
 				selection = ScanHelper.nextInt();
-				customerQuery = getCustomeQuery(inputs);
-				custVehicleQuery = getCustomeQuery(inputs);
+				userQuery = getUserQuery(inputs);
+				int userId = Integer.parseInt(inputs[0].trim());
+				String vinNumber = inputs[7].trim();
+		        String carModel = inputs[8].trim();
+		        int mileage = Integer.parseInt(inputs[9]);
+		        int year = Integer.parseInt(inputs[10].trim());
+		        int serviceCenterId = repoService.getCenterId();
+				customerQuery = getCustomerQuery(userId, serviceCenterId);
+				custVehicleQuery = getCustVehicleQuery(userId, serviceCenterId, vinNumber, carModel, mileage, year);
 			}else {
 				System.out.println("Went wrong and try again!");
 			}
@@ -109,6 +112,7 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 	public void reset() {
 		customerQuery = null;
 		custVehicleQuery = null;
+		userQuery = null;
 	}
 	public boolean save()
 	{
@@ -128,56 +132,58 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 		}catch(Exception e)
 		{
 			e.printStackTrace();
-
 		}
 		return valid;
 	}
-	public String getCustomeQuery(String[] inputs)
+	public String getUserQuery(String[] inputs)
 	{
-		boolean valid = false;
-		int customerId = Integer.parseInt(inputs[0].trim());
-		String firstName = inputs[1].trim();
-		String lastName = inputs[2].trim();
-		String address = inputs[3].trim();
-		String email = inputs[4].trim();
-		String phone = inputs[5].trim();
-		String username = inputs[6].trim().toLowerCase();
-		String password = inputs[2].trim().toLowerCase();
-		String vinNumber = inputs[7].trim();
-		String carModel = inputs[8].trim();
-		int mileage = Integer.parseInt(inputs[9]);
-		int year = Integer.parseInt(inputs[10].trim());
-		String status = "1";
-		String active = "1";
-
-		int centerId = repoService.getCenterId();
-
-		String customerQuery = "insert into Customers (customerId, centerId, firstName, lastName, "
-				+ "username, password, phone, address, status, active) "
+		User user = new User();
+		user.setUserId(Integer.parseInt(inputs[0]));
+		user.setFirstName(inputs[1]);
+		user.setLastName(inputs[2]);
+		user.setUsername(inputs[3]);
+		user.setPassword(inputs[4]);
+		user.setAddress(inputs[5]);
+		user.setEmail(inputs[6]);
+		user.setPhone(inputs[7]);
+		user.setRole(inputs[8]);
+		user.setServiceCenterId(repoService.getCenterId());
+		
+		String userQuery = "insert into users (userId, serviceCenterId, role, "
+				+ "userName, password, firstName, lastName, address, "
+				+ "email, phone) values(" 
+				+ user.getUserId() + ",  "
+				+ user.getServiceCenterId() + ", '"
+				+ user.getRole() + "', '"
+				+ user.getUsername() + "', '"
+				+ user.getLastName() + "', '"
+				+ user.getFirstName() + "', '"
+				+ user.getPassword() + "', '"
+				+ user.getAddress() + "', '"
+				+ user.getEmail() + "', '"
+				+ user.getPhone() + "'";
+		
+		return userQuery;
+	}
+	public String getCustomerQuery(int userId, int serviceCenterId)
+	{
+		String inGoodStanding = "1";
+		String isActive = "1";
+		String customerQuery = "insert into Customers (userId, serviceCenterId, inGoodStanding, isActive) "
 				+ "values("
-				+ customerId + ", "
-				+ centerId +", "
-				+ "'" + firstName + "', "
-				+ "'"+ lastName + "', "
-				+ "'"+ username + "', "
-				+ "'"+ password + "', "
-				+ "'"+ phone + "', "
-				+ "'" + address + "', "
-				+ "'" + status +"', "
-				+ "'" + active +"')";
+				+ userId + ", "
+				+ serviceCenterId +", "
+				+ "'" + inGoodStanding +"', "
+				+ "'" + isActive +"')";
 		return customerQuery;
 	}
-	public String getCustVehicleQuery(String[] inputs) {
-		int customerId = Integer.parseInt(inputs[0].trim());
-		String vinNumber = inputs[7].trim();
-		String carModel = inputs[8].trim();
-		int mileage = Integer.parseInt(inputs[9]);
-		int year = Integer.parseInt(inputs[10].trim());
-
-		String custVehicleQuery = "insert into CustomerVehicles (vin, customerId, model, mileage, year) "
+	public String getCustVehicleQuery(int userId, int serviceCenterId, String vinNumber, String carModel, int mileage, int year ) {
+		
+		String custVehicleQuery = "insert into CustomerVehicles (vin, userId, centerId, model, mileage, year) "
 				+ "values("
 				+ "'" + vinNumber + "', "
-				+  customerId + ", "
+				+  userId + ", "
+				+  serviceCenterId + ", "
 				+ "'" + carModel + "', "
 				+ mileage + ", "
 				+ year + ")";
