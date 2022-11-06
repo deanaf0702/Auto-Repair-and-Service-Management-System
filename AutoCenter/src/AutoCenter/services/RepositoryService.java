@@ -13,8 +13,8 @@ import AutoCenter.ScanHelper;
 import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.repository.UserRepository;
-import AutoCenter.models.MaintenanceService;
 import AutoCenter.models.RepairService;
+import AutoCenter.models.Service;
 
 public class RepositoryService {
 	public RepositoryService() {}
@@ -99,20 +99,26 @@ public class RepositoryService {
 		}
 	return price;	
 	}
-	public List<MaintenanceService> maintServiceLookup()
+	public int findServiceId(List<Service> list, String search) {
+		   for (Service item : list) {
+		        if (item.getName().equals(search)) {
+		            return item.getServiceId();
+		        } 
+		   }
+		   return 0;
+		}
+	public List<Service> ServiceLookup(String query)
 	{
-		List<MaintenanceService> list = new ArrayList<MaintenanceService>();
+		List<Service> list = new ArrayList<Service>();
 		try{
 			DbConnection db = new DbConnection();
-			String query = "Select * from MaintenanceServices";
 			
 			try {
 				ResultSet rs =  db.executeQuery(query);
 				while(rs.next()) {
-					MaintenanceService ms = new MaintenanceService();
+					Service ms = new Service();
 					ms.setServiceId(rs.getInt("serviceId"));
-					ms.setScheduleType(rs.getString("scheduleType").trim());
-					ms.setServiceId(rs.getInt("hours"));
+					ms.setName(rs.getString("name").trim());
 					list.add(ms);
 				}
 			}finally {

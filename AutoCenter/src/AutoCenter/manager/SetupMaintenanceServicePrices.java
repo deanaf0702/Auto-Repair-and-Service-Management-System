@@ -1,21 +1,26 @@
 package AutoCenter.manager;
 
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
-import AutoCenter.models.MaintenanceService;
+import AutoCenter.models.PriceModel;
+import AutoCenter.models.Service;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
-import AutoCenter.services.UserService;
 
 public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
 	private RepositoryService repoService = null;
-	private Integer[] ABCPriceTier;
+	private String[] models = new String[] {"Honda", "Nissan", "Toyota"};
+	private String[] serviceNames = new String[] {"A", "B", "C"};
+	ArrayList<PriceModel> list = new ArrayList<PriceModel>();
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
     private static final int EXPECTED_INPUT_LENGTH = 3;
+    private static final int EXPECTED_PRICEMODEL_LENGTH = 9;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
 
@@ -29,32 +34,40 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
 		do {
 			display();
-			reset();
-			String input = ScanHelper.nextLine();
-			String[] inputs = input.split(";");
-			if(inputs.length == EXPECTED_INPUT_LENGTH)
+			for(int i = 0; i < EXPECTED_INPUT_LENGTH; i++)
 			{
-				for(int i = 0; i < EXPECTED_INPUT_LENGTH; i++)
+				System.out.println("Enter Schedule A, B, and C hours and prices for " + models[i] +" ?");
+				System.out.println("##  Ex(hours, price): 4, 100.00; 5, 110.00; 2, 120.00  ##");
+				String input = ScanHelper.nextLine();
+				String[] inputs = input.split(";");
+				if(inputs.length == EXPECTED_INPUT_LENGTH)
 				{
-					ABCPriceTier[i] = Integer.parseInt(inputs[i].trim());
+					String items[] = inputs[i].split(",");
+					if(items.length == 2)
+					{
+						PriceModel pm = new PriceModel();
+						pm.serviceName = serviceNames[i];
+						pm.model = models[i];
+						pm.hours = Integer.parseInt(items[0]);
+						pm.price = Double.parseDouble(items[1]);
+						list.add(pm);
+					}else {
+						System.out.println("Input Format Error");
+						break;
+					}
+				}else {
+					System.out.println("Input Format Error");
+					break;
 				}
-				displayMenu();
-				System.out.println("Enter choice (1-2) from the given options displayed above:");
-				selection = ScanHelper.nextInt();
-			}else {
-				System.out.println(
-                        "Something went wrong. Please try again."
-                                + " Take a look at the usage detailed above if you need help.");
+				
 			}
+			displayMenu();
+			System.out.println("Enter choice (1-2) from the given options displayed above:");
+			selection = ScanHelper.nextInt();
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
 	}
 
-	public void reset()
-	{
-		ABCPriceTier = new Integer[EXPECTED_INPUT_LENGTH];
-
-	}
 	public void displayMenu()
 	{
 		System.out.println("#######################################");
@@ -69,12 +82,12 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 		System.out.println("#############################");
 		System.out.println("######      Usage      ######");
 		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println("# A. Schedule A Price Tier  #");
-		System.out.println("# B. Schedule B Price Tier  #");
-		System.out.println("# C. Schedule C Price Tier  #");
+		System.out.println("# A. Schedule A Price  #");
+		System.out.println("# B. Schedule B Price  #");
+		System.out.println("# C. Schedule C Price  #");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println("#####      Example      ######");
-		System.out.println("##       Ex: 6; 7; 8       ##");
+		System.out.println("##       Ex (hours, price): 2, 100.0; 3, 110.0; 4, 120.0       ##");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println();
 		System.out.println("NOTE: It's important to enter information following");
@@ -105,50 +118,38 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
 	public boolean save()
 	{
-		boolean valid = true;
+		boolean valid = false;
+		if(list.size() != EXPECTED_PRICEMODEL_LENGTH) return valid;
+		String maintServiceQuery = "Select s.serviceid as serviceId, s. name as name"
+				+ "from MaintenanceServices m, Services s where m.serviceId = s.serviceId";
 		try {
-
-
-			List<MaintenanceService> list = repoService.maintServiceLookup();
-			List<String> carModels = repoService.carModelLookup();
+			DbConnection db = new DbConnection();
+			String query = "insert into Prices (centerId, serviceId, model, price, hours), values(?,?,?,?,?)";
 			int centerId = repoService.getCenterId();
-			if(list != null && carModels != null && centerId > 0)
-			{
-				if(list.size() == EXPECTED_INPUT_LENGTH && carModels.size() == 3)
+			List<Service> maintServices = repoService.ServiceLookup(maintServiceQuery);
+			try {
+				for(PriceModel item: list)
 				{
-					DbConnection db = new DbConnection();
-					try {
-						int priceCount = 0;
-						for(MaintenanceService item: list) {
-
-							for(String model: carModels) {
-								double price = repoService.getServicePrice(centerId, model, ABCPriceTier[priceCount]);
-								String query = addMaintServicePricedQuery(
-										item.getServiceId(),
-										centerId,
-										model,
-										ABCPriceTier[priceCount],
-										price);
-
-								boolean result = db.executeUpdate(query);
-								if(!result) {
-									System.out.println("Database error: " + item.getScheduleType()
-											+ ", " + model
-											+ ", " + ABCPriceTier[priceCount]);
-									valid = false;
-								}
-							}
-							priceCount++;
-						}
-					}finally {
-						db.close();
+					PreparedStatement preStmt = db.getConnection().prepareStatement(query);
+					preStmt.setInt(1, centerId);
+					preStmt.setInt(2, repoService.findServiceId(maintServices, item.serviceName));
+					preStmt.setString(3, item.model);
+					preStmt.setDouble(4, item.price);
+					preStmt.setDouble(5, item.hours);
+					int result = preStmt.executeUpdate();
+					if(result < 1)
+					{
+						System.out.println("Database error: " + item.serviceName
+						+ ", " + item.model
+						+ ", " + centerId);
+						valid = false;
 					}
-				}else {
-					valid = false;
+					preStmt.close();
 				}
-
+			}finally {
+				db.close();
 			}
-
+			
 		}catch(Exception e)
 		{
 			System.out.println(e.getMessage());
@@ -159,7 +160,7 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
 	public String addMaintServicePricedQuery(int serviceId, int centerId, String model, int priceTier, double price)
 	{
-		return ("insert into MaintServicePriced (serviceId, centerId, model, priceTier, price) "
+		return ("insert into Prices (serviceId, centerId, model, price, hours) "
 				+ "values("+ serviceId + ", " + centerId + ", '" + model + "', " + priceTier + ", " + price + ")");
 	}
 

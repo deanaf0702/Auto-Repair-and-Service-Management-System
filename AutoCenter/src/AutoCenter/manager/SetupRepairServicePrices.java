@@ -6,7 +6,6 @@ import java.util.List;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
-import AutoCenter.models.MaintenanceService;
 import AutoCenter.models.RepairService;
 import AutoCenter.repository.DbConnection;
 import AutoCenter.services.RepositoryService;
