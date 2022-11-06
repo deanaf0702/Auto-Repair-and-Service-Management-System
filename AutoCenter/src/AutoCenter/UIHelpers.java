@@ -33,26 +33,28 @@ public class UIHelpers {
     /**
      * Displays the usage directions for a particular menu.
      *
-     * @param usageComponents             the components of the usage directions
-     * @param example                     the example to display
-     * @param usageHeader                 the usage header to display
-     * @param exampleHeader               the example header to display
-     * @param directionSeparator          the separator to use between the usage
-     *                                    header and
-     *                                    example header
-     * @param directionComponentSeparator the separator to use between the usage
-     *                                    components
+     * @param usageComponents    the components of the usage directions
+     * @param example            the example to display
+     * @param usageHeader        the usage header to display
+     * @param exampleHeader      the example header to display
+     * @param directionSeparator the separator to use between the usage
+     *                           header and
+     *                           example header
      */
     public static void displayUsageDirections(String[] usageComponents, String example, String usageHeader,
             String exampleHeader,
-            String directionSeparator, String directionComponentSeparator) {
+            String directionSeparator) {
         System.out.println(directionSeparator);
         System.out.println(MENU_TITLE_END + usageHeader + MENU_TITLE_END);
         System.out.println(directionSeparator);
 
         for (int i = 0; i < usageComponents.length - 1; i++) {
             System.out.println(usageComponents[i]);
-            System.out.println(directionComponentSeparator);
+            System.out.print("# ");
+            for (int j = 0; j < directionSeparator.length() - 4; j++) {
+                System.out.print("-");
+            }
+            System.out.println(" #");
         }
         System.out.println(usageComponents[usageComponents.length - 1]);
         System.out.println(directionSeparator);
