@@ -40,6 +40,8 @@ alter table EventOnServices drop constraint fk_EventOnServices_eventId;
 alter table EventOnServices drop constraint fk_EventOnServices_serviceId;
 
 --Drop triggers if they exist
+drop trigger updateStatusAfterAddCar;
+drop trigger updateStatusAfterDeleteCar;
 
 --Drop any check constraints
 
@@ -256,4 +258,26 @@ create table EventOnServices(
 	constraint fk_EventOnServices_serviceId foreign key (serviceId) references Services (serviceId)
 );
 
+--Create triggers
+create or replace trigger updateStatusAfterAddCar
+after insert on CustomerVehicles
+for each row
+begin
+	update Customers set isActive = 1 where userId = new.customerId;
+end;
+
+create or replace trigger updateStatusAfterDeleteCar
+after delete on CustomerVehicles
+for each row
+declare vehicleCount number;
+begin
+	select count(*) into vehicleCount from CustomerVehicles where customerId = old.customerId;
+	if( vehicleCount = 0)
+	then 
+		update Customers set isActive = 0 where userId = old.customerId;
+	end if;
+end;
+
 commit;
+
+
