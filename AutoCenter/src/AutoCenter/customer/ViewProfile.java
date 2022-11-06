@@ -18,7 +18,8 @@ public class ViewProfile implements UserFlowFunctionality {
             final ResultSet rs1 = db.executeQuery( query );
             rs1.next();
             System.out.println( "Customer ID: " + rs1.getInt( "USERID" ) );
-            System.out.println( "Name: " + rs1.getString( "FIRSTNAME" ) + " " + rs1.getString( "LASTNAME" ) );
+            System.out.println(
+                    "Name: " + rs1.getString( "FIRSTNAME" ).strip() + " " + rs1.getString( "LASTNAME" ).strip() );
             System.out.println( "Address: " + rs1.getString( "ADDRESS" ) );
             System.out.println( "Email: " + rs1.getString( "EMAIL" ) );
             System.out.println( "Phone: " + rs1.getString( "PHONE" ) );
@@ -27,7 +28,7 @@ public class ViewProfile implements UserFlowFunctionality {
                     + "and centerId = " + Home.getUser().getCenterId();
             final ResultSet rs2 = db.executeQuery( query2 );
             while ( rs2.next() ) {
-                System.out.println( rs2.getString( "YEAR" ) + " " + rs2.getString( "MODEL" ) + ", VIN: "
+                System.out.println( rs2.getString( "YEAR" ).strip() + " " + rs2.getString( "MODEL" ).strip() + ", VIN: "
                         + rs2.getString( "VIN" ) + ", Mileage: " + rs2.getInt( "MILEAGE" ) );
             }
             System.out.println();
@@ -46,6 +47,7 @@ public class ViewProfile implements UserFlowFunctionality {
             selection = ScanHelper.nextInt();
         }
         while ( selection != 1 );
+        goBack();
     }
 
     @Override
