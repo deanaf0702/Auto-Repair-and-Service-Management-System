@@ -4,12 +4,32 @@ import AutoCenter.UIHelpers;
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
+/**
+ * Handles functionality for the System Set Up menu of
+ * administrators including display, input, and output.
+ *
+ * @author jkersey
+ */
 public class SystemSetUp implements UserFlowFunctionality {
 
+    /*
+     * The minimum selection for the menu options range
+     */
     private static final int MIN_SELECTION = 1;
+
+    /*
+     * The maximum selection for the menu options range
+     */
     private static final int MAX_SELECTION = 3;
 
+    /*
+     * The separator to use between the menu title and the options
+     */
     private static final String MENU_SEPARATOR = "#####################################";
+
+    /*
+     * The separator to use between the usage header and example header
+     */
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
     @Override
@@ -29,29 +49,31 @@ public class SystemSetUp implements UserFlowFunctionality {
     }
 
     private void displayDirections() {
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####   System Set Up: Usage    #####");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("# A. Input file that contains the   #");
-        System.out.println("#    the service general            #");
-        System.out.println("#    information                    #");
-        System.out.println("# --------------------------------- #");
-        System.out.println("# B. Input file that contains the   #");
-        System.out.println("#    store general                  #");
-        System.out.println("#    information                    #");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####   System Set Up: Example  #####");
-        System.out.println(DIRECTION_SEPARATOR);
+        String[] usageComponents = {
+                "# A. Input file that contains the   #\n" +
+                        "#    the service general            #\n" +
+                        "#    information                    #",
+                "# B. Input file that contains the   #\n" +
+                        "#    store general                  #\n" +
+                        "#    information                    #"
+        };
+
         // TODO add example here
-        System.out.println(DIRECTION_SEPARATOR);
-        UIHelpers.displayUsageNote();
+        UIHelpers.displayUsageDirections(
+                usageComponents,
+                "TODO ADD EXAMPLE HERE",
+                "   System Set Up: Usage    ",
+                "   System Set Up: Example  ",
+                DIRECTION_SEPARATOR);
     }
 
     @Override
     public void display() {
         String[] menuOptions = {
-                "# 1 Upload service general          #\n#   general information             #",
-                "# 2 Upload store general            #\n#   information                     #",
+                "# 1 Upload service general          #\n" +
+                        "#   general information             #",
+                "# 2 Upload store general            #\n" +
+                        "#   information                     #",
                 "# 3 Go back                         #"
         };
 

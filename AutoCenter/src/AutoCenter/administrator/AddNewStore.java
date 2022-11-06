@@ -4,12 +4,32 @@ import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.UIHelpers;
 
+/**
+ * Handles functionality for add new store menu of
+ * administrators including display, input, and output.
+ *
+ * @author jkersey
+ */
 public class AddNewStore implements UserFlowFunctionality {
 
+    /*
+     * The minimum selection for the menu options range
+     */
     private static final int MIN_SELECTION = 1;
+
+    /*
+     * The maximum selection for the menu options range
+     */
     private static final int MAX_SELECTION = 2;
 
+    /*
+     * The separator to use between the menu title and the options
+     */
     private static final String MENU_SEPARATOR = "#####################################";
+
+    /*
+     * The separator to use between the usage header and example header
+     */
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
     @Override
@@ -29,22 +49,22 @@ public class AddNewStore implements UserFlowFunctionality {
     }
 
     private void displayDirections() {
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####   Add New Store: Usage    #####");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("# A. Input file that contains the   #");
-        System.out.println("#    the service general            #");
-        System.out.println("#    information                    #");
-        System.out.println("# --------------------------------- #");
-        System.out.println("# B. Input file that contains the   #");
-        System.out.println("#    store general                  #");
-        System.out.println("#    information                    #");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####   System Set Up: Example  #####");
-        System.out.println(DIRECTION_SEPARATOR);
+        String[] usageComponents = {
+                "# A. Store ID                       #",
+                "# B. Address                        #",
+                "# C. Manager’s information (first   #\n" +
+                        "#    name, lastname,                #\n" +
+                        "#    password, salary and           #\n" +
+                        "#    employeeid)                    #"
+        };
+
         // TODO add example here
-        System.out.println(DIRECTION_SEPARATOR);
-        UIHelpers.displayUsageNote();
+        UIHelpers.displayUsageDirections(
+                usageComponents,
+                "TODO ADD EXAMPLE HERE",
+                "   Add New Store: Usage    ",
+                "   Add New Store: Example  ",
+                DIRECTION_SEPARATOR);
     }
 
     @Override
@@ -54,7 +74,10 @@ public class AddNewStore implements UserFlowFunctionality {
                 "# 2 Go back                         #"
         };
 
-        UIHelpers.displayMenu(" Admin: Add New Store Menu ", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu(
+                " Admin: Add New Store Menu ",
+                menuOptions,
+                MENU_SEPARATOR);
     }
 
     @Override

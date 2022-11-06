@@ -5,9 +5,8 @@ import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 
 /**
- * Handles functionality for add new service menu of administrators including
- * display, input, and
- * output.
+ * Handles functionality for add new service menu of
+ * administrators including display, input, and output.
  *
  * @author jkersey
  */
@@ -32,11 +31,6 @@ public class AddNewService implements UserFlowFunctionality {
      * The separator to use between the usage header and example header
      */
     private static final String DIRECTION_SEPARATOR = "#######################################";
-
-    /*
-     * The separator to use between the usage components
-     */
-    private static final String DIRECTION_COMPONENT_SEPARATOR = "# ----------------------------------- #";
 
     @Override
     public void run() {
@@ -82,8 +76,7 @@ public class AddNewService implements UserFlowFunctionality {
                 "TODO ADD EXAMPLE HERE",
                 "    Add New Service: Usage   ",
                 "   Add New Service: Example  ",
-                DIRECTION_SEPARATOR,
-                DIRECTION_COMPONENT_SEPARATOR);
+                DIRECTION_SEPARATOR);
     }
 
     // "#######################################"
