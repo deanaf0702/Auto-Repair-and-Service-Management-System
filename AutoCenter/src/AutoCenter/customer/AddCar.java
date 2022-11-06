@@ -56,7 +56,7 @@ public class AddCar implements UserFlowFunctionality {
             final Connection conn = db.getConnection();
             try {
                 final PreparedStatement stmt = conn.prepareStatement( "insert into CustomerVehicles "
-                        + "(vin, customerId, serviceCenter, model, mileage, year, lastMClass) values "
+                        + "(vin, customerId, centerId, model, mileage, year, lastMClass) values "
                         + "(?, ?, ?, ?, ?, ?, 'C')" );
                 stmt.setString( 1, vin );
                 stmt.setInt( 2, Home.getUser().getId() );

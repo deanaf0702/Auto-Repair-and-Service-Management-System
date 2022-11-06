@@ -259,24 +259,26 @@ create table EventOnServices(
 );
 
 --Create triggers
-create or replace trigger updateStatusAfterAddCar
+create trigger updateStatusAfterAddCar
 after insert on CustomerVehicles
 for each row
 begin
-	update Customers set isActive = 1 where userId = new.customerId;
+	update Customers set isActive = 1 where userId = :new.customerId;
 end;
+/
 
-create or replace trigger updateStatusAfterDeleteCar
+create trigger updateStatusAfterDeleteCar
 after delete on CustomerVehicles
 for each row
 declare vehicleCount number;
 begin
-	select count(*) into vehicleCount from CustomerVehicles where customerId = old.customerId;
+	select count(*) into vehicleCount from CustomerVehicles where customerId = :old.customerId;
 	if( vehicleCount = 0)
 	then 
-		update Customers set isActive = 0 where userId = old.customerId;
+		update Customers set isActive = 0 where userId = :old.customerId;
 	end if;
 end;
+/
 
 commit;
 
