@@ -325,3 +325,5 @@ insert into EventOnServices values (4, 105);
 insert into EventOnServices values (5, 111);
 insert into EventOnServices values (6, 114);
 insert into EventOnServices values (7, 113);
+
+commit;

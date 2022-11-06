@@ -255,3 +255,5 @@ create table EventOnServices(
 	constraint fk_EventOnServices_eventId foreign key (eventId) references ServiceEvents (serviceEventId),
 	constraint fk_EventOnServices_serviceId foreign key (serviceId) references Services (serviceId)
 );
+
+commit;
