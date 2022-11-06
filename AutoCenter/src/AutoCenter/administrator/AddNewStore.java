@@ -44,7 +44,7 @@ public class AddNewStore implements UserFlowFunctionality {
         System.out.println(DIRECTION_SEPARATOR);
         // TODO add example here
         System.out.println(DIRECTION_SEPARATOR);
-        UIHelpers.displayUsageDirections();
+        UIHelpers.displayUsageNote();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AddNewStore implements UserFlowFunctionality {
                 "# 2 Go back                         #"
         };
 
-        UIHelpers.displayMenu("Admin: Add New Store Menu", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu(" Admin: Add New Store Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
