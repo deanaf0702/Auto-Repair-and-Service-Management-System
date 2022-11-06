@@ -2,63 +2,80 @@ package AutoCenter.customer;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
+import AutoCenter.UIHelpers;
 import AutoCenter.services.UserService;
 
 public class Customer implements UserFlowFunctionality {
 
-  private static int INITIAL_SELECTION = 4;
-  private static int MIN_SELECTION = 1;
-  private static int MAX_SELECTION = 4;
-  private UserService userService = null;
+    /*
+     * The minimum selection for the menu options range
+     */
+    private static final int MIN_SELECTION = 1;
 
-  public Customer() {
-    userService = new UserService();
-  }
+    /*
+     * The maximum selection for the menu options range
+     */
+    private static final int MAX_SELECTION = 4;
 
-  @Override
-  public void run() {
-    int selection = INITIAL_SELECTION;
-    display();
-    do {
-      System.out.print("Enter choice (1-4) from the given options displayed above: ");
-      selection = ScanHelper.nextInt();
-    } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
+    /*
+     * The separator to use between the menu title and the options
+     */
+    private static final String MENU_SEPARATOR = "##################################";
 
-    navigate(selection);
-  }
+    private UserService userService = null;
 
-  @Override
-  public void navigate(final int selection) {
-    switch (selection) {
-      case 1:
-        new ViewAndUpdateProfile().run();
-        break;
-      case 2:
-        new ViewAndScheduleService().run();
-        break;
-      case 3:
-        new Invoices().run();
-        break;
-      case 4:
-        goBack();
-        break;
+    public Customer() {
+        userService = new UserService();
     }
-  }
 
-  @Override
-  public void goBack() {
-    userService.logout();
-  }
+    @Override
+    public void run() {
+        int selection;
+        display();
+        do {
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
+        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
-  @Override
-  public void display() {
-    System.out.println("##################################");
-    System.out.println("##### Customer: Landing Page #####");
-    System.out.println("##################################");
-    System.out.println("# 1 View and Update Profile      #");
-    System.out.println("# 2 View and Schedule Service    #");
-    System.out.println("# 3 Invoices                     #");
-    System.out.println("# 4 Logout                       #");
-    System.out.println("##################################");
-  }
+        navigate(selection);
+    }
+
+    @Override
+    public void navigate(final int selection) {
+        switch (selection) {
+            case 1:
+                new ViewAndUpdateProfile().run();
+                break;
+            case 2:
+                new ViewAndScheduleService().run();
+                break;
+            case 3:
+                new Invoices().run();
+                break;
+            case 4:
+                goBack();
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                break;
+        }
+    }
+
+    @Override
+    public void goBack() {
+        userService.logout();
+    }
+
+    @Override
+    public void display() {
+        String[] menuOptions = {
+                "# 1 View and Update Profile      #",
+                "# 2 View and Schedule Service    #",
+                "# 3 Invoices                     #",
+                "# 4 Logout                       #"
+        };
+
+        UIHelpers.displayMenu(" Customer: Landing Page ", menuOptions, MENU_SEPARATOR);
+    }
 }

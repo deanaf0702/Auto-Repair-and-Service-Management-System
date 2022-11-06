@@ -42,10 +42,10 @@ public class ViewSchedule implements UserFlowFunctionality {
 
     @Override
     public void navigate(int selection) {
-        switch (selection) {
-            case 1:
-                goBack();
-                break;
+        if (selection == 1) {
+            goBack();
+        } else {
+            System.out.println("Invalid selection.");
         }
     }
 
