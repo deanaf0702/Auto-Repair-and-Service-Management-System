@@ -6,22 +6,23 @@ import java.util.Date;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
-import AutoCenter.models.Employee;
+import AutoCenter.models.User;
+import AutoCenter.repository.UserRepository;
 import AutoCenter.services.UserService;
 
 public class AddEmployees implements UserFlowFunctionality{
 
-	private UserService userService = null;
-	private Employee employee = null;
+	private UserRepository userRepo = null;
+	private User User = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
-    private static final int EXPECTED_INPUT_LENGTH = 11;
+    private static final int EXPECTED_INPUT_LENGTH = 10;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
 
 	public AddEmployees()
 	{
-		userService = new UserService();
+		userRepo = new UserRepository();
 	}
 
 	public void run() {
@@ -29,47 +30,36 @@ public class AddEmployees implements UserFlowFunctionality{
 
 		display();
 		do {
-			employee = new Employee();
+			display();
+			User = new User();
 			String input = ScanHelper.nextLine();
 			String[] inputs = input.split(";");
-			if(inputs.length == EXPECTED_INPUT_LENGTH )
+			if(inputs.length == EXPECTED_INPUT_LENGTH  )
 			{
-				try {
-					employee.employeeId = Integer.parseInt(inputs[0]);
-				}catch(Exception e) {
-					System.out.println(e);
-					break;
-				}
-				employee.firstName = inputs[1];
-				employee.lastName = inputs[2];
-				employee.username = inputs[3];
-				employee.password = inputs[4];
-				employee.address = inputs[5];
-				employee.email = inputs[6];
-				employee.phone = inputs[7];
-				employee.role = inputs[8];
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-				//Date stringDate = formatter.parse(input);
-				String startDate = inputs[9];
-				try {
-					employee.startDate = formatter.parse(startDate);
-				} catch (ParseException e) {
+				User.setUserId(Integer.parseInt(inputs[0]));
+				User.setFirstName(inputs[1]);
+				User.setLastName(inputs[2]);
+				User.setUsername(inputs[3]);
+				User.setPassword(inputs[4]);
+				User.setAddress(inputs[5]);
+				User.setEmail(inputs[6]);
+				User.setPhone(inputs[7]);
+				User.setRole(inputs[8]);
+				User.setSalaryOrWage(Double.parseDouble(inputs[9]));
 
-					System.out.println(e);
-					break;
-
-				}
-				employee.salaryOrWage = Double.parseDouble(inputs[10]);
 				displayMenu();
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
 				selection = ScanHelper.nextInt();
 			}else {
-				displayMenu();
+				
 				System.out.println(
                         "Something went wrong. Please try again and make sure you provide all Eleven inputs for an employee."
                                 + " Take a look at the usage detailed above if you need help.");
-				System.out.println("Enter choice (1-2) from the given options displayed above:");
+				System.out.println("Do you want to try again (1: Yes, 2: No)?");
 				selection = ScanHelper.nextInt();
+				if(selection == 1)
+					selection = 0;
+				
 			}
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
@@ -118,7 +108,7 @@ public class AddEmployees implements UserFlowFunctionality{
 		switch(selection)
 		{
 			case 1:
-				result = userService.addEmployee(employee);
+				result = userRepo.add(User);
 				if(result) System.out.println("Added Successfully!!");
 				run();
 				break;

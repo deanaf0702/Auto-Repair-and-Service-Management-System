@@ -2,10 +2,9 @@ package AutoCenter.services;
 
 import java.sql.ResultSet;
 import AutoCenter.Home;
-import AutoCenter.User;
-import AutoCenter.models.Employee;
+import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
-import AutoCenter.repository.EmployeeRepository;
+
 
 public class UserService {
 	
@@ -17,10 +16,9 @@ public class UserService {
 	
 	public User authenticate(String userId, String password)
 	{
-		
-		User user = null;
+		User currentUser = null;
 		//return administrator, manager, receptionist, mechanic or customer
-		String query = "SELECT userId, firstName, lastName, role"
+		String query = "SELECT userId, firstName, lastName, role, serviceCenterId"
 				+ " FROM Users "
 				+ "Where username='"
 				+ userId + "' AND password='"
@@ -31,32 +29,18 @@ public class UserService {
 			ResultSet rs = db.executeQuery(query);
 			if(rs != null)
 			{
-				while(rs.next()) {
-					user = new User();
-					user.setId(rs.getInt("userId"));
-					user.setRole(rs.getString("role").trim());
-					user.setFirstName(rs.getString("firstName").trim());
-					user.setLastName(rs.getString("lastName").trim());
+				while(rs.next())
+				{
+					currentUser.setUserId(rs.getInt("userId"));
+					currentUser.setServiceCenterId(rs.getInt("serviceCenterId"));
+					currentUser.setUsername(rs.getString("username").trim());
+					currentUser.setFirstName(rs.getString("firstName").trim());
+					currentUser.setLastName(rs.getString("lastName").trim());
+					currentUser.setAddress(rs.getString("address").trim());
+					currentUser.setEmail(rs.getString("email").trim());
+					currentUser.setPhone(rs.getString("phone").trim());
+					currentUser.setRole(rs.getString("role").trim());
 				}
-				String tableName = "";
-				if(user.getRole().equals("Customer"))
-					tableName = "Customers";
-				else if(user.getRole().equals("Manager"))
-					tableName = "Managers";
-				else if(user.getRole().equals("Mechanic"))
-					tableName = "Mechanics";
-				else if(user.getRole().equals("Receptionist"))
-					tableName = "Receptionists";
-				else user = null;
-				
-				String query2 = "select serviceCenterId from " + tableName 
-						+ " where userId = " + user.getId();
-				
-				ResultSet rs2 = db.executeQuery(query2);
-				rs2.next();
-				int centerId = rs2.getInt("serviceCenterId");
-				user.setCenterId(centerId);
-			
 			}
 		}catch(Throwable oops ) {
 			//oops.printStackTrace();
@@ -64,7 +48,7 @@ public class UserService {
 		}finally {
 			db.close();
 		}
-		return user;
+		return currentUser;
 	}
 	
 	public void logout()
@@ -78,47 +62,8 @@ public class UserService {
 	{
 		User user = Home.getUser();
 		if(user == null) return 0;
-		else return user.getCenterId();
+		else return user.getServiceCenterId();
 	}
-	//Repository
-	public boolean addEmployee(Employee employee)
-	{
-		employee.centerId = getCenterId();
-		if(employee.role.equals("mechanic")) {
-			if(!(repoService.validateMinAndMaxWage(employee.salaryOrWage))) {
-				System.out.println("This isn't in the range of minimum or maximum wage.");
-				return false;
-			}
-				
-		}
-		
-		EmployeeRepository er = new EmployeeRepository();
-		boolean result= false;
-		try {
-			result = er.add(employee);
-		}catch(Exception e) {
-			System.out.println("Went Wrong!");
-			
-		}
-		return result;
-	}
-	//Permission
-	public boolean permissionForManager(User user)
-	{
-		DbConnection db = new DbConnection();
-		boolean valid = false;
-		String query = "Select * from Managers where user.id = " + user.getId();
-		try {
-			ResultSet rs = db.executeQuery(query);
-			if(rs.last())
-				return valid = true;
-			
-		}catch(Exception e) {
-			
-		}finally {
-			db.close();
-		};
-		return valid;
-	}
+	
 	
 }

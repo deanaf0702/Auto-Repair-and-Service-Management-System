@@ -6,26 +6,26 @@ import java.text.SimpleDateFormat;
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.User;
+import AutoCenter.repository.UserRepository;
 import AutoCenter.services.UserService;
 
 public class AddNewEmployee implements UserFlowFunctionality{
 
-	private UserService userService = null;
+	private UserRepository userRepo = null;
 	private User User = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
-    private static final int EXPECTED_INPUT_LENGTH = 11;
+    private static final int EXPECTED_INPUT_LENGTH = 10;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
 
 	public AddNewEmployee()
 	{
-		userService = new UserService();
+		userRepo = new UserRepository();
 	}
 
 	public void run() {
-		int selection = 2;
-		int inputLength = 11;
+		int selection = MAX_SELECTION;
 
 		do {
 			display();
@@ -43,7 +43,7 @@ public class AddNewEmployee implements UserFlowFunctionality{
 				User.setEmail(inputs[6]);
 				User.setPhone(inputs[7]);
 				User.setRole(inputs[8]);
-				User.setSalaryOrWage(Double.parseDouble(inputs[10]));
+				User.setSalaryOrWage(Double.parseDouble(inputs[9]));
 
 				displayMenu();
 				System.out.println("Enter choice (1-2) from the given options displayed above:");
@@ -99,7 +99,7 @@ public class AddNewEmployee implements UserFlowFunctionality{
 		switch(selection)
 		{
 			case 1:
-				result = userService.addUser(User);
+				result = userRepo.add(User);
 				if(result) {
 					System.out.println("Added Successfully");
 					goBack();

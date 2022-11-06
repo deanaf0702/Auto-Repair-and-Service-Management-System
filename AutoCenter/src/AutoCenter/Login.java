@@ -4,6 +4,7 @@ import AutoCenter.administrator.Administration;
 import AutoCenter.customer.Customer;
 import AutoCenter.manager.Manager;
 import AutoCenter.mechanic.Mechanic;
+import AutoCenter.models.User;
 import AutoCenter.receptionist.Receptionist;
 import AutoCenter.services.UserService;
 
@@ -60,7 +61,7 @@ public class Login implements UserFlowFunctionality {
             System.out.print("User not found!");
             runAgain();
         } else {
-            System.out.println(user.getRole() + ": " + user.getName());
+            System.out.println(user.getRole() + ": " + user.getFirstName() + " " + user.getLastName());
 
             Home.setUser(user);
             String role = user.getRole();

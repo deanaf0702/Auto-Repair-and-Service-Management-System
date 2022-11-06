@@ -1,5 +1,7 @@
 package AutoCenter;
 
+import AutoCenter.models.User;
+
 public class Home {
 
   private static int INITIAL_SELECTION = 2;

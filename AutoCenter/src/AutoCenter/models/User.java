@@ -10,6 +10,7 @@ public class User {
   private String email;
   private String phone;
   private String role;
+  private int serviceCenterId;
   private double salaryOrWage;
 public int getUserId() {
 	return userId;
@@ -70,6 +71,12 @@ public double getSalaryOrWage() {
 }
 public void setSalaryOrWage(double salaryOrWage) {
 	this.salaryOrWage = salaryOrWage;
+}
+public int getServiceCenterId() {
+	return serviceCenterId;
+}
+public void setServiceCenterId(int serviceCenterId) {
+	this.serviceCenterId = serviceCenterId;
 }
 
   

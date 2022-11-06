@@ -9,8 +9,9 @@ import java.util.List;
 
 import AutoCenter.Home;
 import AutoCenter.ScanHelper;
-import AutoCenter.User;
+import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
+import AutoCenter.repository.UserRepository;
 import AutoCenter.models.MaintenanceService;
 import AutoCenter.models.RepairService;
 
@@ -154,7 +155,7 @@ public class RepositoryService {
 	{
 		User user = Home.getUser();
 		if(user == null) return 0;
-		else return user.getCenterId();
+		else return user.getServiceCenterId();
 	}
 	public boolean validateMinAndMaxWage(double wage)
 	{
@@ -180,5 +181,26 @@ public class RepositoryService {
 		}
 		return valid;
 	}
-	
+	//Repository
+	public boolean addUser(User user)
+	{
+		user.setServiceCenterId(getCenterId());
+		if(user.getRole().equals("Mechanic")) {
+			if(!(validateMinAndMaxWage(user.getSalaryOrWage()))) {
+				System.out.println("This isn't in the range of minimum or maximum wage.");
+				return false;
+			}
+				
+		}
+		
+		UserRepository er = new UserRepository();
+		boolean result= false;
+		try {
+			result = er.add(user);
+		}catch(Exception e) {
+			System.out.println("Went Wrong!");
+			
+		}
+		return result;
+	}		
 }
