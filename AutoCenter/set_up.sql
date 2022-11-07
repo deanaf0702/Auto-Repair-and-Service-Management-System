@@ -87,7 +87,7 @@ create table RepairServiceCategory(
 	category char(50) primary key
 );
 
----RepairServices 
+---RepairServices
 create table RepairServices(
     serviceId number(3),
     category char(50),
@@ -276,7 +276,7 @@ PRAGMA AUTONOMOUS_TRANSACTION;
 begin
 	select count(*) into vehicleCount from CustomerVehicles where customerId = :old.customerId and centerId = :old.centerId;
 	if( vehicleCount = 1)
-	then 
+	then
 		update Customers set isActive = 0 where userId = :old.customerId and serviceCenterId = :old.centerId;
 		commit;
 	end if;

@@ -61,10 +61,10 @@ public class RequestTimeOff implements UserFlowFunctionality {
     @Override
     public void run() {
         int selection = INITIAL_SELECTION;
+        displayDirections();
         display();
 
         do {
-            displayDirections();
             reset();
             String input = ScanHelper.nextLine();
             String[] inputs = input.split(";");
@@ -74,13 +74,13 @@ public class RequestTimeOff implements UserFlowFunctionality {
                     System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                             + ") from the given options displayed above: ");
                     selection = ScanHelper.nextInt();
+                } else {
+                    System.out.println("Invalid time slot parameters. Please try again.");
                 }
             } else {
-                System.out.println();
                 System.out.println(
-                        "Something went wrong. Please try again and make sure you provide all four input time"
-                                + " slot parameters. Take a look at the usage detailed above if you need help.");
-                System.out.println();
+                        "\nSomething went wrong. Please try again and make sure you provide all four input time"
+                                + " slot parameters. Take a look at the usage detailed above if you need help.\n");
                 selection = INITIAL_SELECTION;
             }
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
@@ -210,6 +210,16 @@ public class RequestTimeOff implements UserFlowFunctionality {
     /*
      * Returns the query to view all work schedules for a given mechanic during
      * their requested time off
+     *
+     * @param week the week of the time off request
+     *
+     * @param day the day of the time off request
+     *
+     * @param timeSlotStart the start time of the time off request
+     *
+     * @param timeSlotEnd the end time of the time off request
+     *
+     * @return the query to view all work schedules for a given mechanic during
      */
     private String viewTimeOffRequestsQuery(Integer week, Integer day, Integer timeSlotStart,
             Integer timeSlotEnd) {
@@ -225,6 +235,17 @@ public class RequestTimeOff implements UserFlowFunctionality {
 
     /*
      * Returns the query to view the number of mechanics working during a given
+     * time slot at a given center
+     *
+     * @param week the week of the time slot
+     *
+     * @param day the day of the time slot
+     *
+     * @param timeSlotStart the start of the time slot
+     *
+     * @param timeSlotEnd the end of the time slot
+     *
+     * @return the query to view the number of mechanics working during a given
      * time slot at a given center
      */
     private String viewWorkingMechanicsQuery(Integer week, Integer day, Integer timeSlotStart,
