@@ -13,19 +13,15 @@ public class ScanHelper {
     	// https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
     	
         final int selection = 0;
-        do {
-            try {
-                wentCatch = false;
-                int value = Integer.parseInt(scanner.nextLine());
-                return value;
-            }
-            catch ( final Exception e ) {
-                //e.printStackTrace();
-                wentCatch = true;
-            }
+        try {
+            wentCatch = false;
+            int value = scanner.nextInt();
+            return value;
         }
-        while ( wentCatch );
-
+        catch ( final Exception e ) {
+            e.printStackTrace();
+            wentCatch = true;
+        }
         return selection;
     }
 
@@ -44,19 +40,16 @@ public class ScanHelper {
     }
 
     public static Double nextDouble () {
-        do {
-            try {
-                wentCatch = false;
-                return scanner.nextDouble();
-            }
-            catch ( final Exception e ) {
-                e.printStackTrace();
-                wentCatch = true;
-                scanner.nextLine();
-                System.out.println( "Try again: " );
-            }
+    	try {
+            wentCatch = false;
+            return scanner.nextDouble();
         }
-        while ( wentCatch );
+        catch ( final Exception e ) {
+            e.printStackTrace();
+            wentCatch = true;
+            scanner.nextLine();
+            System.out.println( "Try again: " );
+        }
 
         return 0.0;
     }
