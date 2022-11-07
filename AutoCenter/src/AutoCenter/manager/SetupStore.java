@@ -23,7 +23,7 @@ public class SetupStore implements UserFlowFunctionality {
     System.out.println("######################################");
     System.out.println("# 1 Add employees                    #");
     System.out.println("# 2 Setup operational hours          #");
-    System.out.println("# 3 Setup service hours              #");
+    System.out.println("# 3 Setup Service Prices             #");
     System.out.println("# 4 Go Back                          #");
     System.out.println("######################################");
   }

@@ -139,14 +139,14 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 	{
 		User user = new User();
 		user.setUserId(Integer.parseInt(inputs[0]));
-		user.setFirstName(inputs[1]);
-		user.setLastName(inputs[2]);
-		user.setUsername(inputs[3]);
-		user.setPassword(inputs[4]);
-		user.setAddress(inputs[5]);
-		user.setEmail(inputs[6]);
-		user.setPhone(inputs[7]);
-		user.setRole(inputs[8]);
+		user.setFirstName(inputs[1].trim());
+		user.setLastName(inputs[2].trim());
+		user.setUsername(inputs[3].trim());
+		user.setPassword(inputs[4].trim());
+		user.setAddress(inputs[5].trim());
+		user.setEmail(inputs[6].trim());
+		user.setPhone(inputs[7].trim());
+		user.setRole(inputs[8].trim());
 		user.setServiceCenterId(repoService.getCenterId());
 		
 		String userQuery = "insert into users (userId, serviceCenterId, role, "

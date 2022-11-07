@@ -3,20 +3,32 @@ package AutoCenter.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import AutoCenter.models.User;
+import AutoCenter.services.RepositoryService;
 import AutoCenter.services.UserService;
 
 public class UserRepository {
 
     protected UserService userService = null;
+    protected RepositoryService repoService = null;
     static final String TABLE = "users";
     static final String PKCOLUMN = "userId";
 
     public UserRepository() {
         userService = new UserService();
+        repoService = new RepositoryService();
     }
 
     public boolean add(User user) {
         boolean valid = false;
+        if(user.getRole().equals("Mechanic"))
+        {
+        	if(!repoService.validateMinAndMaxWage(user.getSalaryOrWage()))
+        	{
+        		System.out.println("User's wage is not in the store's range.");
+        		return false;
+        	}
+        }
+        
         String userQuery = addUserQuery(user);
         DbConnection db = new DbConnection();
 
@@ -106,7 +118,7 @@ public class UserRepository {
     }
 
     public String addMechanicQuery(int userId, double wage, int serviceCenterId) {
-        return "insert into Mechanics (userId, wage) values("
+        return "insert into Mechanics (userId, serviceCenterId, wage) values("
                 + userId + ", "
                 + serviceCenterId + ", "
                 + wage

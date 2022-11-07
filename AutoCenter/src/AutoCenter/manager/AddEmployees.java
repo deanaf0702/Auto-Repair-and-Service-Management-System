@@ -23,6 +23,7 @@ public class AddEmployees implements UserFlowFunctionality {
 
     public AddEmployees() {
         userRepo = new UserRepository();
+        userService = new UserService();
     }
 
     public void run() {
@@ -30,21 +31,20 @@ public class AddEmployees implements UserFlowFunctionality {
 
         display();
         do {
-            display();
             user = new User();
             String input = ScanHelper.nextLine();
             String[] inputs = input.split(";");
             if (inputs.length == EXPECTED_INPUT_LENGTH) {
                 user.setUserId(Integer.parseInt(inputs[0]));
                 user.setServiceCenterId(userService.getCenterId());
-                user.setFirstName(inputs[1]);
-                user.setLastName(inputs[2]);
-                user.setUsername(inputs[3]);
-                user.setPassword(inputs[4]);
-                user.setAddress(inputs[5]);
-                user.setEmail(inputs[6]);
-                user.setPhone(inputs[7]);
-                user.setRole(inputs[8]);
+                user.setFirstName(inputs[1].trim());
+                user.setLastName(inputs[2].trim());
+                user.setUsername(inputs[3].trim());
+                user.setPassword(inputs[4].trim());
+                user.setAddress(inputs[5].trim());
+                user.setEmail(inputs[6].trim());
+                user.setPhone(inputs[7].trim());
+                user.setRole(inputs[8].trim());
                 user.setSalaryOrWage(Double.parseDouble(inputs[9]));
 
                 displayMenu();
@@ -109,7 +109,14 @@ public class AddEmployees implements UserFlowFunctionality {
             case 1:
                 result = userRepo.add(user);
                 if (result)
-                    System.out.println("Added Successfully!!");
+                {
+                	System.out.println("Added Successfully!!");
+                	System.out.println("Do you want to keep adding an employee (Yes: 1, No: 2)?");
+                	int select = ScanHelper.nextInt();
+                	if(select == 1) run();
+                	else goBack();
+                }
+                    
                 run();
                 break;
             case 2:

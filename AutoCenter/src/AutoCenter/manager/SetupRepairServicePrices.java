@@ -75,7 +75,7 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 		System.out.println("# L. Evaporator Repair     #");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println("#####      Example      ######");
-		System.out.println("## Ex:2; 3; 4; 2; 3; 3; 5; 3; 1; 2; 4; 3 ##");
+		System.out.println("## Ex (hours, price):2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00 ##");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println();
 		System.out.println("NOTE: It's important to enter information following");

@@ -184,14 +184,14 @@ public class AddNewStore implements UserFlowFunctionality {
         
         manager.setUserId(Integer.parseInt(inputs[0]));
         manager.setServiceCenterId(centerId);
-    	manager.setFirstName(inputs[1]);
-    	manager.setLastName(inputs[2]);
-    	manager.setUsername(inputs[3]);
-    	manager.setPassword(inputs[4]);
-    	manager.setAddress(inputs[5]);
-    	manager.setEmail(inputs[6]);
-    	manager.setPhone(inputs[7]);
-    	manager.setRole(inputs[8]);
+    	manager.setFirstName(inputs[1].trim());
+    	manager.setLastName(inputs[2].trim());
+    	manager.setUsername(inputs[3].trim());
+    	manager.setPassword(inputs[4].trim());
+    	manager.setAddress(inputs[5].trim());
+    	manager.setEmail(inputs[6].trim());
+    	manager.setPhone(inputs[7].trim());
+    	manager.setRole(inputs[8].trim());
     	manager.setSalaryOrWage(Double.parseDouble(inputs[9]));
         return true;	
     }
