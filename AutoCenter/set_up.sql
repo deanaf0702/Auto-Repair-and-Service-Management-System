@@ -78,6 +78,7 @@ create table CarModels(
 create table Services(
 	serviceId number(3),
 	name char(50),
+	serviceType char(20),
 	primary key (serviceId)
 );
 

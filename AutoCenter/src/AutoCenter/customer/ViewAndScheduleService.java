@@ -9,10 +9,9 @@ import AutoCenter.UserFlowFunctionality;
  */
 public class ViewAndScheduleService implements UserFlowFunctionality {
 
-    private static int INITIAL_SELECTION     = 0;
-    private static int MIN_SELECTION         = 1;
-    private static int MAX_SELECTION         = 3;
-    private static int EXPECTED_INPUT_LENGTH = 3;
+    private static int INITIAL_SELECTION = 0;
+    private static int MIN_SELECTION     = 1;
+    private static int MAX_SELECTION     = 2;
 
     public ViewAndScheduleService () {
     }
