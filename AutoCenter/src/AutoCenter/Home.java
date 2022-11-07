@@ -69,6 +69,7 @@ public class Home {
         System.out.println(
                 "Thanks for using Autor Repair and Service Management! We hope to see you again soon."
                         + " Goodbye.");
+        run();
     }
 
     public static void login() {
