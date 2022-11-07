@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
@@ -51,9 +52,10 @@ public class ViewSchedule implements UserFlowFunctionality {
     }
 
     private String viewScheduleQuery() {
-        return "select week, day, timeSlot from Schedule where mechanicId = " + LoginUser.getId()
-                + " and centerId = "
-                + LoginUser.getCenterId();
+        return "SELECT week, day, timeSlot"
+                + " FROM Schedule"
+                + " WHERE mechanicId = " + LoginUser.getId()
+                + " AND centerId = " + LoginUser.getCenterId();
     }
 
     private void displayDetails() {
@@ -92,11 +94,11 @@ public class ViewSchedule implements UserFlowFunctionality {
             }
 
             int scheduleCount = 1;
-            // todo potentially clean up via using entry set
-            for (String weekDay : schedule.keySet()) {
+            for (Map.Entry<String, ArrayList<Integer>> scheduleEntry : schedule.entrySet()) {
+                String weekDay = scheduleEntry.getKey();
+                ArrayList<Integer> timeSlots = scheduleEntry.getValue();
                 Integer week = Integer.valueOf(weekDay.split("_")[0]);
                 Integer day = Integer.valueOf(weekDay.split("_")[1]);
-                ArrayList<Integer> timeSlots = schedule.get(weekDay);
                 Integer minTimeSlot = Collections.min(timeSlots);
                 Integer maxTimeSlot = Collections.max(timeSlots);
 

@@ -42,6 +42,11 @@ public class RequestTimeOff implements UserFlowFunctionality {
     private static final int EXPECTED_INPUT_LENGTH = 4;
 
     /*
+     * The minimum number of working mechanics at any given time
+     */
+    private static final int MIN_WORKING_MECHANICS = 3;
+
+    /*
      * The separator to use between the menu title and the options
      */
     private static final String MENU_SEPARATOR = "##########################################";
@@ -145,8 +150,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
                 goBack();
                 break;
             default:
-                System.out.println("Invalid selection. Please try again.");
-                new RequestTimeOff().run();
+                System.out.println("Invalid selection.");
                 break;
         }
     }
@@ -160,6 +164,9 @@ public class RequestTimeOff implements UserFlowFunctionality {
 
         try {
             stmt = conn.createStatement();
+
+            // check to see if the mechanic is scheduled to work during the requested time
+            // off
             // file deepcode ignore NoStringConcat: <not needed>
             rs = stmt.executeQuery(viewTimeOffRequestsQuery(timeSlotParameters[0], timeSlotParameters[1],
                     timeSlotParameters[2], timeSlotParameters[3]));
@@ -167,7 +174,19 @@ public class RequestTimeOff implements UserFlowFunctionality {
                 System.out.println(
                         "0\nUnable to allow time off since you are already scheduled for work within that time range.\nPlease request another time range instead.");
             }
-            // TODO still need to verify at least 3 working mechanics
+
+            // check to see if there are enough mechanics to cover the time off request
+            rs = stmt.executeQuery(
+                    viewWorkingMechanicsQuery(timeSlotParameters[0], timeSlotParameters[1],
+                            timeSlotParameters[2], timeSlotParameters[3]));
+
+            while (rs.next()) {
+                int count = rs.getInt("numMechanics");
+                if (count < MIN_WORKING_MECHANICS) {
+                    System.out.println(
+                            "0\nUnable to allow time off since there are not enough mechanics to cover the time off request.\nPlease request another time range instead.");
+                }
+            }
         } catch (final SQLException e) {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>
             e.printStackTrace();
@@ -188,12 +207,35 @@ public class RequestTimeOff implements UserFlowFunctionality {
         }
     }
 
+    /*
+     * Returns the query to view all work schedules for a given mechanic during
+     * their requested time off
+     */
     private String viewTimeOffRequestsQuery(Integer week, Integer day, Integer timeSlotStart,
             Integer timeSlotEnd) {
-        return "select week, day, timeSlot from Schedule where mechanicId = " + LoginUser.getId()
-                + " and centerId = "
-                + LoginUser.getCenterId() + " and week = " + week + " and day = " + day + " and timeSlot >= "
-                + timeSlotStart + " and timeSlot <= " + timeSlotEnd;
+        return "SELECT week, day, timeSlot"
+                + " FROM Schedule"
+                + " WHERE mechanicId = " + LoginUser.getId()
+                + " AND centerId = " + LoginUser.getCenterId()
+                + " AND week = " + week
+                + " AND day = " + day
+                + " AND timeSlot >= " + timeSlotStart
+                + " AND timeSlot <= " + timeSlotEnd;
+    }
+
+    /*
+     * Returns the query to view the number of mechanics working during a given
+     * time slot at a given center
+     */
+    private String viewWorkingMechanicsQuery(Integer week, Integer day, Integer timeSlotStart,
+            Integer timeSlotEnd) {
+        return "SELECT COUNT(*) AS numMechanics"
+                + " FROM Schedule"
+                + " WHERE centerId = " + LoginUser.getCenterId()
+                + " AND week = " + week
+                + " AND day = " + day
+                + " AND timeSlot >= " + timeSlotStart
+                + " AND timeSlot <= " + timeSlotEnd;
     }
 
     @Override
