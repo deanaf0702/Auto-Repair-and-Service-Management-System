@@ -1,56 +1,77 @@
 package AutoCenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginUser {
-    private int    id;
-    private String role;
-    private String firstName;
-    private String lastName;
-    private int    centerId;
+    private static int           id;
+    private static String        role;
+    private static String        firstName;
+    private static String        lastName;
+    private static int           centerId;
+    private static List<Integer> cart;
 
     public LoginUser () {
+        cart = new ArrayList<Integer>();
     }
 
-    public void setId ( final int value ) {
-        this.id = value;
+    public static void setId ( final int value ) {
+        id = value;
     }
 
-    public int getId () {
-        return this.id;
+    public static int getId () {
+        return id;
     }
 
-    public void setRole ( final String value ) {
-        this.role = value;
+    public static void setRole ( final String value ) {
+        role = value;
     }
 
-    public String getRole () {
-        return this.role;
+    public static String getRole () {
+        return role;
     }
 
-    public void setFirstName ( final String value ) {
-        this.firstName = value;
+    public static void setFirstName ( final String value ) {
+        firstName = value;
     }
 
-    public String getFirstName () {
-        return this.firstName;
+    public static String getFirstName () {
+        return firstName;
     }
 
-    public void setLastName ( final String value ) {
-        this.lastName = value;
+    public static void setLastName ( final String value ) {
+        lastName = value;
     }
 
-    public String getLastName () {
-        return this.lastName;
+    public static String getLastName () {
+        return lastName;
     }
 
-    public String getName () {
-        return this.firstName + " " + this.lastName;
+    public static String getName () {
+        return firstName + " " + lastName;
     }
 
-    public void setCenterId ( final int value ) {
-        this.centerId = value;
+    public static void setCenterId ( final int value ) {
+        centerId = value;
     }
 
-    public int getCenterId () {
-        return this.centerId;
+    public static int getCenterId () {
+        return centerId;
+    }
+
+    public static List<Integer> getCart () {
+        return cart;
+    }
+
+    public static boolean addToCart ( final int serviceId ) {
+        if ( cart.contains( serviceId ) ) {
+            return false;
+        }
+        cart.add( serviceId );
+        return true;
+    }
+
+    public static void emptyCart () {
+        cart = new ArrayList<Integer>();
     }
 }
