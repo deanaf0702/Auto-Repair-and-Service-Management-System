@@ -41,35 +41,34 @@ public class AddNewEmployee implements UserFlowFunctionality {
 
     public void run() {
         int selection = -1;
-
+        display();
         do {
-            display();
-            user = new User();
-            String input = ScanHelper.nextLine();
-            String[] inputs = input.split(";");
-            if (inputs.length == EXPECTED_INPUT_LENGTH) {
-                user.setUserId(Integer.parseInt(inputs[0]));
-                user.setServiceCenterId(userService.getCenterId());
-                user.setFirstName(inputs[1].trim());
-                user.setLastName(inputs[2].trim());
-                user.setUsername(inputs[3].trim());
-                user.setPassword(inputs[4].trim());
-                user.setAddress(inputs[5].trim());
-                user.setEmail(inputs[6].trim());
-                user.setPhone(inputs[7].trim());
-                user.setRole(inputs[8].trim());
-                user.setSalaryOrWage(Double.parseDouble(inputs[9]));
-
-                displayMenu();
-                System.out.println("Enter choice (1-2) from the given options displayed above:");
-                selection = ScanHelper.nextInt();
-            } else {
-                System.out.println(
-                        "Something went wrong. Please try again and make sure you provide all Eleven inputs for an User."
-                                + " Take a look at the usage detailed above if you need help.");
-                System.out.println("Enter choice (1-2) from the given options displayed above:");
-
-            }
+        	user = new User();
+            user.setServiceCenterId(userService.getCenterId());
+            System.out.print("A. Employee ID :");
+            user.setUserId(ScanHelper.nextInt());
+            System.out.print("B. First Name :");
+            user.setFirstName(ScanHelper.next().trim());
+            System.out.print("C. Last Name :");
+            user.setLastName(ScanHelper.next().trim());
+            System.out.print("D. userName :");
+            user.setUsername(ScanHelper.next().trim());
+            System.out.print("E. Password :");
+            user.setPassword(ScanHelper.next().trim());
+            //System.out.print("F. Address :");
+            user.setAddress("1234 Main St, Raleigh, NC 27606-2972");
+            System.out.print("G. EmilAddress :");
+            user.setEmail(ScanHelper.next().trim());
+            System.out.print("H. Phone Number :");
+            user.setPhone(ScanHelper.next().trim());
+            System.out.print("I. Role :");
+            user.setRole(ScanHelper.next().trim());
+            System.out.print("J. Compensation($) :");
+            user.setSalaryOrWage(ScanHelper.nextDouble());
+            
+            displayMenu();
+            System.out.println("Enter choice (1-2) from the given options displayed above:");
+            selection = ScanHelper.nextInt();
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
         navigate(selection);
     }
@@ -90,14 +89,7 @@ public class AddNewEmployee implements UserFlowFunctionality {
         System.out.println("# I. Role                    #");
         System.out.println("# J. Compensation($)         #");
         System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####      Example      ######");
-        System.out.println(
-                "## Ex:752567048; Demo; Receptionist; demoReceptionist; Receptionist;1400 Gorman St, Raleigh, NC 27606-2972; dlfranks@ncsu.edu; 123-123-1234; Receptionist; 80000.00 ##");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println();
-        System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
+        
     }
 
     public void displayMenu() {

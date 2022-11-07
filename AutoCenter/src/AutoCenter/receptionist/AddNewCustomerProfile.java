@@ -18,7 +18,7 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
     private static final int EXPECTED_INPUT_LENGTH = 11;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
-
+    
 	public AddNewCustomerProfile()
 	{
 		repoService = new RepositoryService();
@@ -26,30 +26,47 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 	@Override
 	public void run() {
 		int selection = MAX_SELECTION;
-
+		display();
 		do {
-			display();
-			reset();
-			String input = ScanHelper.nextLine();
-			String[] inputs = input.split(";");
-
-			if(inputs.length == EXPECTED_INPUT_LENGTH )
-			{
-				displayMenu();
-				System.out.println("Enter choices(1-2)");
-				selection = ScanHelper.nextInt();
-				userQuery = getUserQuery(inputs);
-				int userId = Integer.parseInt(inputs[0].trim());
-				String vinNumber = inputs[7].trim();
-		        String carModel = inputs[8].trim();
-		        int mileage = Integer.parseInt(inputs[9]);
-		        int year = Integer.parseInt(inputs[10].trim());
-		        int serviceCenterId = repoService.getCenterId();
-				customerQuery = getCustomerQuery(userId, serviceCenterId);
-				custVehicleQuery = getCustVehicleQuery(userId, serviceCenterId, vinNumber, carModel, mileage, year);
-			}else {
-				System.out.println("Went wrong and try again!");
-			}
+			User user = new User();
+            user.setServiceCenterId(repoService.getCenterId());
+            System.out.print("A Customer ID :");
+            user.setUserId(ScanHelper.nextInt());
+            System.out.print("B. First Name :");
+            user.setFirstName(ScanHelper.next().trim());
+            System.out.print("C. Last Name :");
+            user.setLastName(ScanHelper.next().trim());
+            System.out.print("D. userName :");
+            user.setUsername(ScanHelper.next().trim());
+            System.out.print("E. Password :");
+            user.setPassword(ScanHelper.next().trim());
+            //System.out.print("F. Address :");
+            user.setAddress("1234 Main St, Raleigh, NC 27606-2972");
+            System.out.print("G. EmailAddress :");
+            user.setEmail(ScanHelper.next().trim());
+            System.out.print("H. Phone Number :");
+            user.setPhone(ScanHelper.next().trim());
+            System.out.print("I. Role :");
+            user.setRole(ScanHelper.next().trim());
+            System.out.print("J. Vin Number :");
+            String vinNumber = ScanHelper.next();
+            System.out.print("K. Car manufacturer :");
+            String carModel = ScanHelper.next().trim();
+            System.out.print("L. Current mileage :");
+            int mileage = ScanHelper.nextInt();
+            System.out.print("M. Year :");
+            int year = ScanHelper.nextInt();
+            
+            userQuery = getUserQuery(user);
+            
+	        int serviceCenterId = repoService.getCenterId();
+			customerQuery = getCustomerQuery(user.getUserId(), serviceCenterId);
+			custVehicleQuery = getCustVehicleQuery(user.getUserId(), serviceCenterId, vinNumber, carModel, mileage, year);
+            
+            displayMenu();
+            System.out.println("Enter choice (1-2) from the given options displayed above:");
+            selection = ScanHelper.nextInt();
+			
 		}while(!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 		navigate(selection);
 	}
@@ -62,14 +79,16 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 		System.out.println("# A Customer ID:");
 		System.out.println("# B FirstName:");
 		System.out.println("# C LastName:");
-		System.out.println("# D Address:");
-		System.out.println("# E EmailAddress:");
-		System.out.println("# F Phone Number:");
-		System.out.println("# G Username:");
-		System.out.println("# H Vin Number:");
-		System.out.println("# I Car manufacturer:");
-		System.out.println("# J Current mileage:");
-		System.out.println("# K Year:");
+		System.out.println("# D Username:");
+		System.out.println("# E Password:");
+		System.out.println("# F Address:");
+		System.out.println("# G EmailAddress:");
+		System.out.println("# H Phone Number:");
+		System.out.println("# I Role:");
+		System.out.println("# J Vin Number:");
+		System.out.println("# K Car manufacturer:");
+		System.out.println("# L Current mileage:");
+		System.out.println("# M Year:");
 		System.out.println(DIRECTION_SEPARATOR);
 		System.out.println("#####      Example      ######");
 		System.out.println("## Ex:10053;Billy;Batson;1234 Address ST Raleigh NC 12345;"
@@ -120,11 +139,13 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 		try {
 			DbConnection db = new DbConnection();
 			try {
-				boolean result = db.executeUpdate(customerQuery);
-				if(result) {
-					boolean result2 = db.executeUpdate(custVehicleQuery);
-					if(result2) valid = true;
-
+				boolean result1 = db.executeUpdate(userQuery);
+				if(result1) {
+					boolean result2 = db.executeUpdate(customerQuery);
+					if(result2) {
+						boolean result3 = db.executeUpdate(custVehicleQuery);
+						if(result3) valid = true;
+					}
 				}
 			}finally {
 				db.close();
@@ -135,20 +156,8 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 		}
 		return valid;
 	}
-	public String getUserQuery(String[] inputs)
+	public String getUserQuery(User user)
 	{
-		User user = new User();
-		user.setUserId(Integer.parseInt(inputs[0]));
-		user.setFirstName(inputs[1].trim());
-		user.setLastName(inputs[2].trim());
-		user.setUsername(inputs[3].trim());
-		user.setPassword(inputs[4].trim());
-		user.setAddress(inputs[5].trim());
-		user.setEmail(inputs[6].trim());
-		user.setPhone(inputs[7].trim());
-		user.setRole(inputs[8].trim());
-		user.setServiceCenterId(repoService.getCenterId());
-		
 		String userQuery = "insert into users (userId, serviceCenterId, role, "
 				+ "userName, password, firstName, lastName, address, "
 				+ "email, phone) values(" 
@@ -161,7 +170,7 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 				+ user.getPassword() + "', '"
 				+ user.getAddress() + "', '"
 				+ user.getEmail() + "', '"
-				+ user.getPhone() + "'";
+				+ user.getPhone() + "')";
 		
 		return userQuery;
 	}
@@ -179,7 +188,7 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 	}
 	public String getCustVehicleQuery(int userId, int serviceCenterId, String vinNumber, String carModel, int mileage, int year ) {
 		
-		String custVehicleQuery = "insert into CustomerVehicles (vin, userId, centerId, model, mileage, year) "
+		String custVehicleQuery = "insert into CustomerVehicles (vin, customerId, centerId, model, mileage, year) "
 				+ "values("
 				+ "'" + vinNumber + "', "
 				+  userId + ", "
