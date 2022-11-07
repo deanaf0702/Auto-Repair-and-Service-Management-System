@@ -7,7 +7,7 @@ public class LoginUser {
     private String lastName;
     private int centerId;
 
-    private LoginUser() {
+    public LoginUser() {
     }
 
     public void setId(int value) {

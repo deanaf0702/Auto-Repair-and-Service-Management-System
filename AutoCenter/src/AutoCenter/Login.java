@@ -1,5 +1,6 @@
 package AutoCenter;
 
+import AutoCenter.administrator.Administration;
 import AutoCenter.customer.Customer;
 import AutoCenter.manager.Manager;
 import AutoCenter.mechanic.Mechanic;
@@ -64,30 +65,37 @@ public class Login implements UserFlowFunctionality {
         }
     }
 
-    public void signIn(String userId, String password) {
-        UserService userService = new UserService();
-        LoginUser user = userService.authenticate(userId, password);
-        if (user == null) {
-            System.out.print("User not found!");
-            runAgain();
-        } else {
-            System.out.println(user.getRole() + ": " + user.getFirstName() + " " + user.getLastName());
-
-            Home.setUser(user);
-            String role = user.getRole();
-            if ("Manager".equals(role))
-                new Manager().run();
-            else if ("Receptionist".equals(role))
-                new Receptionist().run();
-            else if ("Mechanic".equals(role))
-                new Mechanic().run();
-            else if ("Customer".equals(role))
-                new Customer().run();
-            else {
+    public void signIn(String userId, String password) 
+    {
+    	if(userId.equals("admin") && password.equals("admin"))
+    	{
+    		new Administration().run();
+    	}else {
+    		UserService userService = new UserService();
+            LoginUser user = userService.authenticate(userId, password);
+            if (user == null) {
                 System.out.print("User not found!");
                 runAgain();
+            } 
+            else {
+                System.out.println(user.getRole() + ": " + user.getFirstName() + " " + user.getLastName());
+
+                Home.setUser(user);
+                String role = user.getRole();
+                if ("Manager".equals(role))
+                    new Manager().run();
+                else if ("Receptionist".equals(role))
+                    new Receptionist().run();
+                else if ("Mechanic".equals(role))
+                    new Mechanic().run();
+                else if ("Customer".equals(role))
+                    new Customer().run();
+                else {
+                    System.out.print("User not found!");
+                    runAgain();
+                }
             }
-        }
+    	}
     }
 
     public void runAgain() {

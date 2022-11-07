@@ -1,6 +1,8 @@
 package AutoCenter.administrator;
 
 import AutoCenter.UserFlowFunctionality;
+import AutoCenter.models.User;
+import AutoCenter.repository.DbConnection;
 import AutoCenter.ScanHelper;
 import AutoCenter.UIHelpers;
 
@@ -32,17 +34,39 @@ public class AddNewStore implements UserFlowFunctionality {
      */
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
+    private User manager;
+    private int centerId;
+    private String address;
+    private Double minWage;
+    private Double maxWage;
+    
     @Override
     public void run() {
-        int selection;
+        int selection = MAX_SELECTION;
         display();
 
         do {
             displayDirections();
             // TODO add file parsing here
-            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                    + ") from the given options displayed above: ");
-            selection = ScanHelper.nextInt();
+            System.out.println("Enter Store ID ?");
+            int storeId = ScanHelper.nextInt();
+            System.out.println("Enter Store Address ?");
+            String storeAddress = ScanHelper.nextLine();
+            System.out.println("Enter Manager's information?");
+            System.out.println("Ex:653186733;Deana;Franks;dfranks;Franks;"
+            		+ "1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;manager;200000.00");
+            String managerInfo = ScanHelper.nextLine();
+            
+            System.out.println("Enter Min and max wage for mechanics using the delimiter, ';' (ex: 30.00; 75.00 )?");
+            String minMax = ScanHelper.nextLine();
+            
+            if(validateInput(storeId, storeAddress, managerInfo, minMax))
+            {
+            	System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                        + ") from the given options displayed above: ");
+                selection = ScanHelper.nextInt();
+            }
+            
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
         navigate(selection);
@@ -84,7 +108,7 @@ public class AddNewStore implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
-                new AddNewStore().run();
+                	save();
                 break;
             case 2:
                 goBack();
@@ -98,5 +122,49 @@ public class AddNewStore implements UserFlowFunctionality {
     @Override
     public void goBack() {
         new Administration().run();
+    }
+    private boolean save() 
+    {
+    	boolean valid = false;
+    	
+    	try {
+    		DbConnection db = new DbConnection();
+    		try {
+    			
+    		}finally {
+    			db.close();
+    		}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return valid;
+    }
+    private boolean validateInput(int storeId, String address, String managerInfo, String minMax)
+    {
+    	boolean valid = false;
+    
+    	if(storeId < 1) return valid;
+    	centerId = storeId;
+    	if(address.isEmpty()) return valid;
+    	this.address = address;
+    	String[] minMaxWages = minMax.split(";");
+    	if(minMaxWages.length != 2) return valid;
+    	minWage = Double.parseDouble(minMaxWages[0]);
+    	maxWage = Double.parseDouble(minMaxWages[1]);
+    	manager = new User();
+    	String[] inputs = managerInfo.split(";");
+        if (inputs.length != 10) return valid;
+        
+        manager.setUserId(Integer.parseInt(inputs[0]));
+    	manager.setFirstName(inputs[1]);
+    	manager.setLastName(inputs[2]);
+    	manager.setUsername(inputs[3]);
+    	manager.setPassword(inputs[4]);
+    	manager.setAddress(inputs[5]);
+    	manager.setEmail(inputs[6]);
+    	manager.setPhone(inputs[7]);
+    	manager.setRole(inputs[8]);
+    	manager.setSalaryOrWage(Double.parseDouble(inputs[9]));
+        return true;	
     }
 }
