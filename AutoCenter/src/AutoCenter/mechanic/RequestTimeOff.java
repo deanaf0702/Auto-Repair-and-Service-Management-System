@@ -2,6 +2,7 @@ package AutoCenter.mechanic;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
+import AutoCenter.UIHelpers;
 
 /**
  * Handles functionality for request time off menu of mechanics including
@@ -12,12 +13,35 @@ import AutoCenter.ScanHelper;
  */
 public class RequestTimeOff implements UserFlowFunctionality {
 
+    /*
+     * The initial selection for the menu options range
+     */
     private static final int INITIAL_SELECTION = 0;
+
+    /*
+     * The minimum selection for the menu options range
+     */
     private static final int MIN_SELECTION = 1;
+
+    /*
+     * The maximum selection for the menu options range
+     */
     private static final int MAX_SELECTION = 2;
+
+    /*
+     * The expected number of inputs for a valid time off request
+     */
     private static final int EXPECTED_INPUT_LENGTH = 4;
-    private static final String DIRECTION_SEPARATOR = "#############################";
-    private static final String MENU_SEPARATOR = "######################################";
+
+    /*
+     * The separator to use between the menu title and the options
+     */
+    private static final String MENU_SEPARATOR = "##########################################";
+
+    /*
+     * The separator to use between the directions components
+     */
+    private static final String DIRECTION_SEPARATOR = "#####################################";
 
     private Integer[] timeSlotParameters;
 
@@ -27,23 +51,23 @@ public class RequestTimeOff implements UserFlowFunctionality {
         display();
 
         do {
-            displayDirection();
+            displayDirections();
             reset();
-            System.out.println(
-                    "Please enter time slots for desired time off following the general format described"
-                            + " above.");
             String input = ScanHelper.nextLine();
             String[] inputs = input.split(";");
             if (inputs.length >= EXPECTED_INPUT_LENGTH) {
                 boolean validTimeSlots = parseAndValidateTimeSlots(inputs);
                 if (validTimeSlots) {
-                    System.out.print("Enter choice (1-2) from the given options displayed above: ");
+                    System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                            + ") from the given options displayed above: ");
                     selection = ScanHelper.nextInt();
                 }
             } else {
+                System.out.println();
                 System.out.println(
                         "Something went wrong. Please try again and make sure you provide all four input time"
                                 + " slot parameters. Take a look at the usage detailed above if you need help.");
+                System.out.println();
                 selection = INITIAL_SELECTION;
             }
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
@@ -55,64 +79,51 @@ public class RequestTimeOff implements UserFlowFunctionality {
     }
 
     private boolean parseAndValidateTimeSlots(String[] inputs) {
-        timeSlotParameters[0] = Integer.parseInt(inputs[0]);
-        timeSlotParameters[1] = Integer.parseInt(inputs[1]);
-        timeSlotParameters[2] = Integer.parseInt(inputs[2]);
-        timeSlotParameters[3] = Integer.parseInt(inputs[3]);
-
-        // valid week
-        if (timeSlotParameters[0] < 1 || timeSlotParameters[0] > 4) {
+        try {
+            timeSlotParameters[0] = Integer.parseInt(inputs[0]);
+            timeSlotParameters[1] = Integer.parseInt(inputs[1]);
+            timeSlotParameters[2] = Integer.parseInt(inputs[2]);
+            timeSlotParameters[3] = Integer.parseInt(inputs[3]);
+        } catch (NumberFormatException e) {
+            System.out.println(
+                    "Something went wrong. Please try again and make sure you provide all four input time"
+                            + " slot parameters. Take a look at the usage detailed above if you need help.");
             return false;
         }
 
-        // valid day
-        if (timeSlotParameters[1] < 1 || timeSlotParameters[1] > 7) {
-            return false;
-        }
-
-        // valid time slot start
-        if (timeSlotParameters[2] < 1 || timeSlotParameters[2] > 9) {
-            return false;
-        }
-
-        // valid time slot end
-        return timeSlotParameters[3] < 1 || timeSlotParameters[3] > 9;
+        return !(timeSlotParameters[0] < 1 || timeSlotParameters[0] > 4 /* valid week */
+                || timeSlotParameters[1] < 1 || timeSlotParameters[1] > 7 /* valid day */
+                || timeSlotParameters[2] < 1 || timeSlotParameters[2] > 9 /* valid slot tart */
+                || timeSlotParameters[3] < 1 || timeSlotParameters[3] > 9 /* valid slot end */
+        );
     }
 
-    public void displayDirection() {
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("######      Usage      ######");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("# A. Time slots mechanic    #");
-        System.out.println("# wants to be off           #");
-        System.out.println("# (indicated by week, day,  #");
-        System.out.println("# time slot start and end   #");
-        System.out.println("# slot ids)                 #");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####      Example     ######");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("##        1; 3; 6; 9      ###");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("## Corresponds to         ###");
-        System.out.println("## (week: 1, day 3,       ###");
-        System.out.println("## time start: 6,         ###");
-        System.out.println("## time end: 9)           ###");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println();
-        System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
+    private void displayDirections() {
+        String[] usageComponents = {
+                "# A. Time slots mechanic wants to   #\n" +
+                        "#    be off (indicated by week, day #\n" +
+                        "#    , time slot start and end ids) #",
+        };
+
+        UIHelpers.displayUsageDirections(
+                usageComponents,
+                "###           1; 3; 6; 9          ###\n" +
+                        DIRECTION_SEPARATOR + "\n" +
+                        "### Corresponds to (week: 1, day  ###\n" +
+                        "### 3, time start: 6, time end: 9 ###",
+                "   Add New Store: Usage    ",
+                "   Add New Store: Example  ",
+                DIRECTION_SEPARATOR);
     }
 
     @Override
     public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("#####   Manager: Request Time    #####");
-        System.out.println("#######        Off Menu        #######");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 Send the request                 #");
-        System.out.println("# 2 Go Back                          #");
-        System.out.println(MENU_SEPARATOR);
+        String[] menuOptions = {
+                "# 1 Send the request                     #",
+                "# 2 Go Back                              #"
+        };
+
+        UIHelpers.displayMenu(" Manager: Request Time Off Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
