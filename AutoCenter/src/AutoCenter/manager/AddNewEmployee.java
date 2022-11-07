@@ -2,9 +2,11 @@ package AutoCenter.manager;
 
 
 import AutoCenter.UserFlowFunctionality;
+import AutoCenter.Home;
 import AutoCenter.ScanHelper;
 import AutoCenter.models.User;
 import AutoCenter.repository.UserRepository;
+import AutoCenter.services.UserService;
 
 public class AddNewEmployee implements UserFlowFunctionality {
 
@@ -30,8 +32,11 @@ public class AddNewEmployee implements UserFlowFunctionality {
 
     private static final String MENU_SEPARATOR = "#######################################";
 
+    private UserService userService = null;
+    
     public AddNewEmployee() {
         userRepo = new UserRepository();
+        userService = new UserService();
     }
 
     public void run() {
@@ -44,6 +49,7 @@ public class AddNewEmployee implements UserFlowFunctionality {
             String[] inputs = input.split(";");
             if (inputs.length == EXPECTED_INPUT_LENGTH) {
                 user.setUserId(Integer.parseInt(inputs[0]));
+                user.setServiceCenterId(userService.getCenterId());
                 user.setFirstName(inputs[1]);
                 user.setLastName(inputs[2]);
                 user.setUsername(inputs[3]);

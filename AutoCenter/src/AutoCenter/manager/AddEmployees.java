@@ -12,8 +12,9 @@ import AutoCenter.services.UserService;
 
 public class AddEmployees implements UserFlowFunctionality {
 
+	private UserService userService = null;
     private UserRepository userRepo = null;
-    private User User = null;
+    private User user = null;
     private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
     private static final int EXPECTED_INPUT_LENGTH = 10;
@@ -30,20 +31,21 @@ public class AddEmployees implements UserFlowFunctionality {
         display();
         do {
             display();
-            User = new User();
+            user = new User();
             String input = ScanHelper.nextLine();
             String[] inputs = input.split(";");
             if (inputs.length == EXPECTED_INPUT_LENGTH) {
-                User.setUserId(Integer.parseInt(inputs[0]));
-                User.setFirstName(inputs[1]);
-                User.setLastName(inputs[2]);
-                User.setUsername(inputs[3]);
-                User.setPassword(inputs[4]);
-                User.setAddress(inputs[5]);
-                User.setEmail(inputs[6]);
-                User.setPhone(inputs[7]);
-                User.setRole(inputs[8]);
-                User.setSalaryOrWage(Double.parseDouble(inputs[9]));
+                user.setUserId(Integer.parseInt(inputs[0]));
+                user.setServiceCenterId(userService.getCenterId());
+                user.setFirstName(inputs[1]);
+                user.setLastName(inputs[2]);
+                user.setUsername(inputs[3]);
+                user.setPassword(inputs[4]);
+                user.setAddress(inputs[5]);
+                user.setEmail(inputs[6]);
+                user.setPhone(inputs[7]);
+                user.setRole(inputs[8]);
+                user.setSalaryOrWage(Double.parseDouble(inputs[9]));
 
                 displayMenu();
                 System.out.println("Enter choice (1-2) from the given options displayed above:");
@@ -71,7 +73,7 @@ public class AddEmployees implements UserFlowFunctionality {
         System.out.println("# A. Employee ID             #");
         System.out.println("# B. First Name              #");
         System.out.println("# C. Last Name               #");
-        System.out.println("# D. UserName                #");
+        System.out.println("# D. userName                #");
         System.out.println("# E. Password                #");
         System.out.println("# F. Address                 #");
         System.out.println("# G. EmilAddress             #");
@@ -105,7 +107,7 @@ public class AddEmployees implements UserFlowFunctionality {
         boolean result = false;
         switch (selection) {
             case 1:
-                result = userRepo.add(User);
+                result = userRepo.add(user);
                 if (result)
                     System.out.println("Added Successfully!!");
                 run();

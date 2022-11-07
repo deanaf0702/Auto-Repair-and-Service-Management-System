@@ -1,8 +1,11 @@
 package AutoCenter.administrator;
+import java.sql.PreparedStatement;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
+import AutoCenter.repository.UserRepository;
+import AutoCenter.services.RepositoryService;
 import AutoCenter.ScanHelper;
 import AutoCenter.UIHelpers;
 
@@ -34,11 +37,17 @@ public class AddNewStore implements UserFlowFunctionality {
      */
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
+    private UserRepository userRepo = null;
     private User manager;
     private int centerId;
     private String address;
     private Double minWage;
     private Double maxWage;
+    
+    public AddNewStore()
+    {
+    	userRepo = new UserRepository();
+    }
     
     @Override
     public void run() {
@@ -54,7 +63,7 @@ public class AddNewStore implements UserFlowFunctionality {
             String storeAddress = ScanHelper.nextLine();
             System.out.println("Enter Manager's information?");
             System.out.println("Ex:653186733;Deana;Franks;dfranks;Franks;"
-            		+ "1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;manager;200000.00");
+            		+ "1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00");
             String managerInfo = ScanHelper.nextLine();
             
             System.out.println("Enter Min and max wage for mechanics using the delimiter, ';' (ex: 30.00; 75.00 )?");
@@ -108,7 +117,9 @@ public class AddNewStore implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
-                	save();
+                	if(save()) System.out.println("Added Successfully");
+                	else System.out.println("Failed adding a new User");
+                	goBack();
                 break;
             case 2:
                 goBack();
@@ -126,19 +137,35 @@ public class AddNewStore implements UserFlowFunctionality {
     private boolean save() 
     {
     	boolean valid = false;
+    	String storeQuery = "insert into ServiceCenters (centerId, minWage, maxWage, address, phone, satOpen, isActive)"
+    			+ " values (?, ?, ?, ?, ?, ?, ?)";
     	
     	try {
     		DbConnection db = new DbConnection();
     		try {
-    			
+    			PreparedStatement preStmt = db.getConnection().prepareStatement(storeQuery);
+    			preStmt.setInt(1, centerId);
+    			preStmt.setDouble(2, minWage);
+    			preStmt.setDouble(3, maxWage);
+    			preStmt.setString(4, address);
+    			preStmt.setString(5, "1234567899");
+    			preStmt.setInt(6, 0);
+    			preStmt.setInt(7, 1);
+    			int result2 = preStmt.executeUpdate();
+    			if(result2 > 0)
+    				valid = true;
     		}finally {
     			db.close();
     		}
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
+    	boolean result = userRepo.add(manager);
+    	if(result) valid = true;
+    	
     	return valid;
     }
+    
     private boolean validateInput(int storeId, String address, String managerInfo, String minMax)
     {
     	boolean valid = false;
@@ -156,6 +183,7 @@ public class AddNewStore implements UserFlowFunctionality {
         if (inputs.length != 10) return valid;
         
         manager.setUserId(Integer.parseInt(inputs[0]));
+        manager.setServiceCenterId(centerId);
     	manager.setFirstName(inputs[1]);
     	manager.setLastName(inputs[2]);
     	manager.setUsername(inputs[3]);

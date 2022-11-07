@@ -9,18 +9,19 @@ public class ScanHelper {
     private static boolean wentCatch = false;
 
     public static int nextInt () {
-        // scanner.nextLine();
+        // Scanner is skipping sometimes, so I have found a solution through google
+    	// https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
+    	
         final int selection = 0;
         do {
             try {
                 wentCatch = false;
-                return scanner.nextInt();
+                int value = Integer.parseInt(scanner.nextLine());
+                return value;
             }
             catch ( final Exception e ) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 wentCatch = true;
-                // scanner.nextLine();
-                // System.out.println("Try again: ");
             }
         }
         while ( wentCatch );
@@ -43,7 +44,6 @@ public class ScanHelper {
     }
 
     public static Double nextDouble () {
-        // scanner.nextLine();
         do {
             try {
                 wentCatch = false;

@@ -17,8 +17,6 @@ public class UserRepository {
 
     public boolean add(User user) {
         boolean valid = false;
-        // user.userId = getPrimaryKey();
-        user.setServiceCenterId(userService.getCenterId());
         String userQuery = addUserQuery(user);
         DbConnection db = new DbConnection();
 
@@ -129,7 +127,7 @@ public class UserRepository {
                 + user.getPassword() + "', '"
                 + user.getAddress() + "', '"
                 + user.getEmail() + "', '"
-                + user.getPhone() + "'";
+                + user.getPhone() + "')";
     }
 
 }
