@@ -263,7 +263,7 @@ create trigger updateStatusAfterAddCar
 after insert on CustomerVehicles
 for each row
 begin
-	update Customers set isActive = 1 where userId = :new.customerId;
+	update Customers set isActive = 1 where userId = :new.customerId and serviceCenterId = :new.centerId;
 end;
 /
 
