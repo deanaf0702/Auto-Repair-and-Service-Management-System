@@ -1,0 +1,48 @@
+###############################
+#####   User: Home Menu   #####
+###############################
+# 1 Login                     #
+# 2 Exit                      #
+###############################
+Enter choice (1-2) from the given options displayed above: 1
+################################
+#####   User: Login Menu   #####
+################################
+# 1 Sign-In                    #
+# 2 Go Back                    #
+################################
+Enter UserID: 
+30002-123789456
+Enter password: 
+Martinez
+Enter choice (1-2) from the given options displayed above: 1
+Mechanic: Robert Martinez
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 1
+Your schedule is as follows:
+You have no upcoming shifts.
+###################################
+##### Mechanic: View Schedule #####
+###################################
+# 1 Go back                       #
+###################################
+Enter choice (1-1) from the given options displayed above: 1
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 5
+Thanks for using Autor Repair and Service Management! We hope to see you again soon. Goodbye.

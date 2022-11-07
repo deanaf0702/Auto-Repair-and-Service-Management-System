@@ -1,0 +1,198 @@
+###############################
+#####   User: Home Menu   #####
+###############################
+# 1 Login                     #
+# 2 Exit                      #
+###############################
+Enter choice (1-2) from the given options displayed above: 1
+################################
+#####   User: Login Menu   #####
+################################
+# 1 Sign-In                    #
+# 2 Go Back                    #
+################################
+Enter UserID: 
+30002-423186759
+Enter password: 
+Clark
+Enter choice (1-2) from the given options displayed above: 1
+Mechanic: Ellie Clark
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 1
+Your schedule is as follows:
+1. Week: 2, Day: 4, Time Slot: 2, Activity: Work      
+2. Week: 2, Day: 4, Time Slot: 3, Activity: Work      
+3. Week: 2, Day: 4, Time Slot: 4, Activity: Work      
+4. Week: 2, Day: 4, Time Slot: 5, Activity: Work      
+###################################
+##### Mechanic: View Schedule #####
+###################################
+# 1 Go back                       #
+###################################
+Enter choice (1-1) from the given options displayed above: 1
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 2
+##########################################
+##### Manager: Request Time Off Menu #####
+##########################################
+# 1 Send the request                     #
+# 2 Go Back                              #
+##########################################
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+1; 3; 6; 9
+Something went wrong. Please try again and make sure you provide all four input time slot parameters. Take a look at the usage detailed above if you need help.
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+1
+
+Something went wrong. Please try again and make sure you provide all four input time slot parameters. Take a look at the usage detailed above if you need help.
+
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+2
+
+Something went wrong. Please try again and make sure you provide all four input time slot parameters. Take a look at the usage detailed above if you need help.
+
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+2;4;2;5
+Enter choice (1-2) from the given options displayed above: 1
+##########################################
+##### Manager: Request Time Off Menu #####
+##########################################
+# 1 Send the request                     #
+# 2 Go Back                              #
+##########################################
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+2
+
+Something went wrong. Please try again and make sure you provide all four input time slot parameters. Take a look at the usage detailed above if you need help.
+
+#####################################
+#####   Add New Store: Usage    #####
+#####################################
+# A. Time slots mechanic wants to   #
+#    be off (indicated by week, day #
+#    , time slot start and end ids) #
+#####################################
+#####   Add New Store: Example  #####
+#####################################
+###           1; 3; 6; 9          ###
+#####################################
+### Corresponds to (week: 1, day  ###
+### 3, time start: 6, time end: 9 ###
+#####################################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+

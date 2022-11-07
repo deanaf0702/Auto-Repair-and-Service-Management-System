@@ -1,0 +1,51 @@
+###############################
+#####   User: Home Menu   #####
+###############################
+# 1 Login                     #
+# 2 Exit                      #
+###############################
+Enter choice (1-2) from the given options displayed above: 1
+################################
+#####   User: Login Menu   #####
+################################
+# 1 Sign-In                    #
+# 2 Go Back                    #
+################################
+Enter UserID: 
+30002-423186759
+Enter password: 
+Clark
+Enter choice (1-2) from the given options displayed above: 1
+Mechanic: Ellie Clark
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 1
+Your schedule is as follows:
+1. Week: 2, Day: 4, Time Slot: 2, Activity: Work      
+2. Week: 2, Day: 4, Time Slot: 3, Activity: Work      
+3. Week: 2, Day: 4, Time Slot: 4, Activity: Work      
+4. Week: 2, Day: 4, Time Slot: 5, Activity: Work      
+###################################
+##### Mechanic: View Schedule #####
+###################################
+# 1 Go back                       #
+###################################
+Enter choice (1-1) from the given options displayed above: 1
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 5
+Thanks for using Autor Repair and Service Management! We hope to see you again soon. Goodbye.

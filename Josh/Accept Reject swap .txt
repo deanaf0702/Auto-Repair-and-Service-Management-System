@@ -1,0 +1,56 @@
+###############################
+#####   User: Home Menu   #####
+###############################
+# 1 Login                     #
+# 2 Exit                      #
+###############################
+Enter choice (1-2) from the given options displayed above: 1
+################################
+#####   User: Login Menu   #####
+################################
+# 1 Sign-In                    #
+# 2 Go Back                    #
+################################
+Enter UserID: 
+30002-123789456
+Enter password: 
+Martinez
+Enter choice (1-2) from the given options displayed above: 1
+Mechanic: Robert Martinez
+##################################
+##### Mechanic: Landing Page #####
+##################################
+# 1 View schedule                #
+# 2 Request time off             #
+# 3 Request swap                 #
+# 4 Accept / Reject swap         #
+# 5 Logout                       #
+##################################
+Enter choice (1-5) from the given options displayed above: 4
+#########################################
+#####   Mechanic: Accept / Reject   #####
+#######         Swap Menu         #######
+#########################################
+# 1 Manage swap requests                #
+# 2 Go Back                             #
+#########################################
+#############################
+######      Usage      ######
+#############################
+# A. RequestID              #
+# ------------------------- #
+# B. The requesting         #
+# mechanic's name           #
+# ------------------------- #
+# C. Timeslot range         #
+# requested                 #
+#############################
+#####      Example     ######
+#############################
+##         6; 7; 8        ###
+#############################
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`
+
+Enter choice (1-2) from the given options displayed above: 1
