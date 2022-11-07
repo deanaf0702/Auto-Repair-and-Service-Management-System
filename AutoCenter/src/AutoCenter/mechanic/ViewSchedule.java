@@ -1,12 +1,13 @@
 package AutoCenter.mechanic;
 
 import AutoCenter.UserFlowFunctionality;
-import AutoCenter.models.User;
 import AutoCenter.repository.DbConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
-import AutoCenter.Home;
 import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
 import AutoCenter.UIHelpers;
@@ -50,9 +51,9 @@ public class ViewSchedule implements UserFlowFunctionality {
     }
 
     private String viewScheduleQuery() {
-        return "select week, day, timeSlot, activity from Schedule where mechanicId = " + Home.getUser().getId()
+        return "select week, day, timeSlot from Schedule where mechanicId = " + LoginUser.getId()
                 + " and centerId = "
-                + Home.getUser().getCenterId();
+                + LoginUser.getCenterId();
     }
 
     private void displayDetails() {
@@ -67,25 +68,47 @@ public class ViewSchedule implements UserFlowFunctionality {
             // file deepcode ignore NoStringConcat: <not needed>
             rs = stmt.executeQuery(viewScheduleQuery());
             System.out.println("Your schedule is as follows:");
-            int scheduleCount = 1;
+
+            HashMap<String, ArrayList<Integer>> schedule = new HashMap<String, ArrayList<Integer>>();
+
             while (rs.next()) {
-                System.out.println(scheduleCount + ". Week: " + rs.getInt("week") + ", Day: "
-                        + rs.getInt("day") + ", Time Slot: " + rs.getInt("timeSlot") + ", Activity: "
-                        + rs.getString("activity"));
-                scheduleCount++;
+                int week = rs.getInt("week");
+                int day = rs.getInt("day");
+                int timeSlot = rs.getInt("timeSlot");
+
+                String weekStr = Integer.toString(week);
+                String dayStr = Integer.toString(day);
+                String weekDay = weekStr + "_" + dayStr;
+
+                ArrayList<Integer> timeSlots = schedule.get(weekDay);
+                if (timeSlots == null) {
+                    timeSlots = new ArrayList<>();
+                    timeSlots.add(timeSlot);
+                    schedule.put(weekDay, timeSlots);
+                } else {
+                    if (!timeSlots.contains(timeSlot))
+                        timeSlots.add(timeSlot);
+                }
+            }
+
+            int scheduleCount = 1;
+            // todo potentially clean up via using entry set
+            for (String weekDay : schedule.keySet()) {
+                Integer week = Integer.valueOf(weekDay.split("_")[0]);
+                Integer day = Integer.valueOf(weekDay.split("_")[1]);
+                ArrayList<Integer> timeSlots = schedule.get(weekDay);
+                Integer minTimeSlot = Collections.min(timeSlots);
+                Integer maxTimeSlot = Collections.max(timeSlots);
+
+                String startDate = UIHelpers.convertToStartDate(week, day, minTimeSlot);
+                String endDate = UIHelpers.convertToEndDate(week, day, maxTimeSlot);
+
+                System.out.println(scheduleCount + ". " + startDate + " - " + endDate);
+                scheduleCount += 1;
             }
 
             if (scheduleCount == 1) {
                 System.out.println("You have no upcoming shifts.");
-            }
-
-            while (rs.next()) {
-                System.out.println("VIN: " + rs.getString("vin"));
-                System.out.println("Manufacturer: " + rs.getString("manufacturer"));
-                System.out.println("Model: " + rs.getString("model"));
-                System.out.println("Year: " + rs.getString("year"));
-                System.out.println("Mileage: " + rs.getString("mileage"));
-                System.out.println("Last Maintenance Class: " + rs.getString("lastMClass"));
             }
         } catch (final SQLException e) {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>

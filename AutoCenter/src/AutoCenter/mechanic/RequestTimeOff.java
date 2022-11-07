@@ -1,6 +1,14 @@
 package AutoCenter.mechanic;
 
 import AutoCenter.UserFlowFunctionality;
+import AutoCenter.repository.DbConnection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
 import AutoCenter.UIHelpers;
 
@@ -144,7 +152,48 @@ public class RequestTimeOff implements UserFlowFunctionality {
     }
 
     private void processRequestedTimeOff() {
-        // TODO function stub here
+        // Establish connection to database
+        final DbConnection db = new DbConnection();
+        final Connection conn = db.getConnection();
+        ResultSet rs = null;
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            // file deepcode ignore NoStringConcat: <not needed>
+            rs = stmt.executeQuery(viewTimeOffRequestsQuery(timeSlotParameters[0], timeSlotParameters[1],
+                    timeSlotParameters[2], timeSlotParameters[3]));
+            if (rs.next()) {
+                System.out.println(
+                        "0\nUnable to allow time off since you are already scheduled for work within that time range.\nPlease request another time range instead.");
+            }
+            // TODO still need to verify at least 3 working mechanics
+        } catch (final SQLException e) {
+            // file deepcode ignore DontUsePrintStackTrace: <not needed>
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            db.close();
+        }
+    }
+
+    private String viewTimeOffRequestsQuery(Integer week, Integer day, Integer timeSlotStart,
+            Integer timeSlotEnd) {
+        return "select week, day, timeSlot from Schedule where mechanicId = " + LoginUser.getId()
+                + " and centerId = "
+                + LoginUser.getCenterId() + " and week = " + week + " and day = " + day + " and timeSlot >= "
+                + timeSlotStart + " and timeSlot <= " + timeSlotEnd;
     }
 
     @Override
