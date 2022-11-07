@@ -84,7 +84,13 @@ public class AddEmployees implements UserFlowFunctionality {
         System.out.println(DIRECTION_SEPARATOR);
         System.out.println("#####      Example      ######");
         System.out.println(
-                "## Ex:423186759;Ellie;Clark;eclark;clark;3125 Avent Ferry Road, Raleigh, NC 27605;eclark@gmail.com;9892180921;mechanic;11-JUN-2022;30.99 ##");
+                "## Ex:752567048; Demo; Receptionist; demoReceptionist; Receptionist;1400 Gorman St, Raleigh, NC 27606-2972; dlfranks@ncsu.edu; 123-123-1234; Receptionist; 80000.00 ##");
+        System.out.println(
+                "## Ex:651529448; DemoMechanic; Mechanic1; demoMechanic1; Mechanic;1234 Main St, Raleigh, NC 27606-2972; mechanic@gmail.com; 123-123-1234; Mechanic; 45.00 ##");
+        System.out.println(
+                "## Ex:386529648; DemoMechanic2; Mechanic2; demoMechanic2; Mechanic2;1234 Main St, Raleigh, NC 27606-2972; mechanic2@gmail.com; 123-123-1234; Mechanic; 55.00 ##");
+        System.out.println(
+                "## Ex:176549548; DemoMechanic3; Mechanic3; demoMechanic3; Mechanic3;1234 Main St, Raleigh, NC 27606-2972; mechanic3@gmail.com; 123-123-1234; Mechanic; 50.00 ##");
         System.out.println(DIRECTION_SEPARATOR);
         System.out.println();
         System.out.println("NOTE: It's important to enter information following");

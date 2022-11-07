@@ -57,13 +57,12 @@ public class AddNewStore implements UserFlowFunctionality {
         do {
             displayDirections();
             // TODO add file parsing here
-            System.out.println("Enter Store ID ?");
+            System.out.println("Enter Store ID (ex:30004) ?");
             int storeId = ScanHelper.nextInt();
-            System.out.println("Enter Store Address ?");
+            System.out.println("Enter Store Address (ex:1378 University Woods, Raleigh, NC 27612)?");
             String storeAddress = ScanHelper.nextLine();
             System.out.println("Enter Manager's information?");
-            System.out.println("Ex:653186733;Deana;Franks;dfranks;Franks;"
-            		+ "1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00");
+            System.out.println("Ex:653186733;Deana;Franks;dfranks;Franks;1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00");
             String managerInfo = ScanHelper.nextLine();
             
             System.out.println("Enter Min and max wage for mechanics using the delimiter, ';' (ex: 30.00; 75.00 )?");

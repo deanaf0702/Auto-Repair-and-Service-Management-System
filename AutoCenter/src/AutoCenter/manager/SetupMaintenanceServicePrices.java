@@ -34,13 +34,13 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
         do {
             display();
-            for (int i = 0; i < EXPECTED_INPUT_LENGTH; i++) {
+            for (int i = 0; i < models.length; i++) {
                 System.out.println("Enter Schedule A, B, and C hours and prices for " + models[i] + " ?");
                 System.out.println("##  Ex(hours, price): 4, 100.00; 5, 110.00; 2, 120.00  ##");
                 String input = ScanHelper.nextLine();
                 String[] inputs = input.split(";");
                 if (inputs.length == EXPECTED_INPUT_LENGTH) {
-                	for(int j = 0; j < 3; j++)
+                	for(int j = 0; j < EXPECTED_INPUT_LENGTH; j++)
                 	{
                 		String items[] = inputs[j].split(",");
                         if (items.length == 2) {
@@ -54,13 +54,11 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
                             System.out.println("Input Format Error");
                             break;
                         }
-                	}
-                    
+                	} 
                 } else {
                     System.out.println("Input Format Error");
                     break;
                 }
-
             }
             displayMenu();
             System.out.println("Enter choice (1-2) from the given options displayed above:");
