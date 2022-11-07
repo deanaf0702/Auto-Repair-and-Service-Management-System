@@ -50,7 +50,7 @@ public class ViewSchedule implements UserFlowFunctionality {
     }
 
     private String viewScheduleQuery() {
-        return "select week, day, timeSlot from Schedule where mechanicId = " + Home.getUser().getId()
+        return "select week, day, timeSlot, activity from Schedule where mechanicId = " + Home.getUser().getId()
                 + " and centerId = "
                 + Home.getUser().getCenterId();
     }
@@ -70,7 +70,8 @@ public class ViewSchedule implements UserFlowFunctionality {
             int scheduleCount = 1;
             while (rs.next()) {
                 System.out.println(scheduleCount + ". Week: " + rs.getInt("week") + ", Day: "
-                        + rs.getString("day") + ", Time Slot: " + rs.getString("timeSlot"));
+                        + rs.getInt("day") + ", Time Slot: " + rs.getInt("timeSlot") + ", Activity: "
+                        + rs.getString("activity"));
                 scheduleCount++;
             }
 
