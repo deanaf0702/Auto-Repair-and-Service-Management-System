@@ -31,7 +31,7 @@ public class ViewInvoiceDetails implements UserFlowFunctionality {
         final String query = "select se.serviceEventId, cv.customerId, se.vin, se.week, se.day, se.startTimeSlot, se.endTimeSlot, se.isPaid, "
                 + "u.firstName, u.lastName from ServiceEvents se inner join CustomerVehicles cv on se.vin = cv.vin "
                 + "inner join Users u on u.userId = se.mechanicId where se.serviceEventId = " + id;
-        final String query2 = "select eos.serviceId, s.serviceType, s.name, p,price from EventOnServices eos inner join ServiceEvents se on eos.serviceEventId = se.serviceEventId "
+        final String query2 = "select eos.serviceId, s.serviceType, s.name, p.price from EventOnServices eos inner join ServiceEvents se on eos.eventId = se.serviceEventId "
                 + "inner join Services s on s.serviceId = eos.serviceId "
                 + "inner join CustomerVehicles cv on cv.vin = se.vin "
                 + "inner join Prices p on cv.model = p.model and s.serviceId = p.serviceId and se.centerId = p.centerId "

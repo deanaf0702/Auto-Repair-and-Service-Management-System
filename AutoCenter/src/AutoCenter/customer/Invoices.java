@@ -20,7 +20,7 @@ public class Invoices implements UserFlowFunctionality {
     public void run () {
         System.out.println( "Invoices:" );
         final String query = "select se.serviceEventId, se.isPaid from ServiceEvents se "
-                + "inner join CustomerVehicles on se.vin = cv.vin " + "where cv.customerId = " + LoginUser.getId();
+                + "inner join CustomerVehicles cv on se.vin = cv.vin " + "where cv.customerId = " + LoginUser.getId();
         final DbConnection db = new DbConnection();
         invoiceIds = new ArrayList<Integer>();
         try {
