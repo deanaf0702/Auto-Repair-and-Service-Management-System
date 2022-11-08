@@ -22,11 +22,6 @@ import AutoCenter.UIHelpers;
 public class RequestTimeOff implements UserFlowFunctionality {
 
     /*
-     * The initial selection for the menu options range
-     */
-    private static final int INITIAL_SELECTION = 0;
-
-    /*
      * The minimum selection for the menu options range
      */
     private static final int MIN_SELECTION = 1;
@@ -57,38 +52,39 @@ public class RequestTimeOff implements UserFlowFunctionality {
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
     private Integer[] timeSlotParameters;
-
+    private int week;
+    private int day;
+    private int startTimeSlot;
+    private int endTimeSlot;
+    
     @Override
     public void run() {
-        int selection = INITIAL_SELECTION;
-        displayDirections();
+        int selection = MAX_SELECTION;
         display();
 
         do {
-            reset();
-            String input = ScanHelper.nextLine();
-            String[] inputs = input.split(";");
-            if (inputs.length >= EXPECTED_INPUT_LENGTH) {
-                boolean validTimeSlots = parseAndValidateTimeSlots(inputs);
-                if (validTimeSlots) {
-                    System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                            + ") from the given options displayed above: ");
-                    selection = ScanHelper.nextInt();
-                } else {
-                    System.out.println("Invalid time slot parameters. Please try again.");
-                }
-            } else {
-                System.out.println(
-                        "\nSomething went wrong. Please try again and make sure you provide all four input time"
-                                + " slot parameters. Take a look at the usage detailed above if you need help.\n");
-                selection = INITIAL_SELECTION;
-            }
+            System.out.print("week:");
+            week = ScanHelper.nextInt();
+            System.out.print("day:");
+            day = ScanHelper.nextInt();
+            System.out.print("Start time slot:");
+            startTimeSlot = ScanHelper.nextInt();
+            System.out.print("End time slot:");
+            endTimeSlot = ScanHelper.nextInt();
+            
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
+         
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
         navigate(selection);
     }
 
     private void reset() {
-        timeSlotParameters = new Integer[4];
+    	week = 0;
+    	day = 0;
+    	startTimeSlot = 0;
+    	endTimeSlot = 0;
     }
 
     private boolean parseAndValidateTimeSlots(String[] inputs) {
@@ -143,67 +139,56 @@ public class RequestTimeOff implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
-                processRequestedTimeOff();
-                new RequestTimeOff().run();
+	                processRequestedTimeOff();
+	                System.out.print("Do you want to continue for another request (1:yes/2:no)?");
+	                int select = ScanHelper.nextInt();
+	                if(select == 1) run();
+	                else goBack();
                 break;
             case 2:
                 goBack();
                 break;
             default:
-                System.out.println("Invalid selection.");
+            	goBack();
                 break;
         }
     }
 
     private void processRequestedTimeOff() {
         // Establish connection to database
-        final DbConnection db = new DbConnection();
-        final Connection conn = db.getConnection();
-        ResultSet rs = null;
-        Statement stmt = null;
-
+    	boolean valid = true;
         try {
-            stmt = conn.createStatement();
-
-            // check to see if the mechanic is scheduled to work during the requested time
-            // off
-            // file deepcode ignore NoStringConcat: <not needed>
-            rs = stmt.executeQuery(viewTimeOffRequestsQuery(timeSlotParameters[0], timeSlotParameters[1],
-                    timeSlotParameters[2], timeSlotParameters[3]));
-            if (rs.next()) {
-                System.out.println(
-                        "0\nUnable to allow time off since you are already scheduled for work within that time range.\nPlease request another time range instead.");
-            }
-
-            // check to see if there are enough mechanics to cover the time off request
-            rs = stmt.executeQuery(
-                    viewWorkingMechanicsQuery(timeSlotParameters[0], timeSlotParameters[1],
-                            timeSlotParameters[2], timeSlotParameters[3]));
-
-            while (rs.next()) {
-                int count = rs.getInt("numMechanics");
-                if (count < MIN_WORKING_MECHANICS) {
+        	DbConnection db = new DbConnection();
+        	try {
+        		// check to see if the mechanic is scheduled to work during the requested time
+                // off
+                // file deepcode ignore NoStringConcat: <not needed>
+                ResultSet rs = db.executeQuery(viewTimeOffRequestsQuery(week, day,
+                        startTimeSlot, endTimeSlot));
+                if (rs.next()) {
                     System.out.println(
-                            "0\nUnable to allow time off since there are not enough mechanics to cover the time off request.\nPlease request another time range instead.");
+                            "0\nUnable to allow time off since you are already scheduled for work within that time range.\nPlease request another time range instead.");
+                }else {
+                	// check to see if there are enough mechanics to cover the time off request
+                    ResultSet rs2 = db.executeQuery(
+                            viewWorkingMechanicsQuery(week, day,
+                            		startTimeSlot, endTimeSlot));
+
+                    while (rs2.next()) {
+                        int count = rs.getInt("numMechanics");
+                        if (count < MIN_WORKING_MECHANICS) {
+                            System.out.println(
+                                    "0\nUnable to allow time off since there are not enough mechanics to cover the time off request.\nPlease request another time range instead.");
+                        }
+                    }               
                 }
-            }
-        } catch (final SQLException e) {
+        	}finally {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>
-            e.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (final SQLException e) {
-                e.printStackTrace();
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            }
             db.close();
+        	}
+        }catch(SQLException e) {
+            e.printStackTrace();
+            valid = false;
         }
     }
 
