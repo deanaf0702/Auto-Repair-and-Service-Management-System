@@ -48,7 +48,7 @@ public class UserService {
         if ( Home.getUser() != null ) {
             Home.setUser( null );
         }
-        Home.exit();
+        Home.run();
 
     }
 
