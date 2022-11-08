@@ -129,15 +129,6 @@ public class RequestSwap implements UserFlowFunctionality {
                 DIRECTION_SEPARATOR);
     }
 
-    /**
-     * Resets the state of the input parameters
-     */
-    private static void reset() {
-        initialTimeSlotParameters = new Integer[4];
-        desiredTimeSlotParameters = new Integer[4];
-        employeeIDForSwap = -1;
-    }
-
     @Override
     public void display() {
         String[] menuOptions = {
@@ -167,6 +158,15 @@ public class RequestSwap implements UserFlowFunctionality {
     @Override
     public void goBack() {
         new Mechanic().run();
+    }
+
+    /**
+     * Resets the state of the input parameters
+     */
+    private static void reset() {
+        initialTimeSlotParameters = new Integer[4];
+        desiredTimeSlotParameters = new Integer[4];
+        employeeIDForSwap = -1;
     }
 
     /**
@@ -287,7 +287,7 @@ public class RequestSwap implements UserFlowFunctionality {
             return false;
         }
 
-        // validate the mechanic is working within the given time slot range
+        // validate the requesting mechanic is working within the given time slot range
         return validateRequestingMechanicWorkingWithinTimeSlotRange(initialTimeSlotParameters[0],
                 initialTimeSlotParameters[1],
                 initialTimeSlotParameters[2], initialTimeSlotParameters[3]); // all inputs are valid
@@ -708,8 +708,8 @@ public class RequestSwap implements UserFlowFunctionality {
             Integer mechanicId) {
         return "SELECT COUNT(*) AS numMechanics"
                 + " FROM Schedule"
-                + " WHERE mechanicID = " + mechanicId
-                + " WHERE centerId = " + LoginUser.getCenterId()
+                + " WHERE mechanicId = " + mechanicId
+                + " AND centerId = " + LoginUser.getCenterId()
                 + " AND week = " + week
                 + " AND day = " + day
                 + " AND timeSlot >= " + timeSlotStart
@@ -736,7 +736,7 @@ public class RequestSwap implements UserFlowFunctionality {
         return "SELECT COUNT(*) AS numMechanics"
                 + " FROM Schedule"
                 + " WHERE mechanicID = " + LoginUser.getId()
-                + " WHERE centerId = " + LoginUser.getCenterId()
+                + " AND centerId = " + LoginUser.getCenterId()
                 + " AND week = " + week
                 + " AND day = " + day
                 + " AND timeSlot >= " + timeSlotStart

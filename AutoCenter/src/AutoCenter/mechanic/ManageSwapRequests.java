@@ -1,5 +1,6 @@
 package AutoCenter.mechanic;
 
+import AutoCenter.UIHelpers;
 import AutoCenter.UserFlowFunctionality;
 
 /**
@@ -10,6 +11,26 @@ import AutoCenter.UserFlowFunctionality;
  * @author jkersey
  */
 public class ManageSwapRequests implements UserFlowFunctionality {
+
+    /**
+     * The minimum selection for the menu options range
+     */
+    private static final int MIN_SELECTION = 1;
+
+    /**
+     * The maximum selection for the menu options range
+     */
+    private static final int MAX_SELECTION = 2;
+
+    /**
+     * The separator to use between the menu title and the options
+     */
+    private static final String MENU_SEPARATOR = "#######################################";
+
+    /**
+     * The separator to use between the directions components
+     */
+    private static final String DIRECTION_SEPARATOR = "#############################";
 
     @Override
     public void run() {
@@ -44,12 +65,38 @@ public class ManageSwapRequests implements UserFlowFunctionality {
         System.out.println("# 2 Reject swap                         #");
         System.out.println("# 3 Go Back                             #");
         System.out.println("#########################################");
+        String[] menuOptions = {
+                "# 1 Send the request                  #",
+                "# 2 Go Back                           #",
+        };
+
+        UIHelpers.displayMenu(" Mechanic: Manage Swap Requests Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
     public void navigate(int selection) {
-        // TODO Auto-generated method stub
+        switch (selection) {
+            case 1:
+                acceptSwap();
+                new AcceptRejectSwap().run();
+                break;
+            case 2:
+                rejectSwap();
+                new AcceptRejectSwap().run();
+                break;
+            case 3:
+                goBack();
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                break;
+        }
+    }
 
+    private void rejectSwap() {
+    }
+
+    private void acceptSwap() {
     }
 
     @Override

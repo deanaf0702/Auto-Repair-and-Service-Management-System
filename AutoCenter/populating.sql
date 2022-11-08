@@ -326,4 +326,14 @@ insert into EventOnServices values (5, 111);
 insert into EventOnServices values (6, 114);
 insert into EventOnServices values (7, 113);
 
+insert into SwapRequests values(1, 0);
+insert into OnSwapRequests values(1, 125689347, 2, 1, 3, 789123456, 2, 6, 2);
+insert into OnSwapRequests values(1, 125689347, 2, 1, 4, 789123456, 2, 6, 3);
+insert into OnSwapRequests values(1, 125689347, 2, 1, 5, 789123456, 2, 6, 4);
+insert into SwapRequests values(2, 0);
+insert into OnSwapRequests values(2, 789123456, 2, 6, 7, 125689347, 3, 5, 5);
+insert into SwapRequests values(3, 0);
+insert into OnSwapRequests (requestId, mechanicId1, week1, day1, timeSlot1, mechanicId2, week2, day2, timeSlot2) 
+values(3, 423186759, 2, 4, 2, 125689347, 3, 5, 6);
+
 commit;

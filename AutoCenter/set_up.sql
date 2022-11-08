@@ -299,26 +299,6 @@ create table Schedule(
     constraint fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents (serviceEventId)
 );
 
--- Sequence for auto incrementing SwapRequestID
-CREATE SEQUENCE auto_increment_swap_request_id START WITH 1 INCREMENT BY 1 CACHE 100;
-
---SwapRequests
-create table SwapRequests(
-    requestId integer primary key,
-    centerId integer,
-    mechanicId number(9),
-    mechanicIdForSwap number(9),
-    initialWeek number(1),
-    initialDay number(2),
-    initialStartTimeSlot number(2),
-    initialEndTimeSlot number(2),
-    desiredWeek number(1),
-    desiredDay number(2),
-    desiredStartTimeSlot number(2),
-    desiredEndTimeSlot number(2),
-    status number(1),
-);
-
 --EventOnServices
 create table EventOnServices(
     eventId integer,
@@ -326,6 +306,31 @@ create table EventOnServices(
     primary key (eventId, serviceId),
     constraint fk_EventOnServices_eventId foreign key (eventId) references ServiceEvents (serviceEventId),
     constraint fk_EventOnServices_serviceId foreign key (serviceId) references Services (serviceId)
+);
+
+--SwapRequests
+-- create table SwapRequests(
+--     requestId integer primary key,
+--     status number(1)
+-- );
+-- Sequence for auto incrementing SwapRequestID
+CREATE SEQUENCE auto_increment_swap_request_id START WITH 1 INCREMENT BY 1 CACHE 100;
+
+--SwapRequests
+create table SwapRequests(
+    requestId integer primary key,
+    mechanicId1 number(9),
+    week1 number(1),
+    day1 number(2),
+    timeSlot1 number(2),
+    mechanicId2 number(9),
+    week2 number(1),
+    day2 number(2),
+    timeSlot2 number(2),
+    status number(1),
+    constraint fk_OnSwapRequests_Schedule1 foreign key (mechanicId1, week1, day1, timeSlot1) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_Schedule2 foreign key (mechanicId2, week2, day2, timeSlot2) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_SwapRequests foreign key (requestId) references SwapRequests(requestId)
 );
 
 --Create triggers
@@ -340,10 +345,10 @@ set
 where
     userId = :new.customerId
     and serviceCenterId = :new.centerId;
-end;
-/ 
 
-create trigger updateStatusAfterDeleteCar
+end;
+
+/ create trigger updateStatusAfterDeleteCar
 after
     delete on CustomerVehicles for each row declare vehicleCount number;
 
@@ -359,12 +364,18 @@ where
     and centerId = :old.centerId;
 
 if(vehicleCount = 1) then
-update Customers set isActive = 0 where
+update
+    Customers
+set
+    isActive = 0
+where
     userId = :old.customerId
     and serviceCenterId = :old.centerId;
-	commit;
-end if;
-end;
-/ 
 
 commit;
+
+end if;
+
+end;
+
+/ commit;
