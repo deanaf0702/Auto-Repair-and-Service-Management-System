@@ -12,7 +12,6 @@ import AutoCenter.services.UserService;
  */
 public class Mechanic implements UserFlowFunctionality {
 
-    private static int INITIAL_SELECTION = 5;
     private static int MIN_SELECTION = 1;
     private static int MAX_SELECTION = 5;
     private UserService userService = null;
@@ -23,7 +22,7 @@ public class Mechanic implements UserFlowFunctionality {
 
     @Override
     public void run() {
-        int selection = INITIAL_SELECTION;
+        int selection;
         display();
         do {
             System.out.print("Enter choice (1-5) from the given options displayed above: ");
@@ -63,6 +62,9 @@ public class Mechanic implements UserFlowFunctionality {
                 break;
             case 5:
                 goBack();
+                break;
+            default:
+                System.out.println("Invalid selection.");
                 break;
         }
     }

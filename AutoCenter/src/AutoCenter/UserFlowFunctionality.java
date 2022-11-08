@@ -12,7 +12,7 @@ public interface UserFlowFunctionality {
     void display();
 
     /**
-     * Handles navigation based on user input.
+     * Handles navigation to the next desired state based on user input.
      *
      * @param selection
      *                  the user's selection

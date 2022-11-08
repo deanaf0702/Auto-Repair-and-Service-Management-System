@@ -148,6 +148,7 @@ public class RequestSwap implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
+                processRequestedSwap();
                 new RequestSwap().run();
                 break;
             case 2:
@@ -162,6 +163,73 @@ public class RequestSwap implements UserFlowFunctionality {
     @Override
     public void goBack() {
         new Mechanic().run();
+    }
+
+    /**
+     * Processes the valid requested swap and issues a swap request to the
+     * database.
+     */
+    private void processRequestedSwap() {
+        // Establish connection to database
+        final DbConnection db = new DbConnection();
+        final Connection conn = db.getConnection();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            // deepcode ignore NoStringConcat: <no need to use string builder>
+            stmt.executeUpdate(insertSwapRequestStatement());
+            System.out.println("Successfully created swap request with employee ID: "
+                    + employeeIDForSwap + ". Swapped timeslot range: "
+                    + UIHelpers.convertToStartDate(initialTimeSlotParameters[0], initialTimeSlotParameters[1],
+                            initialTimeSlotParameters[2])
+                    + " - " + UIHelpers.convertToEndDate(initialTimeSlotParameters[0], initialTimeSlotParameters[1],
+                            initialTimeSlotParameters[3])
+                    + " with timeslot range: "
+                    + UIHelpers.convertToStartDate(desiredTimeSlotParameters[0], desiredTimeSlotParameters[1],
+                            desiredTimeSlotParameters[2])
+                    + " - "
+                    + UIHelpers.convertToEndDate(desiredTimeSlotParameters[0], desiredTimeSlotParameters[1],
+                            desiredTimeSlotParameters[3]));
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            try {
+                conn.close();
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            db.close();
+        }
+    }
+
+    /*
+     * Returns the SQL INSERT statement for the swap request based on the input
+     * parameters into the SwapRequests table of the database initialized in the
+     * pending state.
+     */
+    private static String insertSwapRequestStatement() {
+        return "INSERT INTO SwapRequests (requestId, centerId, mechanicId, mechanicIdForSwap, initialWeek, initialDay, initialStartTimeSlot, initialEndTimeSlot, desiredWeek, desiredDay, desiredStartTimeSlot, desiredEndTimeSlot, status) VALUES ("
+                + "auto_increment_swap_request_id.nextval, "
+                + LoginUser.getCenterId() + ", "
+                + LoginUser.getId() + ", "
+                + employeeIDForSwap + ", "
+                + initialTimeSlotParameters[0] + ", "
+                + initialTimeSlotParameters[1] + ", "
+                + initialTimeSlotParameters[2] + ", "
+                + initialTimeSlotParameters[3] + ", "
+                + desiredTimeSlotParameters[0] + ", "
+                + desiredTimeSlotParameters[1] + ", "
+                + desiredTimeSlotParameters[2] + ", "
+                + desiredTimeSlotParameters[3] + ", "
+                + 0 + ")";
     }
 
     /*
@@ -304,33 +372,6 @@ public class RequestSwap implements UserFlowFunctionality {
     }
 
     /*
-     * Returns the query to validate the mechanic requesting a swap is working
-     * within
-     * the given time slot range
-     *
-     * @param week The week of the time slot range
-     *
-     * @param day The day of the time slot range
-     *
-     * @param startTimeSlot The start time slot of the time slot range
-     *
-     * @param endTimeSlot The end time slot of the time slot range
-     *
-     * @return The query to validate the mechanic requesting a swap is working
-     */
-    private static String validRequestingMechanicWorkingQuery(Integer week, Integer day, Integer timeSlotStart,
-            Integer timeSlotEnd) {
-        return "SELECT COUNT(*) AS numMechanics"
-                + " FROM Schedule"
-                + " WHERE mechanicID = " + LoginUser.getId()
-                + " WHERE centerId = " + LoginUser.getCenterId()
-                + " AND week = " + week
-                + " AND day = " + day
-                + " AND timeSlot >= " + timeSlotStart
-                + " AND timeSlot <= " + timeSlotEnd;
-    }
-
-    /*
      * Parses and validates the desired time slot inputs for the request swap menu
      *
      * @param scanner The scanner to use for parsing the inputs
@@ -383,7 +424,12 @@ public class RequestSwap implements UserFlowFunctionality {
             return false;
         }
 
-        // TODO still need to check for overbooking and double booking here
+        // validate the mechanic is working within the given time slot range
+        if (!validateRequestedMechanicWorkingWithinTimeSlotRange(desiredTimeSlotParameters[0],
+                desiredTimeSlotParameters[1],
+                desiredTimeSlotParameters[2], desiredTimeSlotParameters[3])) {
+            return false;
+        }
 
         // validate no overbooking
         if (!validateRequestedMechanicNotOverbooked(initialTimeSlotParameters[0], initialTimeSlotParameters[2],
@@ -392,11 +438,8 @@ public class RequestSwap implements UserFlowFunctionality {
         }
 
         // validate no double booking
-
-        // validate the mechanic is working within the given time slot range
-        return validateRequestedMechanicWorkingWithinTimeSlotRange(desiredTimeSlotParameters[0],
-                desiredTimeSlotParameters[1],
-                desiredTimeSlotParameters[2], desiredTimeSlotParameters[3]); // all inputs are valid
+        return validateRequestedMechanicNotDoublebooked(initialTimeSlotParameters[0], initialTimeSlotParameters[1],
+                initialTimeSlotParameters[2], initialTimeSlotParameters[3], employeeIDForSwap); // all inputs are valid
     }
 
     /*
@@ -465,6 +508,21 @@ public class RequestSwap implements UserFlowFunctionality {
         return true;
     }
 
+    /*
+     * Validates the mechanic requested for a swap is not overbooked given the
+     * requested time slot range and the employee ID of the mechanic requested for a
+     * swap in a particular week
+     *
+     * @param week The week of the time slot range
+     *
+     * @param startTimeSlot The start time slot of the time slot range
+     *
+     * @param endTimeSlot The end time slot of the time slot range
+     *
+     * @param employeeIDForSwap The employee ID of the mechanic requested for a swap
+     *
+     * @return true if the mechanic is not overbooked, false otherwise
+     */
     private static boolean validateRequestedMechanicNotOverbooked(Integer week, Integer startTimeSlot,
             Integer endTimeSlot, Integer employeeIDForSwap) {
         // Establish connection to database
@@ -515,7 +573,23 @@ public class RequestSwap implements UserFlowFunctionality {
         return true;
     }
 
-    // TODO complete implementation details here
+    /*
+     * Validates the mechanic requested for a swap is not double booked given the
+     * requested time slot range and the employee ID of the mechanic requested for a
+     * swap in a particular week and day
+     *
+     * @param week The week of the time slot range
+     *
+     * @param day The day of the time slot range
+     *
+     * @param startTimeSlot The start time slot of the time slot range
+     *
+     * @param endTimeSlot The end time slot of the time slot range
+     *
+     * @param employeeIDForSwap The employee ID of the mechanic requested for a swap
+     *
+     * @return true if the mechanic is not double booked, false otherwise
+     */
     private static boolean validateRequestedMechanicNotDoublebooked(Integer week, Integer day,
             Integer startTimeSlot, Integer endTimeSlot, Integer employeeIDForSwap) {
         // Establish connection to database
@@ -530,20 +604,18 @@ public class RequestSwap implements UserFlowFunctionality {
             // Query the database for the requested mechanic's time slots
             // deepcode ignore NoStringConcat: <not needed>
             rs = stmt.executeQuery(
-                    getNumTimeSlotsQuery(week, employeeIDForSwap));
+                    getNumEntriesQuery(week, day, startTimeSlot, endTimeSlot, employeeIDForSwap));
 
-            // If the count is greater than max working hours, the mechanic is overbooked
+            // If the number of entries is greater than 0, the mechanic is double booked
             while (rs.next()) {
-                int numHours = rs.getInt("numHours");
-                int additionalHours = endTimeSlot - startTimeSlot + 1;
+                int numEntries = rs.getInt("numEntries");
 
-                if (numHours + additionalHours > MAX_WORKING_HOURS) {
+                if (numEntries > 0) {
                     System.out.println(
-                            "\nThe mechanic you are requesting to swap with is overbooked. Try again with a time slot range in which they are not overbooked.\n");
+                            "\nThe mechanic you are requesting to swap with is double booked if they accept your proposed swap. Try again with a time slot range in which they are not double booked.\n");
                     return false;
                 }
             }
-
         } catch (final SQLException e) {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>
             e.printStackTrace();
@@ -663,6 +735,33 @@ public class RequestSwap implements UserFlowFunctionality {
     }
 
     /*
+     * Returns the query to validate the mechanic requesting a swap is working
+     * within
+     * the given time slot range
+     *
+     * @param week The week of the time slot range
+     *
+     * @param day The day of the time slot range
+     *
+     * @param startTimeSlot The start time slot of the time slot range
+     *
+     * @param endTimeSlot The end time slot of the time slot range
+     *
+     * @return The query to validate the mechanic requesting a swap is working
+     */
+    private static String validRequestingMechanicWorkingQuery(Integer week, Integer day, Integer timeSlotStart,
+            Integer timeSlotEnd) {
+        return "SELECT COUNT(*) AS numMechanics"
+                + " FROM Schedule"
+                + " WHERE mechanicID = " + LoginUser.getId()
+                + " WHERE centerId = " + LoginUser.getCenterId()
+                + " AND week = " + week
+                + " AND day = " + day
+                + " AND timeSlot >= " + timeSlotStart
+                + " AND timeSlot <= " + timeSlotEnd;
+    }
+
+    /*
      * Returns the query for the employee id to see if it exists
      *
      * @param employeeID The employee id to query the database for
@@ -695,7 +794,7 @@ public class RequestSwap implements UserFlowFunctionality {
 
     /*
      * Returns the number of entries for the desired mechanic during the proposed
-     * swap time slot range
+     * swap time slot range. Used to validate that the mechanic is not double booked
      *
      * @param week The week of the time slot range
      *
@@ -713,12 +812,12 @@ public class RequestSwap implements UserFlowFunctionality {
             Integer mechanicId) {
         return "SELECT COUNT(*) AS numEntries" +
                 " FROM Schedule" +
-                " WHERE week = " + week +
+                " WHERE mechanicID = " + mechanicId +
+                " AND centerId = " + LoginUser.getCenterId() +
+                " AND week = " + week +
                 " AND day = " + day +
                 " AND timeSlot >= " + timeSlotStart +
-                " AND timeSlot <= " + timeSlotEnd +
-                " AND mechanicID = " + mechanicId +
-                " AND centerId = " + LoginUser.getCenterId();
+                " AND timeSlot <= " + timeSlotEnd;
     }
 
     /*

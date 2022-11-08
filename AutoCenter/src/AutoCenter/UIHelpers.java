@@ -87,6 +87,15 @@ public class UIHelpers {
         System.out.println();
     }
 
+    /**
+     * Displays the start date converted from the internal representation format
+     * to a more readable, standard datetime.
+     *
+     * @param week     the week to display
+     * @param day      the day to display
+     * @param timeSlot the time slot to display
+     * @return the start date converted from the internal representation format
+     */
     public static String convertToStartDate(final int week, final int day, final int timeSlot) {
         final int dd = (week - 1) * 7 + day;
         String time = "";
@@ -130,6 +139,15 @@ public class UIHelpers {
         return "11/" + dd + "/2022 " + time;
     }
 
+    /**
+     * Displays the end date converted from the internal representation format to
+     * a more readable, standard datetime.
+     *
+     * @param week     the week to display
+     * @param day      the day to display
+     * @param timeSlot the end time slot to display
+     * @return the end date converted from the internal representation format
+     */
     public static String convertToEndDate(final int week, final int day, final int timeSlot) {
         final int dd = (week - 1) * 7 + day;
         String time = "";

@@ -21,41 +21,44 @@ import AutoCenter.UIHelpers;
  */
 public class RequestTimeOff implements UserFlowFunctionality {
 
-    /*
+    /**
      * The initial selection for the menu options range
      */
     private static final int INITIAL_SELECTION = 0;
 
-    /*
+    /**
      * The minimum selection for the menu options range
      */
     private static final int MIN_SELECTION = 1;
 
-    /*
+    /**
      * The maximum selection for the menu options range
      */
     private static final int MAX_SELECTION = 2;
 
-    /*
+    /**
      * The expected number of inputs for a valid time off request
      */
     private static final int EXPECTED_INPUT_LENGTH = 4;
 
-    /*
+    /**
      * The minimum number of working mechanics at any given time
      */
     private static final int MIN_WORKING_MECHANICS = 3;
 
-    /*
+    /**
      * The separator to use between the menu title and the options
      */
     private static final String MENU_SEPARATOR = "##########################################";
 
-    /*
+    /**
      * The separator to use between the directions components
      */
     private static final String DIRECTION_SEPARATOR = "#####################################";
 
+    /**
+     * The timeSlotParameters for the time off request
+     */
     private Integer[] timeSlotParameters;
 
     @Override
@@ -87,30 +90,17 @@ public class RequestTimeOff implements UserFlowFunctionality {
         navigate(selection);
     }
 
+    /**
+     * Resets the state of the request process within the menu.
+     */
     private void reset() {
         timeSlotParameters = new Integer[4];
     }
 
-    private boolean parseAndValidateTimeSlots(String[] inputs) {
-        try {
-            timeSlotParameters[0] = Integer.parseInt(inputs[0]);
-            timeSlotParameters[1] = Integer.parseInt(inputs[1]);
-            timeSlotParameters[2] = Integer.parseInt(inputs[2]);
-            timeSlotParameters[3] = Integer.parseInt(inputs[3]);
-        } catch (NumberFormatException e) {
-            System.out.println(
-                    "Something went wrong. Please try again and make sure you provide all four input time"
-                            + " slot parameters. Take a look at the usage detailed above if you need help.");
-            return false;
-        }
-
-        return !(timeSlotParameters[0] < 1 || timeSlotParameters[0] > 4 /* valid week */
-                || timeSlotParameters[1] < 1 || timeSlotParameters[1] > 7 /* valid day */
-                || timeSlotParameters[2] < 1 || timeSlotParameters[2] > 9 /* valid slot tart */
-                || timeSlotParameters[3] < 1 || timeSlotParameters[3] > 9 /* valid slot end */
-        );
-    }
-
+    /**
+     * Displays the directions for usage of the menu to the user
+     * along with an example.
+     */
     private void displayDirections() {
         String[] usageComponents = {
                 "# A. Time slots mechanic wants to   #\n" +
@@ -155,6 +145,17 @@ public class RequestTimeOff implements UserFlowFunctionality {
         }
     }
 
+    @Override
+    public void goBack() {
+        new Mechanic().run();
+    }
+
+    /**
+     * Processes the requested time off by the mechanic, handling validation
+     * logic such as ensuring that the mechanic is not already working during
+     * the requested time off and that there are at least three mechanics
+     * working at any given time.
+     */
     private void processRequestedTimeOff() {
         // Establish connection to database
         final DbConnection db = new DbConnection();
@@ -205,6 +206,35 @@ public class RequestTimeOff implements UserFlowFunctionality {
             }
             db.close();
         }
+    }
+
+    /**
+     * Parses and validates the time slot parameters provided by the user
+     * for the time off request, storing the parsed values in the
+     * timeSlotParameters array.
+     *
+     * @param inputs the inputs provided by the user
+     * @return true if the time slot parameters are valid, false otherwise
+     *
+     */
+    private boolean parseAndValidateTimeSlots(String[] inputs) {
+        try {
+            timeSlotParameters[0] = Integer.parseInt(inputs[0]);
+            timeSlotParameters[1] = Integer.parseInt(inputs[1]);
+            timeSlotParameters[2] = Integer.parseInt(inputs[2]);
+            timeSlotParameters[3] = Integer.parseInt(inputs[3]);
+        } catch (NumberFormatException e) {
+            System.out.println(
+                    "Something went wrong. Please try again and make sure you provide all four input time"
+                            + " slot parameters. Take a look at the usage detailed above if you need help.");
+            return false;
+        }
+
+        return !(timeSlotParameters[0] < 1 || timeSlotParameters[0] > 4 /* valid week */
+                || timeSlotParameters[1] < 1 || timeSlotParameters[1] > 7 /* valid day */
+                || timeSlotParameters[2] < 1 || timeSlotParameters[2] > 9 /* valid slot tart */
+                || timeSlotParameters[3] < 1 || timeSlotParameters[3] > 9 /* valid slot end */
+        );
     }
 
     /*
@@ -259,8 +289,4 @@ public class RequestTimeOff implements UserFlowFunctionality {
                 + " AND timeSlot <= " + timeSlotEnd;
     }
 
-    @Override
-    public void goBack() {
-        new Mechanic().run();
-    }
 }

@@ -12,7 +12,7 @@ import AutoCenter.services.UserService;
 
 public class AddEmployees implements UserFlowFunctionality {
 
-	private UserService userService = null;
+    private UserService userService = null;
     private UserRepository userRepo = null;
     private User user = null;
     private static final String DIRECTION_SEPARATOR = "#############################";
@@ -43,7 +43,7 @@ public class AddEmployees implements UserFlowFunctionality {
             user.setUsername(ScanHelper.next().trim());
             System.out.print("E. Password :");
             user.setPassword(ScanHelper.next().trim());
-            //System.out.print("F. Address :");
+            // System.out.print("F. Address :");
             user.setAddress("1234 Main St, Raleigh, NC 27606-2972");
             System.out.print("G. EmilAddress :");
             user.setEmail(ScanHelper.next().trim());
@@ -53,18 +53,18 @@ public class AddEmployees implements UserFlowFunctionality {
             user.setRole(ScanHelper.next().trim());
             System.out.print("J. Compensation($) :");
             user.setSalaryOrWage(ScanHelper.nextDouble());
-            
+
             displayMenu();
             System.out.println("Enter choice (1-2) from the given options displayed above:");
             selection = ScanHelper.nextInt();
-            
+
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
         navigate(selection);
     }
 
     @Override
     public void display() {
-        System.out.println("#############################");
+        System.out.println(DIRECTION_SEPARATOR);
         System.out.println("######      Usage      ######");
         System.out.println(DIRECTION_SEPARATOR);
         System.out.println("# A. Employee ID             #");
@@ -96,15 +96,15 @@ public class AddEmployees implements UserFlowFunctionality {
         switch (selection) {
             case 1:
                 result = userRepo.add(user);
-                if (result)
-                {
-                	System.out.println("Added Successfully!!");
-                	System.out.println("Do you want to keep adding an employee (Yes: 1, No: 2)?");
-                	int select = ScanHelper.nextInt();
-                	if(select == 1) run();
-                	else goBack();
+                if (result) {
+                    System.out.println("Added Successfully!!");
+                    System.out.println("Do you want to keep adding an employee (Yes: 1, No: 2)?");
+                    int select = ScanHelper.nextInt();
+                    if (select == 1)
+                        run();
+                    else
+                        goBack();
                 }
-                    
                 run();
                 break;
             case 2:

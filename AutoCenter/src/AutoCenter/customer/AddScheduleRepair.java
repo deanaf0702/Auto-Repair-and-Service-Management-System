@@ -44,7 +44,7 @@ public class AddScheduleRepair implements UserFlowFunctionality {
         System.out.println( "####################################################" );
         System.out.println( "# 1 Engine Services                                #" );
         System.out.println( "# 2 Exhaust Services                               #" );
-        System.out.println( "# 3 Eectrical Services                             #" );
+        System.out.println( "# 3 Electrical Services                            #" );
         System.out.println( "# 4 Transmission Services                          #" );
         System.out.println( "# 5 Tire Services                                  #" );
         System.out.println( "# 6 Heating and A/C Services                       #" );
