@@ -30,16 +30,13 @@ public class Home {
     }
 
     public static void run() {
-        int selection;
-        do {
-            display();
-            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                    + ") from the given options displayed above: ");
-            selection = ScanHelper.nextInt();
-
-        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
-
-        navigate(selection);
+        int selection = MAX_SELECTION;
+        display();
+        System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                + ") from the given options displayed above: ");
+        selection = ScanHelper.nextInt();
+        if(selection == 0) selection = MAX_SELECTION;
+       navigate(selection);
     }
 
     public static void display() {
@@ -69,7 +66,7 @@ public class Home {
         System.out.println(
                 "Thanks for using Autor Repair and Service Management! We hope to see you again soon."
                         + " Goodbye.");
-        run();
+        
     }
 
     public static void login() {

@@ -30,9 +30,9 @@ public class Login implements UserFlowFunctionality {
         display();
 
         do {
-            System.out.println("Enter UserID: ");
+            System.out.print("Enter UserID: ");
             userId = ScanHelper.next();
-            System.out.println("Enter password: ");
+            System.out.print("Enter password: ");
             password = ScanHelper.next();
             System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                     + ") from the given options displayed above: ");
