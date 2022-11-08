@@ -322,14 +322,16 @@ create table SwapRequests(
     mechanicId1 number(9),
     week1 number(1),
     day1 number(2),
-    timeSlot1 number(2),
+    timeSlot1Start number(2),
+    timeSlot1End number(2),
     mechanicId2 number(9),
     week2 number(1),
     day2 number(2),
-    timeSlot2 number(2),
+    timeSlot2Start number(2),
+    timeSlot2End number(2),
     status number(1),
-    constraint fk_OnSwapRequests_Schedule1 foreign key (mechanicId1, week1, day1, timeSlot1) references Schedule (mechanicId, week, day, timeSlot),
-    constraint fk_OnSwapRequests_Schedule2 foreign key (mechanicId2, week2, day2, timeSlot2) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_Schedule1 foreign key (mechanicId1, week1, day1, timeSlot1Start) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_Schedule2 foreign key (mechanicId2, week2, day2, timeSlot2Start) references Schedule (mechanicId, week, day, timeSlot),
     constraint fk_OnSwapRequests_SwapRequests foreign key (requestId) references SwapRequests(requestId)
 );
 

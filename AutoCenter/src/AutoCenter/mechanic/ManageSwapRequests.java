@@ -158,8 +158,8 @@ public class ManageSwapRequests implements UserFlowFunctionality {
                 week2 = rs.getInt("week2");
                 day1 = rs.getInt("day1");
                 day2 = rs.getInt("day2");
-                timeSlot1 = rs.getInt("timeSlot1");
-                timeSlot2 = rs.getInt("timeSlot2");
+                timeSlot1 = rs.getInt("timeSlot1Start");
+                timeSlot2 = rs.getInt("timeSlot2Start");
                 return true;
             } else {
                 System.out.println("Invalid swap request ID. The swap request ID does not exist. Please try again.");
