@@ -9,17 +9,17 @@ public class ScanHelper {
     private static boolean wentCatch = false;
 
     public static int nextInt () {
-        // Scanner is skipping sometimes, so I have found a solution through google
-    	// https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
-    	
+        // Scanner is skipping sometimes, so I have found a solution through
+        // google
+        // https://stackoverflow.com/questions/13102045/scanner-is-skipping-nextline-after-using-next-or-nextfoo
+
         final int selection = 0;
         try {
             wentCatch = false;
-            int value = scanner.nextInt();
+            final int value = scanner.nextInt();
             return value;
         }
         catch ( final Exception e ) {
-            e.printStackTrace();
             wentCatch = true;
         }
         return selection;
@@ -31,7 +31,6 @@ public class ScanHelper {
             return scanner.next();
         }
         catch ( final Exception e ) {
-            e.printStackTrace();
             wentCatch = true;
             scanner.nextLine();
             System.out.println( "Try again: " );
@@ -40,12 +39,11 @@ public class ScanHelper {
     }
 
     public static Double nextDouble () {
-    	try {
+        try {
             wentCatch = false;
             return scanner.nextDouble();
         }
         catch ( final Exception e ) {
-            e.printStackTrace();
             wentCatch = true;
             scanner.nextLine();
             System.out.println( "Try again: " );
@@ -61,7 +59,6 @@ public class ScanHelper {
             return stringInput;
         }
         catch ( final Exception e ) {
-            e.printStackTrace();
             wentCatch = true;
             // scanner.nextLine();
             System.out.println( "Try again: " );
@@ -84,7 +81,6 @@ public class ScanHelper {
 
             }
             catch ( final Exception e ) {
-                e.printStackTrace();
                 wentCatch = true;
                 scanner.nextLine();
                 System.out.println( "Try again: " );
