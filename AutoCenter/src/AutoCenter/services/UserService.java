@@ -8,57 +8,67 @@ import AutoCenter.repository.DbConnection;
 
 public class UserService {
 
-    private RepositoryService repoService = null;
-
-    public UserService () {
-        repoService = new RepositoryService();
+    public UserService() {
     }
 
-    public LoginUser authenticate ( final String userId, final String password ) {
+    /**
+     * Handles the login functionality for the user given the username and password.
+     *
+     * @param userId   the username of the user
+     * @param password the password of the user
+     * @return the user type of the user if the login was successful, otherwise null
+     */
+    public LoginUser authenticate(final String userId, final String password) {
         LoginUser currentUser = null;
         // return administrator, manager, receptionist, mechanic or customer
-        final String query = "SELECT userId, firstName, lastName, role, serviceCenterId" + " FROM Users "
-                + "Where username='" + userId + "' AND password='" + password + "'";
+        final String query = "SELECT userId, firstName, lastName, role, serviceCenterId"
+                + " FROM Users"
+                + " WHERE username='" + userId + "'"
+                + " AND password='" + password + "'";
         final DbConnection db = new DbConnection();
 
         try {
-            final ResultSet rs = db.executeQuery( query );
-            if ( rs != null ) {
-                while ( rs.next() ) {
+            final ResultSet rs = db.executeQuery(query);
+            if (rs != null) {
+                while (rs.next()) {
                     currentUser = new LoginUser();
-                    currentUser.setId( rs.getInt( "userId" ) );
-                    currentUser.setCenterId( rs.getInt( "serviceCenterId" ) );
-                    currentUser.setFirstName( rs.getString( "firstName" ).trim() );
-                    currentUser.setLastName( rs.getString( "lastName" ).trim() );
-                    currentUser.setRole( rs.getString( "role" ).trim() );
+                    LoginUser.setId(rs.getInt("userId"));
+                    LoginUser.setCenterId(rs.getInt("serviceCenterId"));
+                    LoginUser.setFirstName(rs.getString("firstName").trim());
+                    LoginUser.setLastName(rs.getString("lastName").trim());
+                    LoginUser.setRole(rs.getString("role").trim());
                 }
             }
-        }
-        catch ( final Throwable oops ) {
+        } catch (final Throwable oops) {
             oops.printStackTrace();
-            System.out.println( "Not found In Managers." );
-        }
-        finally {
+            System.out.println("Not found In Managers.");
+        } finally {
             db.close();
         }
         return currentUser;
     }
 
-    public void logout () {
-        if ( Home.getUser() != null ) {
-            Home.setUser( null );
+    /**
+     * Handles the logout functionality for the user.
+     */
+    public void logout() {
+        if (Home.getUser() != null) {
+            Home.setUser(null);
         }
         Home.exit();
-
     }
 
-    public int getCenterId () {
+    /**
+     * Returns the centerId of the user.
+     *
+     * @return the centerId of the user
+     */
+    public int getCenterId() {
         final LoginUser user = Home.getUser();
-        if ( user == null ) {
+        if (user == null) {
             return 0;
-        }
-        else {
-            return user.getCenterId();
+        } else {
+            return LoginUser.getCenterId();
         }
     }
 
