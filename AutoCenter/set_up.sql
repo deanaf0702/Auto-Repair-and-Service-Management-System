@@ -1,7 +1,6 @@
 --Comment out up to create tables if running for the first time
 --Drop foreign keys if they exist
-alter table
-    RepairServices drop constraint repairId_fk;
+alter table RepairServices drop constraint repairId_fk;
 
 alter table
     RepairServices drop constraint repairCategory_fk;
@@ -74,6 +73,14 @@ alter table
 
 alter table
     EventOnServices drop constraint fk_EventOnServices_serviceId;
+    
+alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule1;
+alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule2;
+alter table SwapRequests drop constraint fk_OnSwapRequests_SwapRequests;
+    
+--Drop Sequences
+drop sequence SERVICE_EVENT_ID_SEQ;
+drop sequence auto_increment_swap_request_id;
 
 --Drop triggers if they exist
 drop trigger updateStatusAfterAddCar;
@@ -119,6 +126,8 @@ drop table CustomerVehicles;
 drop table ServiceEvents;
 
 drop table EventOnServices;
+
+drop table SwapRequests;
 
 --Create new tables
 ---CarModels
@@ -335,47 +344,22 @@ create table SwapRequests(
 
 --Create triggers
 create trigger updateStatusAfterAddCar
-after
-insert
-    on CustomerVehicles for each row begin
-update
-    Customers
-set
-    isActive = 1
-where
-    userId = :new.customerId
-    and serviceCenterId = :new.centerId;
-
-end;
-
-/ create trigger updateStatusAfterDeleteCar
-after
-    delete on CustomerVehicles for each row declare vehicleCount number;
-
-PRAGMA AUTONOMOUS_TRANSACTION;
-
+after insert on CustomerVehicles 
+for each row 
 begin
-select
-    count(*) into vehicleCount
-from
-    CustomerVehicles
-where
-    customerId = :old.customerId
-    and centerId = :old.centerId;
-
-if(vehicleCount = 1) then
-update
-    Customers
-set
-    isActive = 0
-where
-    userId = :old.customerId
-    and serviceCenterId = :old.centerId;
-
-commit;
-
-end if;
-
+	update Customers set isActive = 1 where userId = :new.customerId and serviceCenterId = :new.centerId;
 end;
+/ 
 
-/ commit;
+create trigger updateStatusAfterDeleteCar
+after delete on CustomerVehicles for each row declare vehicleCount number;
+PRAGMA AUTONOMOUS_TRANSACTION;
+begin
+select count(*) into vehicleCount from CustomerVehicles where customerId = :old.customerId and centerId = :old.centerId;
+if (vehicleCount = 1) then
+	update Customers set isActive = 0 where userId = :old.customerId and serviceCenterId = :old.centerId;
+	commit;
+end if;
+end;
+/ 
+commit;

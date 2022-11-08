@@ -164,6 +164,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 final String query4 = "insert into Schedule values (" + info.get( 4 ) + ", " + centerId + ", "
                         + info.get( 0 ) + ", " + info.get( 1 ) + ", " + i + ", 'Work', " + nextVal + ")";
                 try {
+                    db = new DbConnection();
                     db.executeUpdate( query4 );
                 }
                 catch ( final Exception e ) {
@@ -187,6 +188,8 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 db.close();
             }
         }
+        System.out.println( "Service successfully scheduled" );
+        goBack();
     }
 
     @Override
