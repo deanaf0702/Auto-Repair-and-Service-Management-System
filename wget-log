@@ -1,9 +1,0 @@
-HTTP request sent, awaiting response... 200 OK
-Length: 267 [binary/octet-stream]
-Saving to: ‘/Users/jkersey/.cache/trunk/cli/tmp.uy7tr2yxgo/launcher/latest’
-
-     0K                                                       100%  127M=0s
-
-utime(/Users/jkersey/.cache/trunk/cli/tmp.uy7tr2yxgo/launcher/latest): No such file or directory
-2022-11-07 20:20:18 (127 MB/s) - ‘/Users/jkersey/.cache/trunk/cli/tmp.uy7tr2yxgo/launcher/latest’ saved [267/267]
-
