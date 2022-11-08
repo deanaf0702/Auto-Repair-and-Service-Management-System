@@ -10,10 +10,13 @@ public class ScheduleService implements UserFlowFunctionality {
 
     @Override
     public void run () {
-        System.out.print( "Car VIN: " );
-        vin = ScanHelper.next();
-        System.out.print( "Current Mileage: " );
-        mileage = ScanHelper.nextInt();
+        if ( vin == null ) {
+            System.out.print( "Car VIN: " );
+            vin = ScanHelper.next();
+            System.out.print( "Current Mileage: " );
+            mileage = ScanHelper.nextInt();
+        }
+
         int selection = 0;
         display();
         do {

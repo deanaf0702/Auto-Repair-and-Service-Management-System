@@ -121,7 +121,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
             db = new DbConnection();
             int nextVal = 0;
             try {
-                final ResultSet rs = db.executeQuery( query );
+                final ResultSet rs = db.executeQuery( query1 );
                 rs.next();
                 nextVal = rs.getInt( 1 );
             }
@@ -132,7 +132,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
             finally {
                 db.close();
             }
-            final String query2 = "insert into ServiceEvents values (" + nextVal + ", " + vin + ", " + centerId + ", "
+            final String query2 = "insert into ServiceEvents values (" + nextVal + ", '" + vin + "', " + centerId + ", "
                     + info.get( 4 ) + ", " + info.get( 0 ) + ", " + info.get( 1 ) + ", " + info.get( 2 ) + ", "
                     + info.get( 3 ) + ", 0)";
             db = new DbConnection();
@@ -173,6 +173,18 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 finally {
                     db.close();
                 }
+            }
+            final String query5 = "update CustomerVehicles set mileage = " + mileage + "where vin = '" + vin + "'";
+            db = new DbConnection();
+            try {
+                db.executeUpdate( query5 );
+            }
+            catch ( final Exception e ) {
+                System.out.println( "Error retrieving vehicles" );
+                goBack();
+            }
+            finally {
+                db.close();
             }
         }
     }

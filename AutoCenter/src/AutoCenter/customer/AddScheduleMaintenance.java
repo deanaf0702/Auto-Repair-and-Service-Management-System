@@ -63,7 +63,6 @@ public class AddScheduleMaintenance implements UserFlowFunctionality {
 
         }
         catch ( final Exception e ) {
-            System.out.println( e.getMessage() );
             System.out.println( "Error getting last service" );
             goBack();
         }
