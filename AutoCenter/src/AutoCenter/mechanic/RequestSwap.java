@@ -129,15 +129,6 @@ public class RequestSwap implements UserFlowFunctionality {
                 DIRECTION_SEPARATOR);
     }
 
-    /**
-     * Resets the state of the input parameters
-     */
-    private static void reset() {
-        initialTimeSlotParameters = new Integer[4];
-        desiredTimeSlotParameters = new Integer[4];
-        employeeIDForSwap = -1;
-    }
-
     @Override
     public void display() {
         String[] menuOptions = {
@@ -167,6 +158,15 @@ public class RequestSwap implements UserFlowFunctionality {
     @Override
     public void goBack() {
         new Mechanic().run();
+    }
+
+    /**
+     * Resets the state of the input parameters
+     */
+    private static void reset() {
+        initialTimeSlotParameters = new Integer[4];
+        desiredTimeSlotParameters = new Integer[4];
+        employeeIDForSwap = -1;
     }
 
     /**
