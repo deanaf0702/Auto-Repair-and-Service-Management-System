@@ -182,7 +182,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
             }
             catch ( final Exception e ) {
                 System.out.println( "Error retrieving vehicles" );
-                goBack();
+                goBack(); //
             }
             finally {
                 db.close();
