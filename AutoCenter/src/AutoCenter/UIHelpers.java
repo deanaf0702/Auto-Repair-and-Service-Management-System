@@ -83,7 +83,7 @@ public class UIHelpers {
         System.out.println("Please enter the details following the usage description and example provided above.");
         System.out.println();
         System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;` when necessary.");
+        System.out.println("the example provided above using the delimiter, `;`, when necessary.");
         System.out.println();
     }
 
