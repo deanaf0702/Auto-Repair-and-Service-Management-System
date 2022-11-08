@@ -198,17 +198,17 @@ public class RequestSwap implements UserFlowFunctionality {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            try {
-                conn.close();
-            } catch (final SQLException e) {
-                e.printStackTrace();
-            }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (final SQLException e) {
                     e.printStackTrace();
                 }
+            }
+            try {
+                conn.close();
+            } catch (final SQLException e) {
+                e.printStackTrace();
             }
             db.close();
         }

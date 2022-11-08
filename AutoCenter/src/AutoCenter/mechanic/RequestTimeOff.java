@@ -73,7 +73,8 @@ public class RequestTimeOff implements UserFlowFunctionality {
             String[] inputs = input.split(";");
             if (inputs.length >= EXPECTED_INPUT_LENGTH) {
                 boolean validTimeSlots = parseAndValidateTimeSlots(inputs);
-                if (validTimeSlots) {
+                boolean validRequest = validateRequestedTimeOff();
+                if (validTimeSlots && validRequest) {
                     System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                             + ") from the given options displayed above: ");
                     selection = ScanHelper.nextInt();
@@ -145,6 +146,33 @@ public class RequestTimeOff implements UserFlowFunctionality {
         }
     }
 
+    private void processRequestedTimeOff() {
+        // Establish connection to database
+        final DbConnection db = new DbConnection();
+        final Connection conn = db.getConnection();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+
+            // insert into the schedule the time off request with a 'vacation' status
+            stmt.executeUpdate(insertVacationIntoScheduleStatement());
+
+            System.out.println("Time off request successfully submitted.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            db.close();
+        }
+    }
+
     @Override
     public void goBack() {
         new Mechanic().run();
@@ -156,7 +184,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
      * the requested time off and that there are at least three mechanics
      * working at any given time.
      */
-    private void processRequestedTimeOff() {
+    private boolean validateRequestedTimeOff() {
         // Establish connection to database
         final DbConnection db = new DbConnection();
         final Connection conn = db.getConnection();
@@ -174,6 +202,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
             if (rs.next()) {
                 System.out.println(
                         "0\nUnable to allow time off since you are already scheduled for work within that time range.\nPlease request another time range instead.");
+                return false;
             }
 
             // check to see if there are enough mechanics to cover the time off request
@@ -186,8 +215,11 @@ public class RequestTimeOff implements UserFlowFunctionality {
                 if (count < MIN_WORKING_MECHANICS) {
                     System.out.println(
                             "0\nUnable to allow time off since there are not enough mechanics to cover the time off request.\nPlease request another time range instead.");
+                    return false;
                 }
             }
+
+            return true;
         } catch (final SQLException e) {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>
             e.printStackTrace();
@@ -206,6 +238,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
             }
             db.close();
         }
+        return true;
     }
 
     /**
@@ -287,6 +320,15 @@ public class RequestTimeOff implements UserFlowFunctionality {
                 + " AND day = " + day
                 + " AND timeSlot >= " + timeSlotStart
                 + " AND timeSlot <= " + timeSlotEnd;
+    }
+
+    private String insertVacationIntoScheduleStatement() {
+        return "INSERT INTO Schedule (mechanicId, centerId, week, day, timeSlot, activity, serviceEventId) "
+                + "VALUES (" + LoginUser.getId() + ", "
+                + LoginUser.getCenterId() + ", "
+                + timeSlotParameters[0] + ", "
+                + timeSlotParameters[1] + ", "
+                + timeSlotParameters[2] + ", 'vacation', NULL)";
     }
 
 }
