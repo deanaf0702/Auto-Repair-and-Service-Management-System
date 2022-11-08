@@ -16,8 +16,7 @@ public class FindCustomersWithPendingInvoices implements UserFlowFunctionality{
 	private UserService userService = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
-    private static final String TABLE_ROW_SEPARATOR = "-----------------------------------------------------------";
-    private static final String TABLE_COLUMN_SEPARATOR = "|";
+    private static final String TABLE_COLUMN_SEPARATOR = ", ";
     private static final int YEAR = 2022;
     private static final int MONTH = 10;
     
@@ -34,23 +33,25 @@ public class FindCustomersWithPendingInvoices implements UserFlowFunctionality{
 			DbConnection db = new DbConnection();
 			try {
 				ResultSet rs = db.executeQuery(query);
-				while(rs.next())
-				{
-					System.out.print(rs.getInt("CustomerId"));
-					System.out.print(TABLE_COLUMN_SEPARATOR);
-					System.out.print(rs.getString("firstName").trim() + " " + rs.getString("lastName").trim());
-					System.out.print(TABLE_COLUMN_SEPARATOR);
-					System.out.print(rs.getInt("serviceEventId"));
-					System.out.print(TABLE_COLUMN_SEPARATOR);
-					String d = timeslotConvertToDate(rs.getInt("week"), rs.getInt("day"));
-					System.out.print(d);
-					System.out.print(TABLE_COLUMN_SEPARATOR);
-					System.out.print(rs.getDouble("price"));
-					System.out.print(TABLE_COLUMN_SEPARATOR);
-					System.out.println();
-					System.out.println(TABLE_ROW_SEPARATOR);
+				if (!rs.isBeforeFirst() ) {    
+				    System.out.println("No data"); 
+				}else {
+					while(rs.next())
+					{
+						System.out.print(rs.getInt("CustomerId"));
+						System.out.print(TABLE_COLUMN_SEPARATOR);
+						System.out.print(rs.getString("firstName").trim() + " " + rs.getString("lastName").trim());
+						System.out.print(TABLE_COLUMN_SEPARATOR);
+						System.out.print(rs.getInt("serviceEventId"));
+						System.out.print(TABLE_COLUMN_SEPARATOR);
+						String d = timeslotConvertToDate(rs.getInt("week"), rs.getInt("day"));
+						System.out.print(d);
+						System.out.print(TABLE_COLUMN_SEPARATOR);
+						System.out.print(rs.getDouble("price"));
+						System.out.print(TABLE_COLUMN_SEPARATOR);
+						System.out.println();
+					}
 				}
-				
 			}finally {
 				db.close();
 			}

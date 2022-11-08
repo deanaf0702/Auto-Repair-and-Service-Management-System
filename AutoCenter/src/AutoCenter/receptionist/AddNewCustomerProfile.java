@@ -90,14 +90,6 @@ public class AddNewCustomerProfile implements UserFlowFunctionality
 		System.out.println("# L Current mileage:");
 		System.out.println("# M Year:");
 		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println("#####      Example      ######");
-		System.out.println("## Ex:10053;Billy;Batson;1234 Address ST Raleigh NC 12345;"
-				+ "dlfranks@ncsu.edu;1234567890;bbatson;5TR3K914;Nissan;111000;2015 ##");
-		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println();
-		System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
 	}
 
 	public void displayMenu()
