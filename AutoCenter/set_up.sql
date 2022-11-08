@@ -282,6 +282,8 @@ create table ServiceEvents(
     constraint fk_ServiceEvent_end foreign key (endTimeSlot) references TimeSlots (slotNumber)
 );
 
+CREATE SEQUENCE SERVICE_EVENT_ID_SEQ START WITH 100 INCREMENT BY 1 CACHE 100;
+
 --Schedule
 create table Schedule(
     mechanicId number(9),
@@ -338,10 +340,10 @@ set
 where
     userId = :new.customerId
     and serviceCenterId = :new.centerId;
-
 end;
+/ 
 
-/ create trigger updateStatusAfterDeleteCar
+create trigger updateStatusAfterDeleteCar
 after
     delete on CustomerVehicles for each row declare vehicleCount number;
 
@@ -357,18 +359,12 @@ where
     and centerId = :old.centerId;
 
 if(vehicleCount = 1) then
-update
-    Customers
-set
-    isActive = 0
-where
+update Customers set isActive = 0 where
     userId = :old.customerId
     and serviceCenterId = :old.centerId;
+	commit;
+end if;
+end;
+/ 
 
 commit;
-
-end if;
-
-end;
-
-/ commit;
