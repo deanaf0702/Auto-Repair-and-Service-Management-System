@@ -44,7 +44,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
     /*
      * The separator to use between the menu title and the options
      */
-    private static final String MENU_SEPARATOR = "##########################################";
+    private static final String MENU_SEPARATOR = "###########################################";
 
     /*
      * The separator to use between the directions components
@@ -128,11 +128,11 @@ public class RequestTimeOff implements UserFlowFunctionality {
     @Override
     public void display() {
         String[] menuOptions = {
-                "# 1 Send the request                     #",
-                "# 2 Go Back                              #"
+                "# 1 Send the request                      #",
+                "# 2 Go Back                               #"
         };
 
-        UIHelpers.displayMenu(" Manager: Request Time Off Menu ", menuOptions, MENU_SEPARATOR);
+        UIHelpers.displayMenu(" Mechanic: Request Time Off Menu ", menuOptions, MENU_SEPARATOR);
     }
 
     @Override
