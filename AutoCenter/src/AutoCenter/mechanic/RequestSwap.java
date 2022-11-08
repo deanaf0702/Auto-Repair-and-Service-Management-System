@@ -38,6 +38,11 @@ public class RequestSwap implements UserFlowFunctionality {
     private static final int MAX_SELECTION = 2;
 
     /*
+     * The maximum number of hours a mechanic can work in a week
+     */
+    private static final int MAX_WORKING_HOURS = 50;
+
+    /*
      * The separator to use between the menu title and the options
      */
     private static final String MENU_SEPARATOR = "#######################################";
@@ -158,10 +163,6 @@ public class RequestSwap implements UserFlowFunctionality {
     public void goBack() {
         new Mechanic().run();
     }
-
-    // /*
-    // * Parses and validates the desired time slot inputs for the request swap menu
-    // */
 
     /*
      * Handles the parsing of the input parameters
@@ -384,6 +385,14 @@ public class RequestSwap implements UserFlowFunctionality {
 
         // TODO still need to check for overbooking and double booking here
 
+        // validate no overbooking
+        if (!validateRequestedMechanicNotOverbooked(initialTimeSlotParameters[0], initialTimeSlotParameters[2],
+                initialTimeSlotParameters[3], employeeIDForSwap)) {
+            return false;
+        }
+
+        // validate no double booking
+
         // validate the mechanic is working within the given time slot range
         return validateRequestedMechanicWorkingWithinTimeSlotRange(desiredTimeSlotParameters[0],
                 desiredTimeSlotParameters[1],
@@ -456,50 +465,102 @@ public class RequestSwap implements UserFlowFunctionality {
         return true;
     }
 
-    /*
-     * Returns the query to validate the mechanic being swapped with is working
-     * within the given time slot range requested
-     *
-     * @param week The week of the time slot range
-     *
-     * @param day The day of the time slot range
-     *
-     * @param startTimeSlot The start time slot of the time slot range
-     *
-     * @param endTimeSlot The end time slot of the time slot range
-     *
-     * @param mechanicId The mechanic ID of the mechanic being swapped with
-     *
-     * @return The query to validate the mechanic being swapped with is working
-     */
-    private static String validRequestedMechanicWorkingQuery(Integer week, Integer day, Integer timeSlotStart,
-            Integer timeSlotEnd,
-            Integer mechanicId) {
-        return "SELECT COUNT(*) AS numMechanics"
-                + " FROM Schedule"
-                + " WHERE mechanicID = " + mechanicId
-                + " WHERE centerId = " + LoginUser.getCenterId()
-                + " AND week = " + week
-                + " AND day = " + day
-                + " AND timeSlot >= " + timeSlotStart
-                + " AND timeSlot <= " + timeSlotEnd;
+    private static boolean validateRequestedMechanicNotOverbooked(Integer week, Integer startTimeSlot,
+            Integer endTimeSlot, Integer employeeIDForSwap) {
+        // Establish connection to database
+        final DbConnection db = new DbConnection();
+        final Connection conn = db.getConnection();
+        ResultSet rs = null;
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+
+            // Query the database for the requested mechanic's time slots
+            // deepcode ignore NoStringConcat: <not needed>
+            rs = stmt.executeQuery(
+                    getNumTimeSlotsQuery(week, employeeIDForSwap));
+
+            // If the count is greater than max working hours, the mechanic is overbooked
+            while (rs.next()) {
+                int numHours = rs.getInt("numHours");
+                int additionalHours = endTimeSlot - startTimeSlot + 1;
+
+                if (numHours + additionalHours > MAX_WORKING_HOURS) {
+                    System.out.println(
+                            "\nThe mechanic you are requesting to swap with is overbooked. Try again with a time slot range in which they are not overbooked.\n");
+                    return false;
+                }
+            }
+
+        } catch (final SQLException e) {
+            // file deepcode ignore DontUsePrintStackTrace: <not needed>
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            db.close();
+        }
+
+        return true;
     }
 
-    /*
-     * Helper function for ensuring start time slot is less than or equal to end
-     * time slot
-     *
-     * @param start The start time slot
-     *
-     * @param end The end time slot
-     *
-     * @return true if the start time slot is less than or equal to the end time
-     */
-    private static boolean validateTimeSlotRange(int start, int end) {
-        if (start > end) {
-            System.out.println(
-                    "\nInvalid time slot range. Please enter a start time slot that is less than or equal to the end time slot.\n");
-            return false;
+    // TODO complete implementation details here
+    private static boolean validateRequestedMechanicNotDoublebooked(Integer week, Integer day,
+            Integer startTimeSlot, Integer endTimeSlot, Integer employeeIDForSwap) {
+        // Establish connection to database
+        final DbConnection db = new DbConnection();
+        final Connection conn = db.getConnection();
+        ResultSet rs = null;
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+
+            // Query the database for the requested mechanic's time slots
+            // deepcode ignore NoStringConcat: <not needed>
+            rs = stmt.executeQuery(
+                    getNumTimeSlotsQuery(week, employeeIDForSwap));
+
+            // If the count is greater than max working hours, the mechanic is overbooked
+            while (rs.next()) {
+                int numHours = rs.getInt("numHours");
+                int additionalHours = endTimeSlot - startTimeSlot + 1;
+
+                if (numHours + additionalHours > MAX_WORKING_HOURS) {
+                    System.out.println(
+                            "\nThe mechanic you are requesting to swap with is overbooked. Try again with a time slot range in which they are not overbooked.\n");
+                    return false;
+                }
+            }
+
+        } catch (final SQLException e) {
+            // file deepcode ignore DontUsePrintStackTrace: <not needed>
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            db.close();
         }
 
         return true;
@@ -543,6 +604,7 @@ public class RequestSwap implements UserFlowFunctionality {
             stmt = conn.createStatement();
 
             // Query the database for the employee id
+            // deepcode ignore NoStringConcat: <not needed>
             rs = stmt.executeQuery(validMechanicQuery(employeeID));
 
             if (!rs.next()) {
@@ -572,6 +634,35 @@ public class RequestSwap implements UserFlowFunctionality {
     }
 
     /*
+     * Returns the query to validate the mechanic being swapped with is working
+     * within the given time slot range requested
+     *
+     * @param week The week of the time slot range
+     *
+     * @param day The day of the time slot range
+     *
+     * @param startTimeSlot The start time slot of the time slot range
+     *
+     * @param endTimeSlot The end time slot of the time slot range
+     *
+     * @param mechanicId The mechanic ID of the mechanic being swapped with
+     *
+     * @return The query to validate the mechanic being swapped with is working
+     */
+    private static String validRequestedMechanicWorkingQuery(Integer week, Integer day, Integer timeSlotStart,
+            Integer timeSlotEnd,
+            Integer mechanicId) {
+        return "SELECT COUNT(*) AS numMechanics"
+                + " FROM Schedule"
+                + " WHERE mechanicID = " + mechanicId
+                + " WHERE centerId = " + LoginUser.getCenterId()
+                + " AND week = " + week
+                + " AND day = " + day
+                + " AND timeSlot >= " + timeSlotStart
+                + " AND timeSlot <= " + timeSlotEnd;
+    }
+
+    /*
      * Returns the query for the employee id to see if it exists
      *
      * @param employeeID The employee id to query the database for
@@ -582,5 +673,71 @@ public class RequestSwap implements UserFlowFunctionality {
         return "SELECT *" +
                 " FROM Mechanics" +
                 " WHERE EmployeeID = " + employeeID;
+    }
+
+    /*
+     * Returns the number of timeSlots for the desired mechanic for the given week
+     *
+     * @param week The week to get the number of time slots for
+     *
+     * @param mechanicID The mechanic ID to get the number of time slots for
+     *
+     * @return The number of time slots for the desired mechanic for the given week
+     */
+    private static String getNumTimeSlotsQuery(int week, int mechanicID) {
+        return "SELECT SUM(COUNT(*)) AS numHours" +
+                " FROM Schedule" +
+                " WHERE week = " + week +
+                " AND mechanicID = " + mechanicID +
+                " AND centerId = " + LoginUser.getCenterId() +
+                " GROUP BY timeSlot";
+    }
+
+    /*
+     * Returns the number of entries for the desired mechanic during the proposed
+     * swap time slot range
+     *
+     * @param week The week of the time slot range
+     *
+     * @param day The day of the time slot range
+     *
+     * @param startTimeSlot The start time slot of the time slot range
+     *
+     * @param endTimeSlot The end time slot of the time slot range
+     *
+     * @param mechanicId The mechanic ID of the mechanic being swapped with
+     *
+     * @return The number of entries for the desired mechanic during the proposed
+     */
+    private static String getNumEntriesQuery(Integer week, Integer day, Integer timeSlotStart, Integer timeSlotEnd,
+            Integer mechanicId) {
+        return "SELECT COUNT(*) AS numEntries" +
+                " FROM Schedule" +
+                " WHERE week = " + week +
+                " AND day = " + day +
+                " AND timeSlot >= " + timeSlotStart +
+                " AND timeSlot <= " + timeSlotEnd +
+                " AND mechanicID = " + mechanicId +
+                " AND centerId = " + LoginUser.getCenterId();
+    }
+
+    /*
+     * Helper function for ensuring start time slot is less than or equal to end
+     * time slot
+     *
+     * @param start The start time slot
+     *
+     * @param end The end time slot
+     *
+     * @return true if the start time slot is less than or equal to the end time
+     */
+    private static boolean validateTimeSlotRange(int start, int end) {
+        if (start > end) {
+            System.out.println(
+                    "\nInvalid time slot range. Please enter a start time slot that is less than or equal to the end time slot.\n");
+            return false;
+        }
+
+        return true;
     }
 }
