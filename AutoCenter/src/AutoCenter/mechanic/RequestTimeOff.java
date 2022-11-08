@@ -173,14 +173,21 @@ public class RequestTimeOff implements UserFlowFunctionality {
                     ResultSet rs2 = db.executeQuery(
                             viewWorkingMechanicsQuery(week, day,
                             		startTimeSlot, endTimeSlot));
-
+                    
                     while (rs2.next()) {
-                        int count = rs.getInt("numMechanics");
+                    	int count = 0;
+                    	try {
+                    		count = rs.getInt("numMechanics");
+                    	}catch(Exception e) {
+                    		e.printStackTrace();
+                    	}
+                        
                         if (count < MIN_WORKING_MECHANICS) {
                             System.out.println(
                                     "0\nUnable to allow time off since there are not enough mechanics to cover the time off request.\nPlease request another time range instead.");
                         }
-                    }               
+                    }
+                    
                 }
         	}finally {
             // file deepcode ignore DontUsePrintStackTrace: <not needed>
