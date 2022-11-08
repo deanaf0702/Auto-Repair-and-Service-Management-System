@@ -327,7 +327,27 @@ create table EventOnServices(
     constraint fk_EventOnServices_eventId foreign key (eventId) references ServiceEvents (serviceEventId),
     constraint fk_EventOnServices_serviceId foreign key (serviceId) references Services (serviceId)
 );
-
+--SwapRequests
+create table SwapRequests(
+    requestId integer primary key,
+    status number(1)
+);
+--OnSwapRequests
+create table OnSwapRequests(
+    requestId integer,
+	mechanicId1 number(9),
+    week1 number(1),
+    day1 number(2),
+    timeSlot1 number(2),
+    mechanicId2 number(9),
+    week2 number(1),
+    day2 number(2),
+    timeSlot2 number(2),
+    primary key (mechanicId1, week1, day1, timeSlot1, mechanicId2, week2, day2, timeSlot2),
+	constraint fk_OnSwapRequests_Schedule1 foreign key (mechanicId1, week1, day1, timeSlot1) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_Schedule2 foreign key (mechanicId2, week2, day2, timeSlot2) references Schedule (mechanicId, week, day, timeSlot),
+    constraint fk_OnSwapRequests_SwapRequests foreign key (requestId) references SwapRequests(requestId)
+);
 --Create triggers
 create trigger updateStatusAfterAddCar
 after
