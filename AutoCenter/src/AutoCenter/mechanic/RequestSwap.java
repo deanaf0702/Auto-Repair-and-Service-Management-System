@@ -828,16 +828,18 @@ public class RequestSwap implements UserFlowFunctionality {
      * pending state.
      */
     private static String insertSwapRequestStatement() {
-        return "INSERT INTO SwapRequests (requestId, mechanicId1, week1, day1, timeSlot1, mechanicId2, week2, day2, timeSlot2) VALUES ("
+        return "INSERT INTO SwapRequests (requestId, mechanicId1, week1, day1, timeSlot1Start, timeSlot1End, mechanicId2, week2, day2, timeSlot2, timeSlot2End, status) VALUES ("
                 + "auto_increment_swap_request_id.nextval, "
                 + LoginUser.getId() + ", "
                 + initialTimeSlotParameters[0] + ", "
                 + initialTimeSlotParameters[1] + ", "
                 + initialTimeSlotParameters[2] + ", "
+                + initialTimeSlotParameters[3] + ", "
                 + employeeIDForSwap + ", "
                 + desiredTimeSlotParameters[0] + ", "
                 + desiredTimeSlotParameters[1] + ", "
                 + desiredTimeSlotParameters[2] + ", "
+                + desiredTimeSlotParameters[3] + ", "
                 + 0 + ")";
     }
 }
