@@ -72,24 +72,49 @@ public class RequestSwap implements UserFlowFunctionality {
      */
     private static final String INVALID_INPUT_MESSAGE = "\nInvalid input. Please try again.\n";
 
+    private int week1;
+    private int day1;
+    private int startTimeSlot1;
+    private int endTimeSlot1;
+    private int week2;
+    private int day2;
+    private int startTimeSlot2;
+    private int endTimeSlot2;
+    private int mechanicId;
+    
     @Override
     public void run() {
         int selection;
 
-        do {
+        
             reset();
             displayDirections();
-            boolean validInputs = parseAndValidateInputs();
-            if (validInputs) {
-                display();
-                System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                        + ") from the given options displayed above: ");
-                selection = ScanHelper.nextInt();
-            } else {
-                selection = INITIAL_SELECTION;
-            }
-        } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
-        navigate(selection);
+            System.out.print("Timeslot range to swap");
+            System.out.print("Week :");
+            week1 = ScanHelper.nextInt();
+            System.out.print("Day :");
+            day1 = ScanHelper.nextInt();
+            System.out.print("Start time slot :");
+            startTimeSlot1 = ScanHelper.nextInt();
+            System.out.print("End time slot :");
+            endTimeSlot1 = ScanHelper.nextInt();
+            System.out.print("Employee ID:");
+            mechanicId = ScanHelper.nextInt();
+            System.out.println("Time slot range of the requested mechanic");
+            System.out.print("Week :");
+            week2 = ScanHelper.nextInt();
+            System.out.print("Day :");
+            day2 = ScanHelper.nextInt();
+            System.out.print("Start time slot :");
+            startTimeSlot2 = ScanHelper.nextInt();
+            System.out.print("End time slot :");
+            endTimeSlot2 = ScanHelper.nextInt();
+            
+            display();
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
+            navigate(selection);
     }
 
     public void displayDirections() {
@@ -143,7 +168,7 @@ public class RequestSwap implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
-                new RequestSwap().run();
+                save();
                 break;
             case 2:
                 goBack();
@@ -159,6 +184,17 @@ public class RequestSwap implements UserFlowFunctionality {
         new Mechanic().run();
     }
 
+    public boolean save()
+    {
+    	boolean valid = false;
+    	if(validateRequestingMechanicWorkingWithinTimeSlotRange(week1,day1,startTimeSlot1, endTimeSlot1))
+    	{
+    		String query1 = "insert into SwapRequests (requestId, status) values(?, ?)";
+    		String query2 = "insert into OnSwapRequests (requestId, mechanicId1, week1, day1, timeSlot1, mechanicId2, week2, day2, timeSlot2)"
+    		+ " values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    	}
+    	return valid;
+    }
     // /*
     // * Parses and validates the desired time slot inputs for the request swap menu
     // */
