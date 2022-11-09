@@ -1,7 +1,7 @@
 Team members:
 - Tyler Enck (tsenck)
 - Josh Kersey (jkersey)
-- Deana Franks (dfranks)
+- Deana Franks (dlfranks)
 
 Running the program:
 1. Navigate to folder containing execution.jar
