@@ -1,44 +1,45 @@
 package AutoCenter.customer;
 
-import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
+import AutoCenter.UserFlowFunctionality;
 
 public class ViewAndUpdateProfile implements UserFlowFunctionality {
 
     public static final String MENU_SEPARATOR = "##################################################";
 
-    public ViewAndUpdateProfile() {
+    public ViewAndUpdateProfile () {
 
     }
 
     @Override
-    public void run() {
+    public void run () {
         int selection = 0;
         display();
         do {
-            System.out.println("Enter choice(1-3)");
+            System.out.println( "Enter choice(1-4)" );
             selection = ScanHelper.nextInt();
-        } while (!(selection >= 1 && selection <= 3));
+        }
+        while ( ! ( selection >= 1 && selection <= 4 ) );
 
-        navigate(selection);
+        navigate( selection );
     }
 
     @Override
 
-    public void display() {
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("##### Customer: View and Update Profile Menu #####");
-        System.out.println(MENU_SEPARATOR);
-        System.out.println("# 1 View Profile                                 #");
-        System.out.println("# 2 Add Car                                      #");
-        System.out.println("# 3 Delete Car                                   #");
-        System.out.println("# 4 Go Back                                      #");
-        System.out.println(MENU_SEPARATOR);
+    public void display () {
+        System.out.println( MENU_SEPARATOR );
+        System.out.println( "##### Customer: View and Update Profile Menu #####" );
+        System.out.println( MENU_SEPARATOR );
+        System.out.println( "# 1 View Profile                                 #" );
+        System.out.println( "# 2 Add Car                                      #" );
+        System.out.println( "# 3 Delete Car                                   #" );
+        System.out.println( "# 4 Go Back                                      #" );
+        System.out.println( MENU_SEPARATOR );
     }
 
     @Override
-    public void navigate(final int selection) {
-        switch (selection) {
+    public void navigate ( final int selection ) {
+        switch ( selection ) {
             case 1:
                 new ViewProfile().run();
                 break;
@@ -52,13 +53,13 @@ public class ViewAndUpdateProfile implements UserFlowFunctionality {
                 goBack();
                 break;
             default:
-                System.out.println("Invalid selection");
+                System.out.println( "Invalid selection" );
                 break;
         }
     }
 
     @Override
-    public void goBack() {
+    public void goBack () {
         new Customer().run();
     }
 }

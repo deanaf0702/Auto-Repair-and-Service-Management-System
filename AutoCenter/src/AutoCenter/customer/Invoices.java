@@ -77,7 +77,7 @@ public class Invoices implements UserFlowFunctionality {
 
     @Override
     public void goBack () {
-        new Invoices().run();
+        new Customer().run();
     }
 
     public static List<Integer> getInvoiceIds () {

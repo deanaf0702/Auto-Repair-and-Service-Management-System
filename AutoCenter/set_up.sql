@@ -1,6 +1,7 @@
 --Comment out up to create tables if running for the first time
 --Drop foreign keys if they exist
 alter table RepairServices drop constraint repairId_fk;
+alter table Services drop constraint validServiceType;
 
 alter table
     RepairServices drop constraint repairCategory_fk;
@@ -46,6 +47,7 @@ alter table
 
 alter table
     Schedule drop constraint fk_Schedule_Event;
+alter table Schedule drop constraint validActivity;
 
 alter table
     CustomerVehicles drop constraint fk_CustomerVehicles_Customers;
@@ -87,6 +89,7 @@ drop sequence auto_increment_swap_request_id;
 drop trigger updateStatusAfterAddCar;
 
 drop trigger updateStatusAfterDeleteCar;
+drop trigger updateStandingAfterScheduling;
 
 --Drop any check constraints
 --Drop all tables
@@ -142,7 +145,8 @@ create table Services(
     serviceId number(3),
     name char(50) not null,
     serviceType char(20),
-    primary key (serviceId)
+    primary key (serviceId),
+    constraint validServiceType check (serviceType = 'Maintenance' or serviceType = 'Repair')
 );
 
 --RepairServiceCategory
@@ -306,7 +310,8 @@ create table Schedule(
     primary key (mechanicId, centerId, week, day, timeSlot),
     constraint fk_Schedule_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, serviceCenterId),
     constraint fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber),
-    constraint fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents (serviceEventId)
+    constraint fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents (serviceEventId),
+    constraint validActivity check (activity = 'vacation' or activity = 'Work')
 );
 
 --EventOnServices
@@ -340,10 +345,10 @@ create table SwapRequests(
     timeSlot2Start number(2),
     timeSlot2End number(2),
     status number(1),
-    constraint fk_timeSlot1Start foreign key (timeSlot1Start) references TimeSlots (slotNumber);
-    constraint fk_timeSlot1End foreign key (timeSlot1End) references TimeSlots (slotNumber);
-    constraint fk_timeSlot2Start foreign key (timeSlot2Start) references TimeSlots (slotNumber);
-    constraint fk_timeSlot2End foreign key (timeSlot2End) references TimeSlots (slotNumber);
+    constraint fk_timeSlot1Start foreign key (timeSlot1Start) references TimeSlots (slotNumber),
+    constraint fk_timeSlot1End foreign key (timeSlot1End) references TimeSlots (slotNumber),
+    constraint fk_timeSlot2Start foreign key (timeSlot2Start) references TimeSlots (slotNumber),
+    constraint fk_timeSlot2End foreign key (timeSlot2End) references TimeSlots (slotNumber)
 );
 
 --Create triggers
@@ -366,4 +371,16 @@ if (vehicleCount = 1) then
 end if;
 end;
 /
+
+create trigger updateStandingAfterScheduling
+after insert on ServiceEvents
+for each row
+when (new.isPaid = 0)
+declare cid number;
+begin
+	select customerId into cid from CustomerVehicles where vin = :new.vin;
+	update Customers set inGoodStanding = 0 where userId = cid and serviceCenterId = :new.centerId;
+end;
+/
+
 commit;

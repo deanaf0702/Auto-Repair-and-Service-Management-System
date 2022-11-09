@@ -30,31 +30,51 @@ public class PayInvoice implements UserFlowFunctionality {
         final DbConnection db2 = new DbConnection();
         try {
             final ResultSet rs2 = db2.executeQuery( query2 );
+            rs2.next();
             final int cid = rs2.getInt( 1 );
             final int centerId = rs2.getInt( 2 );
             final int isPaid = rs2.getInt( 3 );
-            if ( cid != LoginUser.getId() || centerId != LoginUser.getCenterId() ) {
-                System.out.println( "You are not authorized to access this invoice" );
-                new PayInvoice().run();
-            }
             if ( isPaid == 1 ) {
                 System.out.println( "This invoice is already paid" );
                 new PayInvoice().run();
             }
         }
         catch ( final Exception e ) {
+            e.printStackTrace();
             System.out.println( "Error retrieving invoices" );
             goBack();
         }
         finally {
             db2.close();
         }
-        final DbConnection db = new DbConnection();
+        DbConnection db = new DbConnection();
         try {
             db.executeUpdate( query );
             System.out.println( "Invoice paid successfully" );
         }
         catch ( final Exception e ) {
+            e.printStackTrace();
+            System.out.println( "Error retrieving invoices" );
+            goBack();
+        }
+        finally {
+            db.close();
+        }
+        db = new DbConnection();
+        try {
+            final String query8 = "select count(*) from ServiceEvents se inner join CustomerVehicles cv on se.vin = cv.vin where isPaid = 0 and se.centerId = "
+                    + LoginUser.getCenterId() + " and cv.customerId = " + LoginUser.getId();
+            final ResultSet rs4 = db.executeQuery( query8 );
+            rs4.next();
+            final int cnt = rs4.getInt( 1 );
+            if ( cnt == 0 ) {
+                db.executeUpdate( "update Customers set inGoodStanding = 1 where centerId = " + LoginUser.getCenterId()
+                        + " and userId = " + LoginUser.getId() );
+            }
+            System.out.println( "Invoice paid successfully" );
+        }
+        catch ( final Exception e ) {
+            e.printStackTrace();
             System.out.println( "Error retrieving invoices" );
             goBack();
         }
