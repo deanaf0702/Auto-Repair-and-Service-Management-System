@@ -96,7 +96,7 @@ public class AcceptRejectSwap implements UserFlowFunctionality {
                             requestedRangeStart)
                             + " - " + UIHelpers.convertToEndDate(requestedWeek, requestedDay, requestedRangeEnd);
 
-                    Integer requestingMechanicId = rsSwapRequests.getInt("mechanic1Id");
+                    Integer requestingMechanicId = rsSwapRequests.getInt("mechanicId1");
 
                     // Query the database for the requesting mechanic's name
                     // deepcode ignore NoStringConcat: <no need to use string builder>

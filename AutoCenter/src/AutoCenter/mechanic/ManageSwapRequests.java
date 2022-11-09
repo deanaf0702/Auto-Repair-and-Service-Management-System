@@ -149,6 +149,12 @@ public class ManageSwapRequests implements UserFlowFunctionality {
             // deepcode ignore NoStringConcat: <no need to use string builder>
             rs = stmt.executeQuery(swapRequestExistsQuery(swapRequestID));
 
+            // SELECT requestId, mechanicId1, week1, day1, timeSlot1Start, mechanicId2,
+            // week2, day2, timeSlot2Start " +
+            // " FROM SwapRequests " +
+            // " WHERE requestId = " + swapRequestID +
+            // " AND status = 0
+
             // If the query returns a result, the swap request exists
             // and the swap request data can be loaded into the class variables
             if (rs.next()) {
@@ -259,7 +265,7 @@ public class ManageSwapRequests implements UserFlowFunctionality {
             // deepcode ignore NoStringConcat: <no need to use string builder>
             stmt.executeUpdate(rejectSwapStatement(swapRequestID));
 
-            System.out.println("Swap request rejected.");
+            System.out.println("Successfully rejected swap request.");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
@@ -280,7 +286,7 @@ public class ManageSwapRequests implements UserFlowFunctionality {
     }
 
     private static String swapRequestExistsQuery(Integer swapRequestID) {
-        return "SELECT requestId, centerId, mechanicId1, mechanicId2, week1, week2, day1, day2, timeSlot1, timeSlot2 " +
+        return "SELECT requestId, mechanicId1, week1, day1, timeSlot1Start, mechanicId2, week2, day2, timeSlot2Start " +
                 " FROM SwapRequests " +
                 " WHERE requestId = " + swapRequestID +
                 " AND status = 0";
@@ -302,8 +308,8 @@ public class ManageSwapRequests implements UserFlowFunctionality {
             Integer timeSlot1, Integer week2, Integer day2, Integer timeSlot2) {
         return "UPDATE Schedule " +
                 " SET week = " + week2 +
-                " AND day = " + day2 +
-                " AND timeSlot = " + timeSlot2 +
+                ", day = " + day2 +
+                ", timeSlot = " + timeSlot2 +
                 " WHERE mechanicId = " + mechanicId1 +
                 " AND week = " + week1 +
                 " AND day = " + day1 +
@@ -314,8 +320,8 @@ public class ManageSwapRequests implements UserFlowFunctionality {
             Integer timeSlot1, Integer week2, Integer day2, Integer timeSlot2) {
         return "UPDATE Schedule " +
                 " SET week = " + week1 +
-                " AND day = " + day1 +
-                " AND timeSlot = " + timeSlot1 +
+                ", day = " + day1 +
+                ", timeSlot = " + timeSlot1 +
                 " WHERE mechanicId = " + mechanicId2 +
                 " AND week = " + week2 +
                 " AND day = " + day2 +
