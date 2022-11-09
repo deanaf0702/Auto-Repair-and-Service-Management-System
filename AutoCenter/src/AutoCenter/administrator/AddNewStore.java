@@ -55,16 +55,14 @@ public class AddNewStore implements UserFlowFunctionality {
         display();
 
         do {
-            displayDirections();
-            // TODO add file parsing here
             System.out.print("Enter Store ID (ex:30004) ?");
-            int storeId = ScanHelper.nextInt();
+            centerId = ScanHelper.nextInt();
             System.out.println("Enter Store Address (ex:1378 University Woods, Raleigh, NC 27612)?");
-            String storeAddress = ScanHelper.nextLine().trim();
+            address = ScanHelper.nextLine().trim();
             //String storeAddress = "1378 University Woods, Raleigh, NC 27612";
             System.out.println("Enter Manager's information?");
             manager = new User();
-            manager.setServiceCenterId(storeId);
+            manager.setServiceCenterId(centerId);
             System.out.print("A. Employee ID :");
             manager.setUserId(ScanHelper.nextInt());
             System.out.print("B. First Name :");
@@ -87,9 +85,9 @@ public class AddNewStore implements UserFlowFunctionality {
             manager.setSalaryOrWage(ScanHelper.nextDouble());
 
             System.out.println("Enter minimum wage? ");
-            Double minWage = ScanHelper.nextDouble();
+            minWage = ScanHelper.nextDouble();
             System.out.println("Enter maximum wage? ");
-            Double maxWage = ScanHelper.nextDouble();
+            maxWage = ScanHelper.nextDouble();
             
             System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                     + ") from the given options displayed above: ");

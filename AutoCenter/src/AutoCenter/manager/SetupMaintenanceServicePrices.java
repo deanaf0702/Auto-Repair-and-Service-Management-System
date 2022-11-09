@@ -31,42 +31,33 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
     @Override
     public void run() {
         int selection;
-
+        display();
         do {
-            display();
             for (int i = 0; i < models.length; i++) {
-                
-            
-                String input = ScanHelper.nextLine();
-                String[] inputs = input.split(";");
-                if (inputs.length == models.length) {
-                	int count = 0;
-                	while(maintServices.size() > 0)
-                	{
-                		System.out.print("Enter Schedule " + maintServices.get(count).getName()
-                		+"  price for " + models[i] + " :");
-                		Double price = ScanHelper.nextDouble();
-                		System.out.print("Enter Schedule " + maintServices.get(count).getName()
-                        		+"  price for " + models[i] + " :");
-                        		int hours = ScanHelper.nextInt();
-                		
-                        if (hours > 0 && price > 0.0) {
-                            PriceModel pm = new PriceModel();
-                            pm.serviceId = maintServices.get(count).getServiceId();
-                            pm.serviceName = maintServices.get(count).getName();
-                            pm.model = models[i];
-                            pm.hours = hours;
-                            pm.price = price;
-                            list.add(pm);
-                        } else {
-                            System.out.println("Input Format Error");
-                            break;
-                        }
-                	} 
-                } else {
-                    System.out.println("Input Format Error");
-                    break;
-                }
+            	System.out.println("## Enter the services hours and prices for " + models[i] + " :");
+            	int count = 0;
+            	while(maintServices.size() > count)
+            	{
+            		System.out.print("Enter Schedule " + maintServices.get(count).getName()
+            		+"  price for " + models[i] + " :");
+            		Double price = ScanHelper.nextDouble();
+            		System.out.print("Enter Schedule " + maintServices.get(count).getName()
+                    		+"  hours for " + models[i] + " :");
+                    int hours = ScanHelper.nextInt();
+            		
+                    if (hours > 0 && price > 0.0) {
+                        PriceModel pm = new PriceModel();
+                        pm.serviceId = maintServices.get(count).getServiceId();
+                        pm.serviceName = maintServices.get(count).getName();
+                        pm.model = models[i];
+                        pm.hours = hours;
+                        pm.price = price;
+                        list.add(pm);
+                        count++;
+                    } else {
+                        System.out.println("Input Format Error");
+                    }
+            	} 
             }
             displayMenu();
             System.out.println("Enter choice (1-2) from the given options displayed above:");
@@ -93,13 +84,7 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
         System.out.println("# B. Schedule B Price  #");
         System.out.println("# C. Schedule C Price  #");
         System.out.println(DIRECTION_SEPARATOR);
-        System.out.println("#####      Example      ######");
-        System.out.println("##       Ex (hours, price): 2, 100.0; 3, 110.0; 4, 120.0       ##");
-        System.out.println(DIRECTION_SEPARATOR);
-        System.out.println();
-        System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
+        
     }
 
     @Override

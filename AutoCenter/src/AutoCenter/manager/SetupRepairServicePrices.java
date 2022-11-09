@@ -39,36 +39,29 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 			reset();
 			for (int i = 0; i < models.length; i++) {
                 
-                System.out.println("Enter the service hours and prices for " + models[i] + " ?");
-                System.out.print(false);
-                String input = ScanHelper.nextLine();
-                String[] inputs = input.split(";");
+                System.out.println("## Enter the services hours and prices for " + models[i] + " :");
+              
                 int count = 0;
-                if (inputs.length == Expected_Input_Length) {
-                	while(Expected_Input_Length > count)
-                	{
-                		System.out.print("Enter the " + repairServices.get(count).getName() + " prices for " + models[i] + " ?");
-                		Double price = ScanHelper.nextDouble();
-                		System.out.print("Enter the " + repairServices.get(count).getName() + " hours for " + models[i] + " ?");
-                		int hours = ScanHelper.nextInt();
-                		if(price > 0.0 && hours > 0)
-                		{
-                			PriceModel pm = new PriceModel();
-                			pm.serviceId = repairServices.get(count).getServiceId();
-                            pm.serviceName = repairServices.get(count).getName();
-                            pm.model = models[i];
-                            pm.hours = hours;
-                            pm.price = price;
-                            list.add(pm);
-                            count++;
-                		}else {
-                			System.out.println("Input Format Error");
-                		}
-                	}   
-                } else {
-                    System.out.println("Input Format Error");
-                    break;
-                }
+                while(Expected_Input_Length > count)
+            	{
+            		System.out.print("Enter the " + repairServices.get(count).getName() + " prices for " + models[i] + " ?");
+            		Double price = ScanHelper.nextDouble();
+            		System.out.print("Enter the " + repairServices.get(count).getName() + " hours for " + models[i] + " ?");
+            		int hours = ScanHelper.nextInt();
+            		if(price > 0.0 && hours > 0)
+            		{
+            			PriceModel pm = new PriceModel();
+            			pm.serviceId = repairServices.get(count).getServiceId();
+                        pm.serviceName = repairServices.get(count).getName();
+                        pm.model = models[i];
+                        pm.hours = hours;
+                        pm.price = price;
+                        list.add(pm);
+                        count++;
+            		}else {
+            			System.out.println("Input Format Error");
+            		}
+            	}   
             }
 			
 			displayMenu();
@@ -101,14 +94,6 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 		System.out.println("# K. Compressor Repair     #");
 		System.out.println("# L. Evaporator Repair     #");
 		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println("#####      Example      ######");
-		System.out.println("## Ex (hours, price):2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00 ##");
-		System.out.println(DIRECTION_SEPARATOR);
-		System.out.println();
-		System.out.println("NOTE: It's important to enter information following");
-        System.out.println("the example provided above using the delimiter, `;`");
-        System.out.println();
-
 	}
 
 	public void displayMenu()
