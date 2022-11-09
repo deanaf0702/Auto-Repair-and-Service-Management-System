@@ -16,16 +16,12 @@ public class ScanHelper {
         try {
             wentCatch = false;
             final int value = scanner.nextInt();
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             return value;
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             System.out.print( "Try again: " );
             return nextInt();
         }
@@ -35,16 +31,12 @@ public class ScanHelper {
         try {
             wentCatch = false;
             final String val = scanner.next();
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             return val;
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             System.out.println( "Try again: " );
             return scanner.next();
         }
@@ -54,16 +46,12 @@ public class ScanHelper {
         try {
             wentCatch = false;
             final double val = scanner.nextDouble();
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             return val;
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            while ( scanner.hasNextLine() ) {
-                scanner.nextLine();
-            }
+            scanner.nextLine();
             System.out.println( "Try again: " );
             return scanner.nextDouble();
         }
