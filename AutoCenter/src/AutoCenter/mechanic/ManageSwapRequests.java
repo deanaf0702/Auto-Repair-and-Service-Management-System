@@ -42,7 +42,7 @@ public class ManageSwapRequests implements UserFlowFunctionality {
     /**
      * The separator to use between the directions components
      */
-    private static final String DIRECTION_SEPARATOR = "#############################";
+    private static final String DIRECTION_SEPARATOR = "#########################################";
 
     /**
      * The ID of the swap request to manage
@@ -82,14 +82,14 @@ public class ManageSwapRequests implements UserFlowFunctionality {
 
     public void displayDirections() {
         String[] usageComponents = {
-                "# A. The requestID                 #",
+                "# A. The requestID                      #",
         };
 
         UIHelpers.displayUsageDirections(
                 usageComponents,
-                "###               1              ###",
-                "   Request Swap: Usage    ",
-                "   Request Swap: Example  ",
+                "###                 1                 ###",
+                "  Manage Swap Requests: Usage  ",
+                " Manage Swap Requests: Example ",
                 DIRECTION_SEPARATOR);
     }
 

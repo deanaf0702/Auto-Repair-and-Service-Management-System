@@ -144,7 +144,11 @@ public class RequestSwap implements UserFlowFunctionality {
         switch (selection) {
             case 1:
                 processRequestedSwap();
-                new RequestSwap().run();
+                System.out.print("\nWould you like to request another swap? (y/n): ");
+                String response = ScanHelper.next();
+                if (response.equalsIgnoreCase("y")) {
+                    new RequestSwap().run();
+                }
                 break;
             case 2:
                 goBack();
@@ -183,7 +187,7 @@ public class RequestSwap implements UserFlowFunctionality {
             stmt = conn.createStatement();
             // deepcode ignore NoStringConcat: <no need to use string builder>
             stmt.executeUpdate(insertSwapRequestStatement());
-            System.out.println("Successfully created swap request with employee ID: "
+            System.out.println("\nSuccessfully created swap request with employee ID: "
                     + employeeIDForSwap + ". Swapped timeslot range: "
                     + UIHelpers.convertToStartDate(initialTimeSlotParameters[0], initialTimeSlotParameters[1],
                             initialTimeSlotParameters[2])
@@ -194,7 +198,8 @@ public class RequestSwap implements UserFlowFunctionality {
                             desiredTimeSlotParameters[2])
                     + " - "
                     + UIHelpers.convertToEndDate(desiredTimeSlotParameters[0], desiredTimeSlotParameters[1],
-                            desiredTimeSlotParameters[3]));
+                            desiredTimeSlotParameters[3])
+                    + ".\n");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
