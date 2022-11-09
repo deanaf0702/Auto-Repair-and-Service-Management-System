@@ -16,6 +16,9 @@ public class ScanHelper {
         try {
             wentCatch = false;
             final int value = scanner.nextInt();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
             return value;
         }
         catch ( final Exception e ) {
@@ -29,7 +32,11 @@ public class ScanHelper {
     public static String next () {
         try {
             wentCatch = false;
-            return scanner.next();
+            final String val = scanner.next();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
+            return val;
         }
         catch ( final Exception e ) {
             wentCatch = true;
@@ -42,7 +49,11 @@ public class ScanHelper {
     public static Double nextDouble () {
         try {
             wentCatch = false;
-            return scanner.nextDouble();
+            final double val = scanner.nextDouble();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
+            return val;
         }
         catch ( final Exception e ) {
             wentCatch = true;
