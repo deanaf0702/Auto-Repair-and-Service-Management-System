@@ -1,10 +1,12 @@
 package AutoCenter.services;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import AutoCenter.Home;
@@ -130,6 +132,55 @@ public class RepositoryService {
         return list;
     }
 
+    public HashMap<Integer, String> RepairCategoryLookup()
+    {
+    	HashMap<Integer, String> categories = new HashMap<Integer, String>();
+    	String query = "select * from RepairServiceCategory";
+        try {
+            DbConnection db = new DbConnection();
+            try {
+                ResultSet rs = db.executeQuery(query);
+                int count = 0;
+                while (rs.next()) {
+                	categories.put(count, rs.getString("category").trim());
+                	count++;
+                }
+            } finally {
+                db.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return categories;
+    }
+    public boolean addService(String name, String category)
+    {
+    	boolean valid = false;
+    	String query = "insert into Services (serviceId, Name, ServiceType) values(?, ?, 'Repair')";
+    	String repairQuery = "insert into RepairServices (serviceId, category) values(?, ?)";
+    	try {
+    		DbConnection db = new DbConnection();
+    		PreparedStatement stmt = db.getConnection().prepareStatement(query);
+    		int id = getPrimaryKey("Services", "serviceId");
+    		stmt.setInt(1, id);
+    		stmt.setString(2, name);
+    		int result = stmt.executeUpdate();
+    		stmt.close();
+    		if(result > 0) {
+    			PreparedStatement stmt2 = db.getConnection().prepareStatement(repairQuery);
+    			stmt2.setInt(1, id);
+        		stmt2.setString(2, category.trim());
+        		int result2 = stmt2.executeUpdate();
+        		if(result2 > 0) valid = true;
+        		stmt2.close();
+    		}	
+    	}catch(Exception e ) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    	return valid;
+    }
     public List<RepairService> repairServiceLookup() {
         List<RepairService> list = new ArrayList<RepairService>();
         String query = "select * from RepairServices";
@@ -141,7 +192,6 @@ public class RepositoryService {
                 while (rs.next()) {
                     RepairService rps = new RepairService();
                     rps.setServiceId(rs.getInt("serviceId"));
-                    String category = rs.getString("category");
                     rps.setCategory(rs.getString("category").trim());
                     rps.setName(rs.getString("name").trim());
                     rps.setHours(rs.getInt("hours"));

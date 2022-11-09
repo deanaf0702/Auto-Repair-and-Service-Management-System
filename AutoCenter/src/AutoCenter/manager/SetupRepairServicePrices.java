@@ -16,18 +16,19 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 	private RepositoryService repoService = null;
 	private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
-    private static final int EXPECTED_INPUT_LENGTH = 12;
+    private int Expected_Input_Length;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
     private String[] models = new String[] { "Honda", "Nissan", "Toyota" };
     private List<Service> repairServices = null;
-    private String[] serviceNames = new String[EXPECTED_INPUT_LENGTH];
+    private String[] serviceNames;
     ArrayList<PriceModel> list = new ArrayList<PriceModel>();
     
 	public SetupRepairServicePrices()
 	{
 		repoService = new RepositoryService();
 		repairServices = repoService.ServiceLookup(repairServiceQuery());
+		Expected_Input_Length = repairServices.size();
 		int count = 0;
 		for(Service s: repairServices) {
 			serviceNames[count++] = s.getName();
@@ -42,14 +43,14 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 			reset();
 			for (int i = 0; i < models.length; i++) {
                 
-                System.out.println("NOTE: there are 12 service pairs. Each pair has the hour and price values of a service and is sperated with the delimiter ';'. ");
+                System.out.println("NOTE: there are " + repairServices.size() + " service pairs. Each pair has the hour and price values of a service and is sperated with the delimiter ';'. ");
                 System.out.println("##  Ex (hours, price): 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00  ##");
                 System.out.println();
                 System.out.println("Enter the service hours and prices for " + models[i] + " ?");
                 String input = ScanHelper.nextLine();
                 String[] inputs = input.split(";");
-                if (inputs.length == EXPECTED_INPUT_LENGTH) {
-                	for(int j = 0; j < EXPECTED_INPUT_LENGTH; j++)
+                if (inputs.length == Expected_Input_Length) {
+                	for(int j = 0; j < Expected_Input_Length; j++)
                 	{
                 		String items[] = inputs[j].split(",");
                         if (items.length == 2) {
@@ -166,7 +167,7 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
                     count++;
                     preStmt.close();
                 }
-                if(count == (EXPECTED_INPUT_LENGTH * models.length)) valid = true;
+                if(count == (Expected_Input_Length * models.length)) valid = true;
             }finally {
                 db.close();
             }

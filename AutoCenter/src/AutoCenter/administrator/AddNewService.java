@@ -2,6 +2,10 @@ package AutoCenter.administrator;
 
 import AutoCenter.UIHelpers;
 import AutoCenter.UserFlowFunctionality;
+import AutoCenter.services.RepositoryService;
+
+import java.util.HashMap;
+
 import AutoCenter.ScanHelper;
 
 /**
@@ -32,19 +36,41 @@ public class AddNewService implements UserFlowFunctionality {
      */
     private static final String DIRECTION_SEPARATOR = "#######################################";
 
+    private HashMap<Integer, String>categories; 
+    private RepositoryService repoService;
+    private String serviceName = null;
+    private int hours = 0;
+    private String category = null;
+    public AddNewService()
+    {
+    	repoService = new RepositoryService();
+    	categories = repoService.RepairCategoryLookup();
+    }
     @Override
     public void run() {
-        int selection;
+        int selection = MAX_SELECTION;
         display();
 
         do {
-            displayDirections();
-            // TODO add category, name, duration parsing
-            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                    + ") from the given options displayed above: ");
-            selection = ScanHelper.nextInt();
+            System.out.println("Enter existing service category: ");
+            category = ScanHelper.nextLine();
+            if(!categories.containsValue(category))
+            {
+            	System.out.println("The category does not exist.");
+            	selection = 0;
+            }else {
+            	System.out.print("Enter Service Name: ");
+                serviceName = ScanHelper.next();
+                System.out.print("Enter Service Duration: ");
+                hours = ScanHelper.nextInt();
+                System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                        + ") from the given options displayed above: ");
+                selection = ScanHelper.nextInt();
+            }
+            
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
+        
         navigate(selection);
     }
 
@@ -101,13 +127,19 @@ public class AddNewService implements UserFlowFunctionality {
     public void navigate(int selection) {
         switch (selection) {
             case 1:
-                new AddNewService().run();
+                	if(repoService.addService(serviceName, category))
+                	{
+                		System.out.println("The Service is Added Successfully!");
+                	}else {
+                		System.out.println("Failed adding the service.");
+                	}
                 break;
             case 2:
                 goBack();
                 break;
             default:
                 System.out.println("Invalid selection.");
+                goBack();
                 break;
         }
     }
