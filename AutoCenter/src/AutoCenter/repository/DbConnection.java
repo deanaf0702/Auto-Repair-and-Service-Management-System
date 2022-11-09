@@ -1,13 +1,11 @@
 package AutoCenter.repository;
 
-
-
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Properties;
+
+import AutoCenter.Home;
 
 public class DbConnection {
 
@@ -23,11 +21,9 @@ public class DbConnection {
         try {
             Class.forName( "oracle.jdbc.OracleDriver" );
 
-            final Properties prop = new Properties();
-            prop.load( new FileInputStream( "database.properties" ) );
-            final String user = prop.getProperty( "username" );
-            final String pass = prop.getProperty( "password" );
-            final String jdbcUrl = prop.getProperty( "jdbcUrl" );
+            final String user = Home.username;
+            final String pass = Home.password;
+            final String jdbcUrl = Home.jdbcUrl;
 
             connection = DriverManager.getConnection( jdbcUrl, user, pass );
             statement = connection.createStatement();
