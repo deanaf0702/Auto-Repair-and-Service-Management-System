@@ -3,6 +3,7 @@ package AutoCenter.manager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
@@ -20,8 +21,7 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
     private String[] models = new String[] { "Honda", "Nissan", "Toyota" };
-    private List<Service> repairServices = null;
-    private String[] serviceNames;
+    private Map<Integer, Service> repairServices = null;
     ArrayList<PriceModel> list = new ArrayList<PriceModel>();
     
 	public SetupRepairServicePrices()
@@ -29,10 +29,6 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 		repoService = new RepositoryService();
 		repairServices = repoService.ServiceLookup(repairServiceQuery());
 		Expected_Input_Length = repairServices.size();
-		int count = 0;
-		for(Service s: repairServices) {
-			serviceNames[count++] = s.getName();
-		}
 	}
 	public void run() {
 		
@@ -43,27 +39,31 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
 			reset();
 			for (int i = 0; i < models.length; i++) {
                 
-                System.out.println("NOTE: there are " + repairServices.size() + " service pairs. Each pair has the hour and price values of a service and is sperated with the delimiter ';'. ");
-                System.out.println("##  Ex (hours, price): 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00; 2, 90.00; 2, 100.00; 3, 120.00  ##");
-                System.out.println();
                 System.out.println("Enter the service hours and prices for " + models[i] + " ?");
+                System.out.print(false);
                 String input = ScanHelper.nextLine();
                 String[] inputs = input.split(";");
+                int count = 0;
                 if (inputs.length == Expected_Input_Length) {
-                	for(int j = 0; j < Expected_Input_Length; j++)
+                	while(Expected_Input_Length > count)
                 	{
-                		String items[] = inputs[j].split(",");
-                        if (items.length == 2) {
-                            PriceModel pm = new PriceModel();
-                            pm.serviceName = serviceNames[j];
+                		System.out.print("Enter the " + repairServices.get(count).getName() + " prices for " + models[i] + " ?");
+                		Double price = ScanHelper.nextDouble();
+                		System.out.print("Enter the " + repairServices.get(count).getName() + " hours for " + models[i] + " ?");
+                		int hours = ScanHelper.nextInt();
+                		if(price > 0.0 && hours > 0)
+                		{
+                			PriceModel pm = new PriceModel();
+                			pm.serviceId = repairServices.get(count).getServiceId();
+                            pm.serviceName = repairServices.get(count).getName();
                             pm.model = models[i];
-                            pm.hours = Integer.parseInt(items[0].trim());
-                            pm.price = Double.parseDouble(items[1].trim());
+                            pm.hours = hours;
+                            pm.price = price;
                             list.add(pm);
-                        } else {
-                            System.out.println("Input Format Error");
-                            break;
-                        }
+                            count++;
+                		}else {
+                			System.out.println("Input Format Error");
+                		}
                 	}   
                 } else {
                     System.out.println("Input Format Error");
@@ -153,7 +153,7 @@ public class SetupRepairServicePrices implements UserFlowFunctionality{
                 for (PriceModel item : list) {
                     PreparedStatement preStmt = db.getConnection().prepareStatement(query);
                     preStmt.setInt(1, centerId);
-                    preStmt.setInt(2, repoService.findServiceId(repairServices, item.serviceName));
+                    preStmt.setInt(2, item.serviceId);
                     preStmt.setString(3, item.model);
                     preStmt.setDouble(4, item.price);
                     preStmt.setInt(5, item.hours);

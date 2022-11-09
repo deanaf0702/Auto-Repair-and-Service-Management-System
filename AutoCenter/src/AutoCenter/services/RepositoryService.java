@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import AutoCenter.Home;
 import AutoCenter.LoginUser;
@@ -109,18 +110,20 @@ public class RepositoryService {
         return 0;
     }
 
-    public List<Service> ServiceLookup(String query) {
-        List<Service> list = new ArrayList<Service>();
+    public Map<Integer, Service> ServiceLookup(String query) {
+    	Map<Integer, Service> list = new HashMap<Integer, Service>();
         try {
             DbConnection db = new DbConnection();
 
             try {
                 ResultSet rs = db.executeQuery(query);
+                int count = 0;
                 while (rs.next()) {
                     Service ms = new Service();
                     ms.setServiceId(rs.getInt("serviceId"));
                     ms.setName(rs.getString("name").trim());
-                    list.add(ms);
+                    list.put(count, ms);
+                    count++;
                 }
             } finally {
                 db.close();

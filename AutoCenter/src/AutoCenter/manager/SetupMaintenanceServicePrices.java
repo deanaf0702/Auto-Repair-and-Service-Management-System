@@ -3,6 +3,7 @@ package AutoCenter.manager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.ScanHelper;
@@ -15,17 +16,16 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
     private RepositoryService repoService = null;
     private String[] models = new String[] { "Honda", "Nissan", "Toyota" };
-    private String[] serviceNames = new String[] { "A", "B", "C" };
+    private Map<Integer, Service> maintServices;
     ArrayList<PriceModel> list = new ArrayList<PriceModel>();
     private static final String DIRECTION_SEPARATOR = "#############################";
     private static final String MENU_SEPARATOR = "#######################################";
-    private static final int EXPECTED_INPUT_LENGTH = 3;
-    private static final int EXPECTED_PRICEMODEL_LENGTH = 9;
     private static final int MIN_SELECTION = 1;
     private static final int MAX_SELECTION = 2;
 
     public SetupMaintenanceServicePrices() {
         repoService = new RepositoryService();
+        maintServices = repoService.ServiceLookup(maintServiceQuery());
     }
 
     @Override
@@ -35,20 +35,28 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
         do {
             display();
             for (int i = 0; i < models.length; i++) {
-                System.out.println("Enter Schedule A, B, and C hours and prices for " + models[i] + " ?");
-                System.out.println("##  Ex(hours, price): 4, 100.00; 5, 110.00; 2, 120.00  ##");
+                
+            
                 String input = ScanHelper.nextLine();
                 String[] inputs = input.split(";");
-                if (inputs.length == EXPECTED_INPUT_LENGTH) {
-                	for(int j = 0; j < EXPECTED_INPUT_LENGTH; j++)
+                if (inputs.length == models.length) {
+                	int count = 0;
+                	while(maintServices.size() > 0)
                 	{
-                		String items[] = inputs[j].split(",");
-                        if (items.length == 2) {
+                		System.out.print("Enter Schedule " + maintServices.get(count).getName()
+                		+"  price for " + models[i] + " :");
+                		Double price = ScanHelper.nextDouble();
+                		System.out.print("Enter Schedule " + maintServices.get(count).getName()
+                        		+"  price for " + models[i] + " :");
+                        		int hours = ScanHelper.nextInt();
+                		
+                        if (hours > 0 && price > 0.0) {
                             PriceModel pm = new PriceModel();
-                            pm.serviceName = serviceNames[j];
+                            pm.serviceId = maintServices.get(count).getServiceId();
+                            pm.serviceName = maintServices.get(count).getName();
                             pm.model = models[i];
-                            pm.hours = Integer.parseInt(items[0].trim());
-                            pm.price = Double.parseDouble(items[1].trim());
+                            pm.hours = hours;
+                            pm.price = price;
                             list.add(pm);
                         } else {
                             System.out.println("Input Format Error");
@@ -118,21 +126,19 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
 
     public boolean save() {
         boolean valid = false;
-        if (list.size() != EXPECTED_PRICEMODEL_LENGTH)
+        if (list.size() != models.length * maintServices.size())
             return valid;
-        String maintServiceQuery = "Select s.serviceid as serviceId, s. name as name"
-                + " from MaintenanceServices m, Services s where m.serviceId = s.serviceId";
         try {
             DbConnection db = new DbConnection();
             String query = "insert into Prices (centerId, serviceId, model, price, hours) values(?,?,?,?,?)";
             int centerId = repoService.getCenterId();
-            List<Service> maintServices = repoService.ServiceLookup(maintServiceQuery);
+            
             try {
             	int count = 0;
                 for (PriceModel item : list) {
                     PreparedStatement preStmt = db.getConnection().prepareStatement(query);
                     preStmt.setInt(1, centerId);
-                    preStmt.setInt(2, repoService.findServiceId(maintServices, item.serviceName));
+                    preStmt.setInt(2, item.serviceId);
                     preStmt.setString(3, item.model);
                     preStmt.setDouble(4, item.price);
                     preStmt.setInt(5, item.hours);
@@ -169,5 +175,10 @@ public class SetupMaintenanceServicePrices implements UserFlowFunctionality {
         new SetupServicePrices().run();
 
     }
-
+    public String maintServiceQuery()
+	{
+		String maintServiceQuery = "Select s.serviceid as serviceId, s. name as name "
+				+ "from MaintenanceServices r, Services s where r.serviceId = s.serviceId";
+		return maintServiceQuery;
+	}
 }
