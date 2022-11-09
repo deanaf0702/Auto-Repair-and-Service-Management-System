@@ -43,9 +43,9 @@ public class AddEmployees implements UserFlowFunctionality {
             user.setUsername(ScanHelper.next().trim());
             System.out.print("E. Password :");
             user.setPassword(ScanHelper.next().trim());
-            // System.out.print("F. Address :");
-            user.setAddress("1234 Main St, Raleigh, NC 27606-2972");
-            System.out.print("G. EmilAddress :");
+            System.out.print("F. Address :");
+            user.setAddress(ScanHelper.nextLine().trim());
+            System.out.print("G. Email Address :");
             user.setEmail(ScanHelper.next().trim());
             System.out.print("H. Phone Number :");
             user.setPhone(ScanHelper.next().trim());
@@ -73,7 +73,7 @@ public class AddEmployees implements UserFlowFunctionality {
         System.out.println("# D. userName                #");
         System.out.println("# E. Password                #");
         System.out.println("# F. Address                 #");
-        System.out.println("# G. EmilAddress             #");
+        System.out.println("# G. Email Address             #");
         System.out.println("# H. Phone Number            #");
         System.out.println("# I. Role                    #");
         System.out.println("# J. Compensation($)         #");

@@ -133,6 +133,7 @@ public class AddNewService implements UserFlowFunctionality {
                 	}else {
                 		System.out.println("Failed adding the service.");
                 	}
+                	goBack();
                 break;
             case 2:
                 goBack();

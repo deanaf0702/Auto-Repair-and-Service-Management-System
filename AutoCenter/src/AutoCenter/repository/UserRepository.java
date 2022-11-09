@@ -38,7 +38,7 @@ public class UserRepository {
             if (!result1) {
                 return valid;
             }
-            String childQuery = null;
+            String childQuery = "";
             if (user.getRole().equals("Manager")) {
                 childQuery = addManagerQuery(user.getUserId(), user.getSalaryOrWage(), user.getServiceCenterId());
 
