@@ -58,9 +58,80 @@ NOTE: It's important to enter information following
 the example provided above using the delimiter, `;`, when necessary.
 
 Timeslot range to swap:
-Timeslot week (1-4): 3;4;2;7
+Timeslot week (1-4): 1
+Timeslot day (1-7): 1
+Timeslot start (1-9): 1
+Timeslot end (1-9): 2
+Employee ID of the mechanic that is being requested for swap:
+Employee ID: 423186759
 
-Invalid input. Please try again.
+Desired timeslot range to swap with:
+Timeslot week (1-4): 2
+Timeslot day (1-7): 2
+Timeslot start (1-9): 2
+Timeslot end (1-9): 3
+#######################################
+##### Mechanic: Request Swap Menu #####
+#######################################
+# 1 Send the request                  #
+# 2 Go Back                           #
+#######################################
+Enter choice (1-2) from the given options displayed above: 1
+Error: ORA-02289: sequence does not exist
+
+#############################
+#####   Request Swap: Usage    #####
+#############################
+# A. Timeslot range to swap        #
+#    (indicated by week, day, time #
+#    slot start and end ids)       #
+# ------------------------- #
+# B. Employee ID of a mechanic     #
+#    that is being requested for   #
+#    swap                          #
+# ------------------------- #
+# C. Timeslot range of the         #
+#    requested mechanic that is of #
+#    interest                      #
+#############################
+#####   Request Swap: Example  #####
+#############################
+### Timeslot range to swap:      ###
+###          1; 3; 6; 9          ###
+### ---------------------------- ###
+### Employee ID: 423186759       ###
+### ---------------------------- ###
+### Timeslot range of requested  ###
+### mechanic:                    ###
+###          3; 4; 2; 7          ###
+#############################
+
+Please enter the details following the usage description and example provided above.
+
+NOTE: It's important to enter information following
+the example provided above using the delimiter, `;`, when necessary.
+
+Timeslot range to swap:
+Timeslot week (1-4): 1
+Timeslot day (1-7): 1
+Timeslot start (1-9): 1
+Timeslot end (1-9): 2
+Employee ID of the mechanic that is being requested for swap:
+Employee ID: 423186759
+
+Desired timeslot range to swap with:
+Timeslot week (1-4): 2
+Timeslot day (1-7): 2
+Timeslot start (1-9): 2
+Timeslot end (1-9): 3
+#######################################
+##### Mechanic: Request Swap Menu #####
+#######################################
+# 1 Send the request                  #
+# 2 Go Back                           #
+#######################################
+Enter choice (1-2) from the given options displayed above: 1
+Error: ORA-02289: sequence does not exist
 
 #############################
 #####   Request Swap: Usage    #####
@@ -96,21 +167,3 @@ the example provided above using the delimiter, `;`, when necessary.
 
 Timeslot range to swap:
 Timeslot week (1-4): 
-Exception in thread "main" java.util.NoSuchElementException
-	at java.base/java.util.Scanner.throwFor(Scanner.java:941)
-	at java.base/java.util.Scanner.next(Scanner.java:1598)
-	at java.base/java.util.Scanner.nextInt(Scanner.java:2263)
-	at java.base/java.util.Scanner.nextInt(Scanner.java:2217)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInitialTimeSlots(RequestSwap.java:249)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:224)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:79)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:53)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-

@@ -57,25 +57,43 @@ public class AddNewStore implements UserFlowFunctionality {
         do {
             displayDirections();
             // TODO add file parsing here
-            System.out.println("Enter Store ID (ex:30004) ?");
+            System.out.print("Enter Store ID (ex:30004) ?");
             int storeId = ScanHelper.nextInt();
             System.out.println("Enter Store Address (ex:1378 University Woods, Raleigh, NC 27612)?");
-            //String storeAddress = ScanHelper.nextLine();
-            String storeAddress = "1378 University Woods, Raleigh, NC 27612";
+            String storeAddress = ScanHelper.nextLine().trim();
+            //String storeAddress = "1378 University Woods, Raleigh, NC 27612";
             System.out.println("Enter Manager's information?");
-            System.out.println(
-                    "Ex:653186733;Deana;Franks;dfranks;Franks;1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00");
-            //String managerInfo = ScanHelper.nextLine();
-            String managerInfo = "243184733;Deana;Franks;dlfranks;Franks;1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00";
+            manager = new User();
+            manager.setServiceCenterId(storeId);
+            System.out.print("A. Employee ID :");
+            manager.setUserId(ScanHelper.nextInt());
+            System.out.print("B. First Name :");
+            manager.setFirstName(ScanHelper.next().trim());
+            System.out.print("C. Last Name :");
+            manager.setLastName(ScanHelper.next().trim());
+            System.out.print("D. userName :");
+            manager.setUsername(ScanHelper.next().trim());
+            System.out.print("E. Password :");
+            manager.setPassword(ScanHelper.next().trim());
+            // System.out.print("F. Address :");
+            manager.setAddress("1234 Main St, Raleigh, NC 27606-2972");
+            System.out.print("G. EmilAddress :");
+            manager.setEmail(ScanHelper.next().trim());
+            System.out.print("H. Phone Number :");
+            manager.setPhone(ScanHelper.next().trim());
+            System.out.print("I. Role :");
+            manager.setRole(ScanHelper.next().trim());
+            System.out.print("J. Compensation($) :");
+            manager.setSalaryOrWage(ScanHelper.nextDouble());
 
-            System.out.println("Enter Min and max wage for mechanics using the delimiter, ';' (ex: 30.00; 75.00 )?");
-            //String minMax = ScanHelper.nextLine();
-            String minMax = "30.00; 75.00";
-            if (validateInput(storeId, storeAddress, managerInfo, minMax)) {
-                System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
-                        + ") from the given options displayed above: ");
-                selection = ScanHelper.nextInt();
-            }
+            System.out.println("Enter minimum wage? ");
+            Double minWage = ScanHelper.nextDouble();
+            System.out.println("Enter maximum wage? ");
+            Double maxWage = ScanHelper.nextDouble();
+            
+            System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
+                    + ") from the given options displayed above: ");
+            selection = ScanHelper.nextInt();
 
         } while (!(selection >= MIN_SELECTION && selection <= MAX_SELECTION));
 
@@ -170,36 +188,5 @@ public class AddNewStore implements UserFlowFunctionality {
         return valid;
     }
 
-    private boolean validateInput(int storeId, String address, String managerInfo, String minMax) {
-        boolean valid = false;
-
-        if (storeId < 1)
-            return valid;
-        centerId = storeId;
-        if (address.isEmpty())
-            return valid;
-        this.address = address;
-        String[] minMaxWages = minMax.split(";");
-        if (minMaxWages.length != 2)
-            return valid;
-        minWage = Double.parseDouble(minMaxWages[0]);
-        maxWage = Double.parseDouble(minMaxWages[1]);
-        manager = new User();
-        String[] inputs = managerInfo.split(";");
-        if (inputs.length != 10)
-            return valid;
-
-        manager.setUserId(Integer.parseInt(inputs[0]));
-        manager.setServiceCenterId(centerId);
-        manager.setFirstName(inputs[1].trim());
-        manager.setLastName(inputs[2].trim());
-        manager.setUsername(inputs[3].trim());
-        manager.setPassword(inputs[4].trim());
-        manager.setAddress(inputs[5].trim());
-        manager.setEmail(inputs[6].trim());
-        manager.setPhone(inputs[7].trim());
-        manager.setRole(inputs[8].trim());
-        manager.setSalaryOrWage(Double.parseDouble(inputs[9]));
-        return true;
-    }
+    
 }
