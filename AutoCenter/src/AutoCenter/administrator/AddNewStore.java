@@ -60,15 +60,17 @@ public class AddNewStore implements UserFlowFunctionality {
             System.out.println("Enter Store ID (ex:30004) ?");
             int storeId = ScanHelper.nextInt();
             System.out.println("Enter Store Address (ex:1378 University Woods, Raleigh, NC 27612)?");
-            String storeAddress = ScanHelper.nextLine();
+            //String storeAddress = ScanHelper.nextLine();
+            String storeAddress = "1378 University Woods, Raleigh, NC 27612";
             System.out.println("Enter Manager's information?");
             System.out.println(
                     "Ex:653186733;Deana;Franks;dfranks;Franks;1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00");
-            String managerInfo = ScanHelper.nextLine();
+            //String managerInfo = ScanHelper.nextLine();
+            String managerInfo = "243184733;Deana;Franks;dlfranks;Franks;1234 Pyxis Court, Raleigh, NC 27605;dfranks@gmail.com;9199994567;Manager;200000.00";
 
             System.out.println("Enter Min and max wage for mechanics using the delimiter, ';' (ex: 30.00; 75.00 )?");
-            String minMax = ScanHelper.nextLine();
-
+            //String minMax = ScanHelper.nextLine();
+            String minMax = "30.00; 75.00";
             if (validateInput(storeId, storeAddress, managerInfo, minMax)) {
                 System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                         + ") from the given options displayed above: ");
