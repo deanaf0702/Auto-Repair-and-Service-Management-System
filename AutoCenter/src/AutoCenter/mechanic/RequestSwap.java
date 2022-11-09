@@ -753,7 +753,7 @@ public class RequestSwap implements UserFlowFunctionality {
     private static String validMechanicQuery(int employeeID) {
         return "SELECT *" +
                 " FROM Mechanics" +
-                " WHERE EmployeeID = " + employeeID;
+                " WHERE userId = " + employeeID;
     }
 
     /**
