@@ -73,11 +73,11 @@ alter table
 
 alter table
     EventOnServices drop constraint fk_EventOnServices_serviceId;
-    
+
 alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule1;
 alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule2;
 alter table SwapRequests drop constraint fk_OnSwapRequests_SwapRequests;
-    
+
 --Drop Sequences
 drop sequence SERVICE_EVENT_ID_SEQ;
 drop sequence auto_increment_swap_request_id;
@@ -167,7 +167,7 @@ create table MaintenanceServices(
 create table MaintHasServices(
     serviceId number(3),
     serviceName char(50),
-    constraint fk_Schedule_MaintenanceServices foreign key (serviceId) references MaintenanceServices (serviceid) on delete cascade
+    constraint fk_Schedule_MaintenanceServices foreign key (serviceId) references MaintenanceServices(serviceid) on delete cascade
 );
 
 --Roles
@@ -346,12 +346,12 @@ create table SwapRequests(
 
 --Create triggers
 create trigger updateStatusAfterAddCar
-after insert on CustomerVehicles 
-for each row 
+after insert on CustomerVehicles
+for each row
 begin
 	update Customers set isActive = 1 where userId = :new.customerId and serviceCenterId = :new.centerId;
 end;
-/ 
+/
 
 create trigger updateStatusAfterDeleteCar
 after delete on CustomerVehicles for each row declare vehicleCount number;
@@ -363,5 +363,5 @@ if (vehicleCount = 1) then
 	commit;
 end if;
 end;
-/ 
+/
 commit;

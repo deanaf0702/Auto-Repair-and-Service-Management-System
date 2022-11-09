@@ -102,7 +102,7 @@ public class FindCustomersWithPendingInvoices implements UserFlowFunctionality{
 	}
 	public String timeslotConvertToDate(int week, int day)
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("MM dd yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
 		
 		Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, day);
