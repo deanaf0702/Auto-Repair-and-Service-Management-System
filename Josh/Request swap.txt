@@ -11,51 +11,10 @@ Enter choice (1-2) from the given options displayed above: 1
 # 1 Sign-In                    #
 # 2 Go Back                    #
 ################################
-Enter UserID: 30002-125689347
-Enter password: Hernandez
+Enter UserID: 30002-423186759
+Enter password: Clark
 Enter choice (1-2) from the given options displayed above: 1
-Mechanic: Jose Hernandez
-##################################
-##### Mechanic: Landing Page #####
-##################################
-# 1 View schedule                #
-# 2 Request time off             #
-# 3 Request swap                 #
-# 4 Accept / Reject swap         #
-# 5 Logout                       #
-##################################
-Enter choice (1-5) from the given options displayed above: 2
-##########################################
-##### Manager: Request Time Off Menu #####
-##########################################
-# 1 Send the request                     #
-# 2 Go Back                              #
-##########################################
-week:3
-day:2
-Start time slot:1
-End time slot:4
-Enter choice (1-2) from the given options displayed above: 1
-java.sql.SQLException: Closed Resultset: findColumn
-	at com.oracle.database.jdbc/oracle.jdbc.driver.InsensitiveScrollableResultSet.ensureOpen(InsensitiveScrollableResultSet.java:137)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.InsensitiveScrollableResultSet.findColumn(InsensitiveScrollableResultSet.java:298)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.GeneratedResultSet.getInt(GeneratedResultSet.java:622)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.processRequestedTimeOff(RequestTimeOff.java:180)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:142)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-0
-Unable to allow time off since there are not enough mechanics to cover the time off request.
-Please request another time range instead.
-Do you want to continue for another request (1:yes/2:no)?2
+Mechanic: Ellie Clark
 ##################################
 ##### Mechanic: Landing Page #####
 ##################################
@@ -96,143 +55,12 @@ Enter choice (1-5) from the given options displayed above: 3
 Please enter the details following the usage description and example provided above.
 
 NOTE: It's important to enter information following
-the example provided above using the delimiter, `;` when necessary.
+the example provided above using the delimiter, `;`, when necessary.
 
 Timeslot range to swap:
-Timeslot week (1-4): 1
-Timeslot day (1-7): 1
-Timeslot start (1-9): 1
-Timeslot end (1-9): 5
-java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
+Timeslot week (1-4): 3;4;2;7
 
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateRequestingMechanicWorkingWithinTimeSlotRange(RequestSwap.java:343)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInitialTimeSlots(RequestSwap.java:309)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:242)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 933, Position : 75, Sql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 1 AND day = 1 AND timeSlot >= 1 AND timeSlot <= 5, OriginalSql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 1 AND day = 1 AND timeSlot >= 1 AND timeSlot <= 5, Error Msg = ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 31 more
-Employee ID of the mechanic that is being requested for swap:
-Employee ID: 125689347
-java.sql.SQLSyntaxErrorException: ORA-00904: "EMPLOYEEID": invalid identifier
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateMechanicID(RequestSwap.java:680)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateEmployeeID(RequestSwap.java:653)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:247)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 904, Position : 30, Sql = SELECT * FROM Mechanics WHERE EmployeeID = 125689347, OriginalSql = SELECT * FROM Mechanics WHERE EmployeeID = 125689347, Error Msg = ORA-00904: "EMPLOYEEID": invalid identifier
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 31 more
-
-Desired timeslot range to swap with:
-Timeslot week (1-4): 1
-Timeslot day (1-7): 2
-Timeslot start (1-9): 1
-Timeslot end (1-9): 3
-java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateRequestedMechanicWorkingWithinTimeSlotRange(RequestSwap.java:474)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateDesiredTimeSlots(RequestSwap.java:428)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:252)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 933, Position : 75, Sql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 1 AND day = 2 AND timeSlot >= 1 AND timeSlot <= 3, OriginalSql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 1 AND day = 2 AND timeSlot >= 1 AND timeSlot <= 3, Error Msg = ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 31 more
-#######################################
-##### Mechanic: Request Swap Menu #####
-#######################################
-# 1 Send the request                  #
-# 2 Go Back                           #
-#######################################
-Enter choice (1-2) from the given options displayed above: 1
-Error: ORA-00942: table or view does not exist
+Invalid input. Please try again.
 
 #############################
 #####   Request Swap: Usage    #####
@@ -264,175 +92,25 @@ Error: ORA-00942: table or view does not exist
 Please enter the details following the usage description and example provided above.
 
 NOTE: It's important to enter information following
-the example provided above using the delimiter, `;` when necessary.
-
-Timeslot range to swap:
-Timeslot week (1-4): 2
-Timeslot day (1-7): 1
-Timeslot start (1-9): 3
-Timeslot end (1-9): 5
-java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateRequestingMechanicWorkingWithinTimeSlotRange(RequestSwap.java:343)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInitialTimeSlots(RequestSwap.java:309)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:242)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.navigate(RequestSwap.java:152)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:97)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 933, Position : 75, Sql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 2 AND day = 1 AND timeSlot >= 3 AND timeSlot <= 5, OriginalSql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 2 AND day = 1 AND timeSlot >= 3 AND timeSlot <= 5, Error Msg = ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 33 more
-Employee ID of the mechanic that is being requested for swap:
-Employee ID: 125689347
-java.sql.SQLSyntaxErrorException: ORA-00904: "EMPLOYEEID": invalid identifier
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateMechanicID(RequestSwap.java:680)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateEmployeeID(RequestSwap.java:653)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:247)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.navigate(RequestSwap.java:152)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:97)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 904, Position : 30, Sql = SELECT * FROM Mechanics WHERE EmployeeID = 125689347, OriginalSql = SELECT * FROM Mechanics WHERE EmployeeID = 125689347, Error Msg = ORA-00904: "EMPLOYEEID": invalid identifier
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 33 more
-
-Desired timeslot range to swap with:
-Timeslot week (1-4): 2
-Timeslot day (1-7): 6
-Timeslot start (1-9): 2
-Timeslot end (1-9): 4
-java.sql.SQLSyntaxErrorException: ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:630)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:564)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1151)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:771)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:299)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:498)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:112)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:896)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.prepareDefineBufferAndExecute(OracleStatement.java:1172)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1101)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeSQLSelect(OracleStatement.java:1426)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1309)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1713)
-	at com.oracle.database.jdbc/oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:394)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.validateRequestedMechanicWorkingWithinTimeSlotRange(RequestSwap.java:474)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateDesiredTimeSlots(RequestSwap.java:428)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:252)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.navigate(RequestSwap.java:152)
-	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:97)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:58)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.goBack(RequestTimeOff.java:256)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.navigate(RequestTimeOff.java:146)
-	at AutoCenter/AutoCenter.mechanic.RequestTimeOff.run(RequestTimeOff.java:80)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:55)
-	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:32)
-	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
-	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
-	at AutoCenter/AutoCenter.Login.run(Login.java:42)
-	at AutoCenter/AutoCenter.Home.login(Home.java:74)
-	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
-	at AutoCenter/AutoCenter.Home.run(Home.java:39)
-	at AutoCenter/AutoCenter.Home.main(Home.java:29)
-Caused by: Error : 933, Position : 75, Sql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 2 AND day = 6 AND timeSlot >= 2 AND timeSlot <= 4, OriginalSql = SELECT COUNT(*) AS numMechanics FROM Schedule WHERE mechanicID = 125689347 WHERE centerId = 30002 AND week = 2 AND day = 6 AND timeSlot >= 2 AND timeSlot <= 4, Error Msg = ORA-00933: SQL command not properly ended
-
-	at com.oracle.database.jdbc/oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:637)
-	... 33 more
-
-The mechanic you are requesting to swap with is double booked if they accept your proposed swap. Try again with a time slot range in which they are not double booked.
-
-#############################
-#####   Request Swap: Usage    #####
-#############################
-# A. Timeslot range to swap        #
-#    (indicated by week, day, time #
-#    slot start and end ids)       #
-# ------------------------- #
-# B. Employee ID of a mechanic     #
-#    that is being requested for   #
-#    swap                          #
-# ------------------------- #
-# C. Timeslot range of the         #
-#    requested mechanic that is of #
-#    interest                      #
-#############################
-#####   Request Swap: Example  #####
-#############################
-### Timeslot range to swap:      ###
-###          1; 3; 6; 9          ###
-### ---------------------------- ###
-### Employee ID: 423186759       ###
-### ---------------------------- ###
-### Timeslot range of requested  ###
-### mechanic:                    ###
-###          3; 4; 2; 7          ###
-#############################
-
-Please enter the details following the usage description and example provided above.
-
-NOTE: It's important to enter information following
-the example provided above using the delimiter, `;` when necessary.
+the example provided above using the delimiter, `;`, when necessary.
 
 Timeslot range to swap:
 Timeslot week (1-4): 
+Exception in thread "main" java.util.NoSuchElementException
+	at java.base/java.util.Scanner.throwFor(Scanner.java:941)
+	at java.base/java.util.Scanner.next(Scanner.java:1598)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2263)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2217)
+	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInitialTimeSlots(RequestSwap.java:249)
+	at AutoCenter/AutoCenter.mechanic.RequestSwap.parseAndValidateInputs(RequestSwap.java:224)
+	at AutoCenter/AutoCenter.mechanic.RequestSwap.run(RequestSwap.java:87)
+	at AutoCenter/AutoCenter.mechanic.Mechanic.navigate(Mechanic.java:79)
+	at AutoCenter/AutoCenter.mechanic.Mechanic.run(Mechanic.java:53)
+	at AutoCenter/AutoCenter.Login.signIn(Login.java:90)
+	at AutoCenter/AutoCenter.Login.navigate(Login.java:57)
+	at AutoCenter/AutoCenter.Login.run(Login.java:42)
+	at AutoCenter/AutoCenter.Home.login(Home.java:74)
+	at AutoCenter/AutoCenter.Home.navigate(Home.java:54)
+	at AutoCenter/AutoCenter.Home.run(Home.java:39)
+	at AutoCenter/AutoCenter.Home.main(Home.java:29)
+
