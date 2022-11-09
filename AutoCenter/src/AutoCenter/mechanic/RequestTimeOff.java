@@ -54,7 +54,7 @@ public class RequestTimeOff implements UserFlowFunctionality {
     /**
      * The separator to use between the directions components
      */
-    private static final String DIRECTION_SEPARATOR = "#####################################";
+    private static final String DIRECTION_SEPARATOR = "#######################################";
 
     /**
      * The timeSlotParameters for the time off request
@@ -64,17 +64,18 @@ public class RequestTimeOff implements UserFlowFunctionality {
     @Override
     public void run() {
         int selection = INITIAL_SELECTION;
-        displayDirections();
-        display();
 
         do {
             reset();
+            displayDirections();
+            System.out.print("Time off request: ");
             String input = ScanHelper.nextLine();
             String[] inputs = input.split(";");
             if (inputs.length >= EXPECTED_INPUT_LENGTH) {
                 boolean validTimeSlots = parseAndValidateTimeSlots(inputs);
                 boolean validRequest = validateRequestedTimeOff();
                 if (validTimeSlots && validRequest) {
+                    display();
                     System.out.print("Enter choice (" + MIN_SELECTION + "-" + MAX_SELECTION
                             + ") from the given options displayed above: ");
                     selection = ScanHelper.nextInt();
@@ -104,19 +105,19 @@ public class RequestTimeOff implements UserFlowFunctionality {
      */
     private void displayDirections() {
         String[] usageComponents = {
-                "# A. Time slots mechanic wants to   #\n" +
-                        "#    be off (indicated by week, day #\n" +
-                        "#    , time slot start and end ids) #",
+                "# A. Time slots mechanic wants to     #\n" +
+                        "#    be off (indicated by week, day,  #\n" +
+                        "#    time slot start and end ids)     #",
         };
 
         UIHelpers.displayUsageDirections(
                 usageComponents,
-                "###           1; 3; 6; 9          ###\n" +
+                "###            1; 3; 6; 9           ###\n" +
                         DIRECTION_SEPARATOR + "\n" +
-                        "### Corresponds to (week: 1, day  ###\n" +
-                        "### 3, time start: 6, time end: 9 ###",
-                "   Add New Store: Usage    ",
-                "   Add New Store: Example  ",
+                        "###  Corresponds to (week: 1, day   ###\n" +
+                        "###  3, time start: 6, time end: 9  ###",
+                "   Request Time Off: Usage   ",
+                "  Request Time Off: Example  ",
                 DIRECTION_SEPARATOR);
     }
 
