@@ -23,7 +23,9 @@ public class ScanHelper {
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            scanner.nextLine();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
             System.out.print( "Try again: " );
             return nextInt();
         }
@@ -40,7 +42,9 @@ public class ScanHelper {
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            scanner.nextLine();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
             System.out.println( "Try again: " );
             return scanner.next();
         }
@@ -57,7 +61,9 @@ public class ScanHelper {
         }
         catch ( final Exception e ) {
             wentCatch = true;
-            scanner.nextLine();
+            while ( scanner.hasNextLine() ) {
+                scanner.nextLine();
+            }
             System.out.println( "Try again: " );
             return scanner.nextDouble();
         }
