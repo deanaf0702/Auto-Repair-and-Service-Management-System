@@ -74,7 +74,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
             satOpen = rs.getInt( 1 );
         }
         catch ( final Exception e ) {
-            System.out.println( "Error retrieving vehicles" );
+            System.out.println( "Error retrieving Saturday hours" );
             goBack();
         }
         finally {
@@ -90,7 +90,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
             }
         }
         catch ( final Exception e ) {
-            System.out.println( "Error retrieving available times" );
+            System.out.println( "Error retrieving available mechanics" );
             goBack();
         }
         finally {
@@ -126,7 +126,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 nextVal = rs.getInt( 1 );
             }
             catch ( final Exception e ) {
-                System.out.println( "Error retrieving vehicles" );
+                System.out.println( "Error scheduling service" );
                 goBack();
             }
             finally {
@@ -140,7 +140,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 db.executeUpdate( query2 );
             }
             catch ( final Exception e ) {
-                System.out.println( "Error retrieving vehicles" );
+                System.out.println( "Error scheduling service" );
                 goBack();
             }
             finally {
@@ -153,7 +153,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                     db.executeUpdate( query3 );
                 }
                 catch ( final Exception e ) {
-                    System.out.println( "Error retrieving vehicles" );
+                    System.out.println( "Error scheduling service" );
                     goBack();
                 }
                 finally {
@@ -168,7 +168,7 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                     db.executeUpdate( query4 );
                 }
                 catch ( final Exception e ) {
-                    System.out.println( "Error retrieving vehicles" );
+                    System.out.println( "Error scheduling service" );
                     goBack();
                 }
                 finally {
@@ -181,13 +181,56 @@ public class ScheduleServicesInCart implements UserFlowFunctionality {
                 db.executeUpdate( query5 );
             }
             catch ( final Exception e ) {
-                System.out.println( "Error retrieving vehicles" );
+                System.out.println( "Error scheduling service" );
                 goBack(); //
             }
             finally {
                 db.close();
             }
         }
+        if ( cart.contains( 113 ) ) {
+            final String query6 = "update CustomerVehicles set lastMClass = 'A' where vin = '" + vin + "'";
+            db = new DbConnection();
+            try {
+                db.executeUpdate( query6 );
+            }
+            catch ( final Exception e ) {
+                System.out.println( "Error scheduling service" );
+                goBack(); //
+            }
+            finally {
+                db.close();
+            }
+        }
+        else if ( cart.contains( 114 ) ) {
+            final String query6 = "update CustomerVehicles set lastMClass = 'B' where vin = '" + vin + "'";
+            db = new DbConnection();
+            try {
+                db.executeUpdate( query6 );
+            }
+            catch ( final Exception e ) {
+                System.out.println( "Error scheduling service" );
+                goBack(); //
+            }
+            finally {
+                db.close();
+            }
+        }
+        else if ( cart.contains( 115 ) ) {
+            final String query6 = "update CustomerVehicles set lastMClass = 'C' where vin = '" + vin + "'";
+            db = new DbConnection();
+            try {
+                db.executeUpdate( query6 );
+            }
+            catch ( final Exception e ) {
+                System.out.println( "Error scheduling service" );
+                goBack(); //
+            }
+            finally {
+                db.close();
+            }
+        }
+        LoginUser.emptyCart();
         System.out.println( "Service successfully scheduled" );
         goBack();
     }

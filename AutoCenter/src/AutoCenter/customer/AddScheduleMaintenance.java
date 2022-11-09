@@ -1,6 +1,7 @@
 package AutoCenter.customer;
 
 import java.sql.ResultSet;
+import java.util.List;
 
 import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
@@ -49,6 +50,11 @@ public class AddScheduleMaintenance implements UserFlowFunctionality {
             }
             while ( ! ( selection >= 1 && selection <= 2 ) );
             if ( selection == 1 ) {
+                final List<Integer> cart = LoginUser.getCart();
+                if ( cart.contains( 113 ) || cart.contains( 114 ) || cart.contains( 115 ) ) {
+                    System.out.println( "You already have a maintenance service in your cart" );
+                    goBack();
+                }
                 if ( LoginUser.addToCart( serviceId ) ) {
                     goBack();
                 }

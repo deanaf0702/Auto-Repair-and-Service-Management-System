@@ -1,5 +1,8 @@
 package AutoCenter.customer;
 
+import java.sql.ResultSet;
+
+import AutoCenter.LoginUser;
 import AutoCenter.ScanHelper;
 import AutoCenter.UserFlowFunctionality;
 import AutoCenter.repository.DbConnection;
@@ -21,6 +24,30 @@ public class PayInvoice implements UserFlowFunctionality {
 
         if ( selection == 2 ) {
             goBack();
+        }
+        final String query2 = "select cv.customerId, se.centerId, se.isPaid from ServiceEvents se, CustomerVehicles cv where se.vin = cv.vin and se.serviceEventId = "
+                + id;
+        final DbConnection db2 = new DbConnection();
+        try {
+            final ResultSet rs2 = db2.executeQuery( query2 );
+            final int cid = rs2.getInt( 1 );
+            final int centerId = rs2.getInt( 2 );
+            final int isPaid = rs2.getInt( 3 );
+            if ( cid != LoginUser.getId() || centerId != LoginUser.getCenterId() ) {
+                System.out.println( "You are not authorized to access this invoice" );
+                new PayInvoice().run();
+            }
+            if ( isPaid == 1 ) {
+                System.out.println( "This invoice is already paid" );
+                new PayInvoice().run();
+            }
+        }
+        catch ( final Exception e ) {
+            System.out.println( "Error retrieving invoices" );
+            goBack();
+        }
+        finally {
+            db2.close();
         }
         final DbConnection db = new DbConnection();
         try {
