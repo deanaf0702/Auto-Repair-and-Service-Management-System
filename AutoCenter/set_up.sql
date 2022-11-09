@@ -74,9 +74,10 @@ alter table
 alter table
     EventOnServices drop constraint fk_EventOnServices_serviceId;
 
-alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule1;
-alter table SwapRequests drop constraint fk_OnSwapRequests_Schedule2;
-alter table SwapRequests drop constraint fk_OnSwapRequests_SwapRequests;
+alter table SwapRequests drop constraint fk_timeSlot1Start;
+alter table SwapRequests drop constraint fk_timeSlot1End;
+alter table SwapRequests drop constraint fk_timeSlot2Start;
+alter table SwapRequests drop constraint fk_timeSlot2End;
 
 --Drop Sequences
 drop sequence SERVICE_EVENT_ID_SEQ;
@@ -139,7 +140,7 @@ create table CarModels(
 --Services
 create table Services(
     serviceId number(3),
-    name char(50),
+    name char(50) not null,
     serviceType char(20),
     primary key (serviceId)
 );
@@ -150,7 +151,7 @@ create table RepairServiceCategory(category char(50) primary key);
 ---RepairServices
 create table RepairServices(
     serviceId number(3),
-    category char(50),
+    category char(50) not null,
     constraint pk_RepairServices_key primary key(serviceId),
     constraint repairId_fk foreign key (serviceId) references Services (serviceId) on delete cascade,
     constraint repairCategory_fk foreign key (category) references RepairServiceCategory (category)
@@ -165,8 +166,8 @@ create table MaintenanceServices(
 
 --ScheduledServices
 create table MaintHasServices(
-    serviceId number(3),
-    serviceName char(50),
+    serviceId number(3) not null,
+    serviceName char(50) not null,
     constraint fk_Schedule_MaintenanceServices foreign key (serviceId) references MaintenanceServices(serviceid) on delete cascade
 );
 
@@ -193,9 +194,9 @@ create table Users(
     email char(50),
     address varchar2(200),
     serviceCenterId integer,
-    username varchar2(50),
-    password varchar2(50),
-    role char(20),
+    username varchar2(50) not null,
+    password varchar2(50) not null,
+    role char(20) not null,
     primary key (userId, serviceCenterId),
     unique (username),
     constraint fk_userRole foreign key (role) references Roles (roleName),
@@ -244,8 +245,8 @@ create table Prices(
     centerId integer,
     serviceId number(3),
     model char(15),
-    price number(7, 2),
-    hours integer,
+    price number(7, 2) not null,
+    hours integer not null,
     constraint pk_Prices_centerId_model_serviceId primary key (centerId, serviceId, model),
     constraint fk_Prices_ServiceCenters foreign key(centerId) references ServiceCenters (centerId) on delete cascade,
     constraint fk_Prices_Services foreign key (serviceId) references Services (serviceId) on delete cascade,
@@ -263,9 +264,9 @@ create table TimeSlots(
 ---CustomerVehicles
 create table CustomerVehicles(
     vin char(8) primary key,
-    customerId number(9),
-    centerId integer,
-    model char(15),
+    customerId number(9) not null,
+    centerId integer not null,
+    model char(15) not null,
     mileage int,
     year number(4),
     lastMClass char(1),
@@ -277,12 +278,12 @@ create table CustomerVehicles(
 create table ServiceEvents(
     serviceEventId integer primary key,
     vin char(8),
-    centerId integer,
-    mechanicId number(9),
+    centerId integer not null,
+    mechanicId number(9) not null,
     week number(1),
     day number(2),
-    startTimeSlot number(2),
-    endTimeSlot number(2),
+    startTimeSlot number(2) not null,
+    endTimeSlot number(2) not null,
     isPaid number(1),
     constraint fk_ServiceEvent_vin foreign key (vin) references CustomerVehicles (vin) on delete cascade,
     constraint fk_ServiceEvent_centerId foreign key (centerId) references ServiceCenters (centerId),
@@ -302,7 +303,7 @@ create table Schedule(
     timeSlot number(2),
     activity char(10),
     serviceEventId integer,
-    primary key (mechanicId, week, day, timeSlot),
+    primary key (mechanicId, centerId, week, day, timeSlot),
     constraint fk_Schedule_Mechanic foreign key (mechanicId, centerId) references Mechanics (userId, serviceCenterId),
     constraint fk_Schedule_TimeSlot foreign key (timeSlot) references TimeSlots (slotNumber),
     constraint fk_Schedule_Event foreign key (serviceEventId) references ServiceEvents (serviceEventId)
@@ -339,10 +340,10 @@ create table SwapRequests(
     timeSlot2Start number(2),
     timeSlot2End number(2),
     status number(1),
-    -- DROPPED (NOT WORKING)
-    -- constraint fk_OnSwapRequests_Schedule1 foreign key (mechanicId1, week1, day1, timeSlot1Start) references Schedule (mechanicId, week, day, timeSlot),
-    -- constraint fk_OnSwapRequests_Schedule2 foreign key (mechanicId2, week2, day2, timeSlot2Start) references Schedule (mechanicId, week, day, timeSlot),
-    constraint fk_OnSwapRequests_SwapRequests foreign key (requestId) references SwapRequests(requestId)
+    constraint fk_timeSlot1Start foreign key (timeSlot1Start) references TimeSlots (slotNumber);
+    constraint fk_timeSlot1End foreign key (timeSlot1End) references TimeSlots (slotNumber);
+    constraint fk_timeSlot2Start foreign key (timeSlot2Start) references TimeSlots (slotNumber);
+    constraint fk_timeSlot2End foreign key (timeSlot2End) references TimeSlots (slotNumber);
 );
 
 --Create triggers
