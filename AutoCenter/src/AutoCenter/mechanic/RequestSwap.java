@@ -50,7 +50,7 @@ public class RequestSwap implements UserFlowFunctionality {
     /**
      * The separator to use between the directions components
      */
-    private static final String DIRECTION_SEPARATOR = "#############################";
+    private static final String DIRECTION_SEPARATOR = "####################################";
 
     /**
      * The separator to use between the directions components
@@ -735,7 +735,7 @@ public class RequestSwap implements UserFlowFunctionality {
             Integer timeSlotEnd) {
         return "SELECT COUNT(*) AS numMechanics"
                 + " FROM Schedule"
-                + " WHERE mechanicID = " + LoginUser.getId()
+                + " WHERE mechanicId = " + LoginUser.getId()
                 + " AND centerId = " + LoginUser.getCenterId()
                 + " AND week = " + week
                 + " AND day = " + day
@@ -769,7 +769,7 @@ public class RequestSwap implements UserFlowFunctionality {
         return "SELECT SUM(COUNT(*)) AS numHours" +
                 " FROM Schedule" +
                 " WHERE week = " + week +
-                " AND mechanicID = " + mechanicID +
+                " AND mechanicId = " + mechanicID +
                 " AND centerId = " + LoginUser.getCenterId() +
                 " GROUP BY timeSlot";
     }
@@ -794,7 +794,7 @@ public class RequestSwap implements UserFlowFunctionality {
             Integer mechanicId) {
         return "SELECT COUNT(*) AS numEntries" +
                 " FROM Schedule" +
-                " WHERE mechanicID = " + mechanicId +
+                " WHERE mechanicId = " + mechanicId +
                 " AND centerId = " + LoginUser.getCenterId() +
                 " AND week = " + week +
                 " AND day = " + day +
@@ -828,7 +828,7 @@ public class RequestSwap implements UserFlowFunctionality {
      * pending state.
      */
     private static String insertSwapRequestStatement() {
-        return "INSERT INTO SwapRequests (requestId, mechanicId1, week1, day1, timeSlot1Start, timeSlot1End, mechanicId2, week2, day2, timeSlot2, timeSlot2End, status) VALUES ("
+        return "INSERT INTO SwapRequests (requestId, mechanicId1, week1, day1, timeSlot1Start, timeSlot1End, mechanicId2, week2, day2, timeSlot2Start, timeSlot2End, status) VALUES ("
                 + "auto_increment_swap_request_id.nextval, "
                 + LoginUser.getId() + ", "
                 + initialTimeSlotParameters[0] + ", "
